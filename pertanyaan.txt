@@ -1,0 +1,109 @@
+#asumsi development
+
+- jadi gini saya rencana nya mau buat sistem surat untuk kampus tapi masih bingung requirement bisnis nya karena informasi yang dapat dari klien itu sangat sedikit, jadi saya harus meng extend requirement nya tapi harus kena berdasarkan informasi yang saya punya
+
+informasi pasti dari klien :
+- klien ingin dibuatkan aplikasi pembuatan surat yang digunakan untuk kampus/universitas
+- jadi cara kerja utama nya nanti admin surat bisa mengupload template surat/master surat yang teks nya bisa diisi seperti mail merge, misal surat untuk keterangan kepada mahasiswa, jadi biodata mahasiswa nya bisa diisi otomatis
+- nah flow pembuatan surat nya adalah pertama admin mengupload template surat dengan berbagai format isian yang dinamis,nanti surat bisa di cetak dengan diisi dulu data dinamis nya lewat sistem
+- secara kebutuhan keseharian contoh nya mahasiswa butuh surat rekomendasi magang, maka mahasiswa login ke aplikasi, lalu melakukan request surat dengan memilih surat yang dibutuhkan, lalu mengisi form, dan mengupload persyaratan sesuai kebutuhan surat tersebut, dan menunggu approval
+- nah dari sisi admin bisa mengecek permohonan dan bisa menolak/menyetujui dan mencetak surat nya lalu diberikan kepada mahasiswa
+
+informasi yang masih ambigu dan ragu-ragu:
+- klein menyuruh saya untuk mengikuti sistem surat dari project @dokumentasi.md ya
+- tapi setelah saya lihat project tersebut digunakan untuk sistem surat desa yang mana pasti ada irisan yang tidak bisa digunakan di sistem surat kampus
+- untuk fitur yang saya rasa fix bisa diambil sih sistem template surat master dan permohonan surat
+- yang masih ragu adalah surat masuk, surat keluar, eskpesidi dan lain-lain
+- yang masih saya ragu adalah apakah sistem surat kampus ini hanya dipakai untuk kepentingan mahasiswa melakukan permohonan ataukah digunakan untuk internal kampus seperti antara dosen dan civitas akademik, atau bahkan eksternal
+- saya masih bingung di dunia perkampusan surat-surat ini digunakan untuk apa saja apakah surat permohonan, surat izin, surat keputusan dan kasus nya seperti apa saja
+- bagaimana level pengelola aplikasi nya nanti secara dunia nyata
+- untuk template surat pasti nanti nya banyak dan butuh inputkan yang berbeda-beda, saya rasa tidak efisien jika membuat banyak versi form dengan data yang  beda-beda tapi kalo dibuat strict template nya juga tidak fleksibel, saya bingung mana bagaimana cara terbaik dalam management template dan pengisian datanya, karena yang namanya data ada yang diambil dari database reusable, ada yang diinput ketika surat akan dicetak
+- saya bingung apakah harus ada sistem approval atau semacam nya
+- bagaimana sistem bisa mencegah permasalah fraud di dunia nyata, karena kalo yang namanya surat itu harus resmi, otentik
+
+
+
+yang saya butuhkan dari anda : 
+- saya butuh anda untuk membantu saya mengembangkan asumsi sebelum mulai perancangan, jadi pada tahap ini berikan saya pertanyaan sebanyak mungkin dan relevan mungkin nantinya akan akan saya cari tau atau saya tanyakan ke klien saya 
+- buat asumsi dan saran poin-poin yang bisa membantu saya memahami bagaimana nanti sistem akan dibuat
+- ini bukan dokumen perancangan tapi lebih ke dokumen yang membantu memberikan arahan untuk meneliti lebih jauh dengan informasi dan pertanyaan sebelum membuat perancangan
+- tujuan nya agar saya tidak salah langkah dalam merancang dan dapat membangung aplikasi yang tepat sasaran, scalable, tidak terlalu keluar koteks tapi tidak juga tidak memenuhi requirement, jadi harus selalu siap dengan segala kemungkinan tapi juga tidak terlalu spekulatif.
+nah nati format dokumen nya bisa bebas tapi tolong tambahkan grup poin seprti dibawah: 
+**pertama tanyakan dulu sebelum mengambil keputusan**
+**nanti di akhir juga liskan pertanyaan**
+**Fitur Inti (Wajib Ada)**
+- Fungsionalitas penting untuk MVP
+- User story dengan kriteria penerimaan
+- Persyaratan teknis
+
+**Fitur Tambahan (Sebaiknya Ada)**
+- Fitur sekunder untuk rilis penuh
+- Fungsionalitas yang diinginkan
+
+**Pertimbangan Masa Depan (Bisa Ada)**
+- Item roadmap potential
+- Fitur skalabilitas
+
+
+informasi menurut asumsi saya (bisa saja salah tolong seleksi) : 
+- lalu saya juga melakukan penelitian di format sistem buat surat di @referensi-surat-1.md, @referensi-surat-2.md
+
+- cara buat format surat buat seperti (sistem placeholder/subtitusi teks), harus dicari tools/library method yang cocok, harus support insert image dan outputnya harus ms word/pdf yang bersih
+
+- untuk attribut mahasiswa pertimbangkan pake key-value karena kita tidak atau atribut apa saja yang dibutuhkan
+
+- ketika membuat template surat/cetak surat harus ada sistem yang bisa mendeteksi placeholder dan menjadikannya inputan, ini lebih fleksibel, tapi harus bisa membaca apakah placeholder: text, image, table ( loop )
+
+- agar memudahkan naming placeholder harus nya dibuat list default yang support agar admin nantinya mudah dalam input placeholder ke surat nya, misal mau pake : {{}}, [], {}, cari yang yang paling mudah,unik dan tidak potensi bentrok
+
+- pertimbangkan surat support untuk internal kampus, mahasiswa, bahkan cetak sertifikat
+
+- untuk attribut injection cari ux yang bagus asumsi harus bisa editable, dan bisa handle berbagai variasi asumsi value
+
+- verifikasi sistem surat di sistem desa ini bekerja dengan cara sistem sudah menyediakan format surat yang fleksibel untuk berbagai desa, dan admin bisa upload template surat format mereka sendiri, nah bagaimana jika paradigma nya di ganti dengan sistem tidak menyediakan template tapi admin upload template sendiri cari flow terbaik, tentu secara umum admin akan punya banyak format dalam ms word
+
+- untuk arsip surat yang pernah di cetak bisa di cetak ulang dan datanya bisa diubah, tentunya harus ada mekanisme yang adil apakah log nya akan di duplicate atau history perubahan (untuk mencegah fraud)
+
+- saya rasa salah satu tujuan dari sistem ini adalah kredibilitas agar setiap surat yang dicetak jelas tujuan, siapa yang bertanggung jawaban cetak, menandatangani, siapa yang memohon dan kapan, fungsinya untuk mencegah fraud
+
+- apakah make sense jika ada sistem permohonan surat dimana orang  yang melakukan permohonan mengajukan surat bisa saja harus mengirimkan lampiran ?
+
+- apakah make sense jika admin sebelumnya sudah menyediakan semacam data event / list permohonan template ( sudah set dengan persyaratan yang harus di upload), misal permohonan magang dimana nantinya mahasiswa tinggal login dan pilih event misal magang, dan mengajukan permohonan dan upload semua persyaratan ?
+
+- pertimbangkan untuk agar membuat sistem surat edit manual tanpa referensi misal untuk nama mahasiswa isi langsung dalam artian tidak perlu pilih nama mahasiswa ( ini agak rentan) tapi praktis tidak perlu input data referensi
+
+- pertimbangkan untuk membuat sistem approval karena satu surat kadang butuh persetujuan pihak lain (role app lain), pertimbangkan untuk membuat untuk approval berjenjang ( fleksibel multiple checkbox berurut)
+
+- make sense tambahkan status permohonan surat default pending, pertimbangkan tambahkan flow status surat seperti trak barah shipping lagi dimana (update status permohonan)
+
+- make sense untuk surat ada opsi bisa cetak mandiri atau ambil ke kampus, atau dikirim ke email ?
+
+- untuk sistem ini memang bagus nya pake sistem role permission, mempertimbangkan nanti role nya ada banyak
+
+- pertimbangkan untuk sementara semua db soft delete dan pake spatie activity log untuk track perubahan ( tapi sifat nya config untuk monitoring di fase pertama)
+
+- make sense untuk syarat surat bisa di buat di data master atau di tambahkan ketika membuat template
+
+- db yang terbayang : users, syarat surat, kategori surat, template surat, log surat, surat masuk, surat keluar
+
+- pertimbangkan membuat format surat log yang one to many karena misal admin mau buat surat masal ( untuk banyak mahasiswa) apakah adil jika log nya jadi banyak
+
+- pertimbangkan untuk surat yang belum status nya publish tidak bisa di cetak atau cetak dengan watermark, karena bisa diakali cetak surat tanpa publish nantinya 
+
+- asumsi saya sih surat jadi ada segini kategori nya : surat masuk, keluar, internal kampus, mahasiswa, secara menu mungkin bisa dibedakan tapi pertimbangkan apakah secara db lebih baik disatukan atau dipisahkan
+
+- cara login ke app pake email whitelist hanya gmail @nusaputra.ac.id, untuk menu mahasiswa ada 3: profile, permohonan surat, riwayat permohonan surat
+
+- di layanan mandiri form permohonan field nya : jenis surat, keterangan tambahan, no Hp aktif ( autofield), akan bagus jika nanti timbal balik nya bisa dibalas langsung pake wa, ketika jenis surat dipilih muncul di tabel persyaratan yang dibutuhkan, maka ini berarti harus dicantumkan ketika membuat template surat, untuk ux nya di tabel setiap persyaratan ada tombol upload
+
+- pertimbangkan,untuk mahasiswa dia punya db dokumen untuk melengkapi, jadi tidak perlu upload ulang, hanya saja secara backend perlu diperhatikan apakah akan menggunakan sistem referensi atau di duplicate atau menggunakan symlink tapi referensi di db berbeda, sya sih punya ini pake tabel media library terpusat
+
+- untuk indexing bisa dilakukan di awal tapi jangan terlalu agresif, buat fleksibel saja, karena kalau terlalu agresif proses insert bisa lama di awal kalo terlalu longgar proses search bisa lama nantinya, bagus nya yang penting untuk perancangan db support menggunakan indexing saja
+
+- untuk syarat permohonan harus bisa di set is required or optional, lalu untuk admin bisa menolak permohonan dengan deskripsi, karena bisa saja pemohon mengupload file yang salah
+
+- di project baru bikin semua asset componen dulu, untuk style ui dibuat seperti di project ciengang dimana tabel, tombol dll dibuat kecil-kecil jangan pake bawaan bootstrap, kalo perlu analisa dia pake template admin apa : tabel, button
+
+- pada dasarnya surat masuk / keluar cuma arsip surat fisik yang di upload hasil scan nya
+
+- pertimbangkan fitur smtp agar bisa kirim langsung ke email
