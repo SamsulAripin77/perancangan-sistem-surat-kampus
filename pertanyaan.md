@@ -11,6 +11,7 @@ Jelaskan cara kerja masa berlaku surat di sisem opensid dan sistem surat kampus 
 flow kasar cara kerja: 
 
 ## menu dafar template & tambah template
+    - http://ciengang.test/index.php/surat_master
     - role : admin
     - input klasifikasi surat/kategori, input nama surat, upload template, checkbox persyaratan, input data tambahan, masa berlaku, sediakan di layanan mandiri bolean
     - bisa simulasi input untuk check placeholder
@@ -18,6 +19,7 @@ flow kasar cara kerja:
     - untuk template format bisa docx dan .rtf
 
 ## menu cetak surat
+    - http://ciengang.test/index.php/surat
     - ini cetak surat oleh admin untuk berbagai keperluan
     - ini one-to-one dengan daftar template
     - kalo di opensid kebanyak flow nya pilih nama mahasiwa dulu tapi bagiamana dengan disini
@@ -28,4 +30,19 @@ flow kasar cara kerja:
     - untuk dropdown nama, jawaban, nidn otomatis mapping berdasarkan data jabatan tapi tidak dependen dalam artian di simpan dalam snapshot nya, dalam artian jika saya pilih ttd_nama_1 maka jabatan dan nidn otomatis terisi tapi tetap bisa di ganti atau bisa diedit langsung ( hemm bisakan sistem nya dropdown tapi bisa di edit text)
 
 ## menu arsip/surat cetak/log surat
-    - 
+    - http://ciengang.test/index.php/keluar
+    - isi nya log surat/ surat tercetak / campuran dari permohonan dan cetak surat
+    - ada filter jenis surat / kategori surat/ template surat
+
+## menu daftar pesyaratan 
+    - http://ciengang.test/index.php/surat_mohon
+    - list daftar persyaratan surat
+
+## surat keluar : 
+    - http://ciengang.test/index.php/surat_keluar
+    - field : nomor, tgl, ditujukan kepada, isi singkat ( deskripsi), file scan, kategori
+    - kaya nya perlu log perubahan kalo berkas scan diganti
+
+## surat masuk : 
+    - http://ciengang.test/index.php/surat_masuk
+    - field : tanggal terima,tgl surat,  no surat, pengirim, isi singkat, dispoisisi (multi checkbox), isi disposisi
