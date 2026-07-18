@@ -1,15 +1,19 @@
 {
 	"folders": [
 		{
+			"name": "ciengang",
 			"path": "../ciengang"
 		},
 		{
+			"name": "sistem-surat-kampus",
 			"path": "."
 		},
 		{
+			"name": "referensi-surat-1",
 			"path": "../referensi-surat-1"
 		},
 		{
+			"name": "referensi-surat-2",
 			"path": "../referensi-surat-2"
 		}
 	],
