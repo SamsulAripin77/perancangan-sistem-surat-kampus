@@ -98,8 +98,27 @@ permohonan_surat         surat_tercetak              surat_keluar
 
 ### 4.4 Sistem Placeholder & Template
 
+- **`templates.tipe_pemohon`** (`mahasiswa` / `umum`) — dipilih admin manual saat create template, menentukan apakah form generate perlu langkah "Cari Mahasiswa" (lihat 4.9)
 - Format: `{{nama_variabel}}` — double curly braces, snake_case
-- Kamus Placeholder tersimpan di tabel `placeholder_definitions` (bukan hardcode) — Super Admin bisa tambah tanpa deploy ulang
+- Kamus Placeholder tersimpan di tabel `placeholder_definitions` (bukan hardcode) — Super Admin bisa tambah lewat menu Master Kamus Placeholder (Fitur 13) tanpa deploy ulang
+- **Seed data default saat instalasi** (`placeholder_definitions`):
+
+  | name | kelompok | input_type |
+  |---|---|---|
+  | nama_mahasiswa | profil | text |
+  | nim | profil | text |
+  | prodi | profil | text |
+  | fakultas | profil | text |
+  | nama_universitas | sistem | text |
+  | kode_universitas | sistem | text |
+  | logo_kampus | sistem | image |
+  | tahun_akademik | sistem | text |
+  | tanggal_surat | waktu | date |
+  | bulan_surat | waktu | text |
+  | tahun_surat | waktu | text |
+  | nomor_surat | counter | text |
+
+  Kelompok `ttd` (`ttd`, `nama_ttd`, `jabatan_ttd`, `nip_ttd`, `unit_ttd`) tidak di-seed sebagai baris — dideteksi via regex (lihat Slot TTD di bawah), bukan lookup tabel.
 - **Kelompok placeholder**:
   - Profil mahasiswa (`{{nama_mahasiswa}}`, `{{nim}}`, `{{prodi}}`, `{{fakultas}}`) → auto-fill, tidak bisa di-override
   - Konfigurasi sistem (`{{nama_universitas}}`, `{{logo_kampus}}`) → auto-fill, tidak bisa di-override
@@ -107,6 +126,8 @@ permohonan_surat         surat_tercetak              surat_keluar
   - Nomor surat (`{{nomor_surat}}`) → suggestion dari arsip terakhir, bisa di-override
   - Slot TTD (`{{ttd_1}}`, `{{nama_ttd_1}}`, `{{jabatan_ttd_1}}`, `{{nip_ttd_1}}`) → dropdown pejabat per slot; ganti angka untuk penandatangan berikutnya
   - Placeholder bebas → inferensi tipe dari nama, `filled_by` default `'mahasiswa'`
+- **Cara kerja pencocokan kamus**: nilai `kelompok` di `placeholder_definitions` adalah assignment manual oleh Super Admin saat mengisi kamus (bukan hasil analisis/kecerdasan sistem) — saat scan template, sistem hanya melakukan exact-match nama placeholder terhadap baris kamus, lalu membaca nilai `kelompok` yang sudah tersimpan di baris itu.
+- **Urutan deteksi per placeholder saat scan**: (1) cek regex Slot TTD dulu → (2) kalau tidak cocok, cek exact-match ke kamus → (3) kalau tidak ada di kamus juga, baru dianggap placeholder bebas. Slot TTD sengaja tidak lewat lookup kamus seperti kelompok lain karena angka di belakang nama (`_1`, `_2`, dst) tidak terbatas jumlahnya — tidak mungkin didaftarkan sebagai baris tetap.
 - **Dimensi `filled_by`** per placeholder: `sistem` / `mahasiswa` / `admin`
   - `mahasiswa` → tampil di form permohonan
   - `admin` → hanya tampil di form generate surat
@@ -151,6 +172,22 @@ Saat surat di-generate final, seluruh nilai placeholder (termasuk data pejabat T
 
 ---
 
+### 4.9 Penentuan Target Pemohon (Mahasiswa vs Umum)
+
+- Kolom `templates.tipe_pemohon` (`mahasiswa` / `umum`, default `umum`) dipilih admin secara manual di form create/edit template — sejajar dengan field nama/kategori/unit.
+- **`mahasiswa`**: template ditujukan untuk mahasiswa tertentu (SKMA, Rekomendasi Magang, dll).
+- **`umum`**: template tidak terikat ke satu mahasiswa (Nota Dinas, SK, Surat Edaran internal, dll).
+- **Dampak di Fitur 7 sub-flow B (Generate Langsung Admin)**:
+  - `tipe_pemohon = mahasiswa` → sebelum form generate, tampilkan langkah "Cari Mahasiswa" (search by NIM/nama) → setelah dipilih, autofill `nama_mahasiswa`, `nim`, `prodi`, `fakultas`
+  - `tipe_pemohon = umum` → langsung ke form isian placeholder, tanpa langkah cari mahasiswa
+- **Auto-remediasi saat review hasil deteksi placeholder** (Fitur 3) — bukan warning konfirmasi ya/tidak, karena warning yang diabaikan tidak memperbaiki apa-apa (placeholder `filled_by = sistem` tanpa konteks mahasiswa akan tercetak kosong di surat):
+  - `tipe_pemohon = umum` tapi terdeteksi placeholder kelompok `profil` (mis. `nama_mahasiswa`, `nim`) → sistem **otomatis override** `filled_by` placeholder tersebut dari `sistem` menjadi `admin`, lalu tampilkan info non-blocking: *"`{{nama_mahasiswa}}` terdeteksi tapi template ini 'Umum' — field akan diisi manual oleh admin saat generate, bukan otomatis dari profil mahasiswa."*
+  - `tipe_pemohon = mahasiswa` tapi tidak ada satupun placeholder kelompok `profil` → tidak berbahaya (paling buruk langkah "Cari Mahasiswa" jadi tidak perlu terpakai) — tidak perlu penanganan khusus
+  - Admin tetap bisa override manual `filled_by` kembali ke `sistem` di tabel review kalau override otomatis ini keliru
+- Kolom eksplisit dipilih (bukan murni derive dari hasil scan placeholder) supaya list/filter template di halaman admin sederhana (`WHERE tipe_pemohon = ...`), dan pilihan admin selalu terlihat jelas — deteksi placeholder tetap dipakai sebagai pengaman lewat auto-remediasi di atas, bukan penentu utama.
+
+---
+
 ## 5. Fitur Phase 1 (MVP)
 
 ---
@@ -159,10 +196,10 @@ Saat surat di-generate final, seluruh nilai placeholder (termasuk data pejabat T
 
 **Acceptance Criteria**:
 - [ ] Login email + password
-- [ ] Role: Super Admin, Admin Surat, Mahasiswa
+- [ ] Role: Super Admin, Admin Surat, Mahasiswa — dikelola via **Spatie Laravel Permission** (bukan kolom `role` di tabel `users`)
 - [ ] User nonaktif (`is_active = false`) tidak bisa login — redirect dengan pesan jelas
-- [ ] Properti user: `is_active`, `role`, `unit_id`
-- [ ] Super Admin bisa activate/deactivate user dan ubah role kapan saja
+- [ ] Properti user: `is_active`, `unit_id`
+- [ ] Super Admin bisa activate/deactivate user dan assign/ubah role (via Spatie Permission) kapan saja
 - [ ] Setiap login/logout tercatat di ActivityLog
 
 ---
@@ -184,14 +221,18 @@ Saat surat di-generate final, seluruh nilai placeholder (termasuk data pejabat T
 **Upload & Deteksi Placeholder**:
 - [ ] Upload .docx, validasi tipe & ukuran (max 10MB)
 - [ ] Deteksi otomatis semua `{{variabel}}` dari seluruh konten file (paragraf, tabel, header, footer, textbox)
+- [ ] Urutan pengecekan per placeholder: regex Slot TTD → exact-match Kamus → placeholder bebas (detail mekanisme di 4.4)
 - [ ] Cocokkan dengan Kamus Placeholder → tentukan `filled_by` default:
   - Kelompok profil & sistem → `filled_by = 'sistem'`
   - Kelompok waktu, nomor surat, TTD slot → `filled_by = 'admin'`
   - Placeholder bebas → `filled_by = 'mahasiswa'`
 - [ ] Admin review tabel hasil deteksi: bisa override `filled_by`, tipe input, dan set `label_mahasiswa`
+- [ ] Auto-remediasi `tipe_pemohon` vs hasil deteksi: jika `umum` + placeholder kelompok profil terdeteksi → override `filled_by` jadi `admin` otomatis + tampilkan info non-blocking (bukan dialog konfirmasi) — lihat 4.9
 
 **Informasi & Konfigurasi**:
-- [ ] Admin set: nama, kategori, unit, deskripsi, SLA (hari kerja), status (draft/aktif)
+- [ ] Admin set: nama, unit, deskripsi, SLA (hari kerja), status (draft/aktif)
+- [ ] Admin pilih **kategori** dari dropdown master `kategori_surat` (lihat Fitur 12) — bukan teks bebas
+- [ ] Admin set `tipe_pemohon` (Mahasiswa / Umum) — menentukan apakah form generate langsung admin butuh langkah "Cari Mahasiswa" (lihat 4.9, Fitur 7 sub-flow B)
 - [ ] Flag `is_permohonan_mandiri`: jika `true` → template muncul di list permohonan mahasiswa
 - [ ] Template aktif yang sudah punya permohonan tidak bisa dihapus — hanya bisa dinonaktifkan
 - [ ] Halaman "Panduan Placeholder" — daftar kamus placeholder + konvensi penamaan, bisa di-copy admin
@@ -287,7 +328,9 @@ Saat surat di-generate final, seluruh nilai placeholder (termasuk data pejabat T
 - [ ] Edit: buka ulang form dengan data pre-fill; submit → update record yang sama, status tetap `pending`
 - [ ] Status `diverifikasi`, `disetujui`, `ditolak`, `selesai` → tombol Edit/Batalkan tidak tampil
 - [ ] Status `ditolak` → tombol "Ajukan Ulang" tampil
-- [ ] Status `selesai` + ada file → tombol "Download Surat"
+- [ ] Status `selesai` → cek `surat_tercetak.metode_pengambilan`:
+  - `download` → tombol "Download Surat" tampil, link ke file
+  - `ambil_di_kampus` → tombol download **tidak** tampil, ganti badge info "📍 Surat siap diambil di kampus"
 - [ ] Halaman detail: tampilkan semua 4 lapisan data, status history, alasan tolak/setujui
 
 #### 5.4 Resubmit (Ajukan Ulang)
@@ -312,9 +355,9 @@ Saat surat di-generate final, seluruh nilai placeholder (termasuk data pejabat T
 - [ ] Tombol Setujui: wajib isi keterangan persetujuan + pilih pejabat dari dropdown — keterangan masuk log internal
 - [ ] Tombol Tolak: wajib isi keterangan alasan penolakan — **keterangan ini ditampilkan ke mahasiswa**
 - [ ] Notifikasi email otomatis ke mahasiswa setelah approve/reject
+- [ ] Perubahan status (disetujui/ditolak) langsung tercermin di Riwayat Permohonan mahasiswa (Fitur 5.3) — bukan cuma lewat email
 - [ ] Permohonan yang sudah disetujui tidak bisa di-unApprove kecuali Super Admin dengan alasan tercatat
-- [ ] Setelah approve → tombol "Generate Surat" muncul (masuk Fitur 7 sub-flow A)
-- [ ] Admin bisa upload `file_surat_scan` (scan TTD basah) → mahasiswa bisa download dari riwayat
+- [ ] Setelah approve → tombol "Generate Surat" muncul (masuk Fitur 7 sub-flow A). Status `disetujui` **belum** memberi akses download apapun ke mahasiswa — surat belum digenerate; akses baru terbuka setelah Fitur 7 selesai dan admin memilih `metode_pengambilan = download`
 
 ---
 
@@ -327,8 +370,10 @@ Saat surat di-generate final, seluruh nilai placeholder (termasuk data pejabat T
 
 **Sub-flow B — Generate Langsung Admin (Kamar 2 tanpa Kamar 1)**:
 - [ ] Menu "Generate Langsung" di sidebar — admin pilih template dari daftar aktif
-- [ ] Form generate identik dengan sub-flow A
-- [ ] Placeholder data mahasiswa tidak pre-fill — diisi manual oleh admin
+- [ ] Jika template `tipe_pemohon = 'mahasiswa'`: tampilkan langkah "Cari Mahasiswa" (search by NIM/nama, dropdown) sebelum form generate → setelah dipilih, autofill `nama_mahasiswa`, `nim`, `prodi`, `fakultas`
+- [ ] Jika template `tipe_pemohon = 'umum'`: langsung ke form generate, tanpa langkah cari mahasiswa
+- [ ] Sisa placeholder (`filled_by = admin`) diisi manual oleh admin di kedua kasus
+- [ ] Placeholder `filled_by = mahasiswa` — khusus untuk template yang `is_permohonan_mandiri = false`, tidak pernah ada sumber data otomatis (karena tidak pernah ada mahasiswa yang mengisi Lapisan 2 permohonan) — praktisnya diisi manual oleh admin juga di form generate ini
 - [ ] `surat_tercetak.permohonan_id = NULL`
 
 **Form Generate (berlaku kedua sub-flow)**:
@@ -341,6 +386,11 @@ Saat surat di-generate final, seluruh nilai placeholder (termasuk data pejabat T
 - [ ] Generate draft → .docx / PDF dengan header "DRAFT"
 - [ ] Generate final → substitusi semua placeholder → simpan ke `data_placeholder` JSON → PDF bersih + DOCX
 - [ ] QR code verifikasi digenerate dan dimasukkan ke surat (pojok bawah / footer)
+- [ ] Admin pilih **Metode Pengambilan** sebelum/saat Generate Final: `Download` atau `Ambil di Kampus`
+  - Saran default otomatis: jika **semua** slot TTD di surat ini punya `file_ttd_path` (pejabat pakai TTD image) → sarankan `Download`; jika **ada** slot TTD basah (`file_ttd_path` NULL) → sarankan `Ambil di Kampus`. Admin bisa override manual.
+  - `metode_pengambilan = 'download'` → `permohonan_surat.status = 'selesai'`, mahasiswa lihat tombol "Download Surat" di Riwayat Permohonan
+  - `metode_pengambilan = 'ambil_di_kampus'` → `permohonan_surat.status = 'selesai'`, mahasiswa **tidak** lihat tombol download — cuma badge info "Surat siap diambil di kampus"
+  - Sub-flow B (tanpa permohonan/mahasiswa) — `metode_pengambilan` tetap dicatat untuk konsistensi arsip, meski tidak ada tampilan mahasiswa yang terpengaruh
 
 ---
 
@@ -423,9 +473,39 @@ Surat fisik diterima → Admin scan → upload ke sistem → isi metadata
 
 **Acceptance Criteria**:
 - [ ] Email terkirim pada: permohonan masuk, disetujui, ditolak (dengan alasan), surat siap
+- [ ] Pesan "surat siap" dibedakan berdasarkan `metode_pengambilan`:
+  - `download` → "Surat Anda sudah selesai diproses, silakan download di halaman Riwayat Permohonan"
+  - `ambil_di_kampus` → "Surat Anda sudah selesai diproses, silakan ambil di [unit terkait]"
 - [ ] Template email HTML (bukan plain text)
 - [ ] SMTP via konfigurasi sistem
 - [ ] Queue-based (retry otomatis jika SMTP down)
+
+---
+
+### Fitur 12 — Master Kategori Surat
+
+**Deskripsi**: Master global kategori template (mis. Layanan Mahasiswa, Administrasi Internal, Surat Keputusan, Kerjasama & Eksternal, Sertifikat & Penghargaan) — dipakai sebagai dropdown saat admin membuat/edit template di Fitur 3, dan sebagai filter di daftar template.
+
+**Acceptance Criteria**:
+- [ ] CRUD `kategori_surat`: nama, `is_active`
+- [ ] Dropdown kategori di form Tambah/Edit Template (Fitur 3) mengambil dari master ini
+- [ ] Kategori tidak bisa dihapus jika masih dipakai oleh template aktif — hanya bisa dinonaktifkan
+- [ ] Dari halaman detail kategori: tampilkan daftar template yang menggunakannya
+
+---
+
+### Fitur 13 — Master Kamus Placeholder
+
+**Deskripsi**: CRUD `placeholder_definitions` — mewujudkan janji di 4.4 bahwa kamus placeholder bisa diperluas tanpa deploy ulang kode. **Khusus Super Admin** (bukan Admin Surat) karena mengubah entri ini memengaruhi cara SEMUA template di sistem dibaca, bukan cuma satu template.
+
+**Acceptance Criteria**:
+- [ ] Menu hanya tampil untuk role Super Admin
+- [ ] Daftar semua entri kamus: nama, kelompok, tipe input, `is_overridable`
+- [ ] Tambah entri baru: nama placeholder, pilih kelompok (`profil`/`waktu`/`sistem`/`counter`/`ttd`), tipe input, `is_overridable`
+- [ ] Edit/nonaktifkan entri lama
+- [ ] Warning saat edit/nonaktifkan entri yang sudah dipakai template aktif: "Mengubah ini memengaruhi semua template yang sudah memakai placeholder ini"
+- [ ] Entri kelompok `ttd` (`ttd`, `nama_ttd`, `jabatan_ttd`, `nip_ttd`, `unit_ttd`) **tidak perlu** didaftarkan di sini — deteksi TTD memakai regex, bukan lookup tabel (lihat 4.4)
+- [ ] Seed data default saat instalasi — lihat daftar di 4.4
 
 ---
 
@@ -528,57 +608,89 @@ Perbedaan konteks dikontrol lewat parameter partial (`$readOnly`, `$strict`, `$s
 
 ## 9. Database Schema
 
+> **Catatan konvensi**: kolom yang tadinya `ENUM(...)` diubah menjadi `VARCHAR` dengan daftar nilai valid disebutkan di komentar `--` (bukan native ENUM DB) — supaya penambahan nilai baru tidak butuh migrasi ubah skema kolom. Role/permission tidak lagi kolom di `users` — dikelola penuh oleh package **Spatie Laravel Permission**.
+
 ```sql
 -- ─────────────────────────────────────────────
--- CORE: Units & Users
+-- CORE: Units, Users, Mahasiswa, Pejabat
 -- ─────────────────────────────────────────────
 
 units
   id, nama, kode, parent_id NULL, is_active
 
 users
-  id, nama, email, password,
-  role ENUM('super_admin','admin_surat','mahasiswa'),
-  unit_id FK units,
-  nim VARCHAR(20) NULL,
-  prodi VARCHAR(100) NULL,
-  fakultas VARCHAR(100) NULL,
-  is_active BOOLEAN DEFAULT true,
+  id, nama VARCHAR(150),             -- nama tampil, berlaku SEMUA jenis user (bukan cuma mahasiswa)
+  email VARCHAR(150) UNIQUE, password VARCHAR(255),
+  unit_id FK units NULL,             -- unit tempat bertugas (relevan untuk admin/staf)
+  is_active BOOLEAN DEFAULT true,    -- user nonaktif tidak bisa login
   created_at, deleted_at
+  -- Role & permission SENGAJA TIDAK jadi kolom di sini — dikelola oleh package
+  -- Spatie Laravel Permission (tabel roles, model_has_roles, permissions, dst,
+  -- otomatis dibuat package). Dipakai juga untuk fitur "teams" Phase 2 (satu user
+  -- bisa punya role berbeda per unit). Data mahasiswa (NIM, prodi) juga TIDAK di
+  -- sini — lihat tabel `mahasiswa` di bawah, supaya `users` tetap generik untuk
+  -- semua peran (termasuk pejabat/dosen kalau nanti butuh akun).
+
+mahasiswa                            -- profil akademik, one-to-one dengan users
+  id, user_id FK users UNIQUE,       -- wajib sudah punya akun users dulu
+  nim VARCHAR(20),                   -- Nomor Induk Mahasiswa
+  nama VARCHAR(150),                 -- nama sesuai snapshot import SIAKAD (lihat 4.7)
+  prodi VARCHAR(100),                -- program studi
+  fakultas VARCHAR(100),             -- CATATAN: ditambahkan di luar 4 kolom yang diminta,
+                                     -- karena placeholder {{fakultas}} dipakai di kelompok
+                                     -- 'profil' (lihat 4.4) — beri tahu kalau memang mau dihapus
+  is_active BOOLEAN DEFAULT true     -- kontrol akses independen dari status akademik SIAKAD
 
 pejabat
-  id, unit_id FK units, nama, nip_nidn, jabatan,
-  file_ttd_path VARCHAR(255) NULL,  -- storage private
+  id, nama VARCHAR(150),
+  email VARCHAR(150) NULL,           -- untuk notifikasi Phase 2 (magic link approval/disposisi)
+  nip_nidn VARCHAR(30) NULL, jabatan VARCHAR(150),  -- jabatan struktural, mis. "Kaprodi Informatika"
+  file_ttd_path VARCHAR(255) NULL,  -- path gambar TTD, storage PRIVATE (lihat 4.6)
   is_active BOOLEAN DEFAULT true,
-  user_id BIGINT FK users NULL,     -- Phase 2: diisi jika punya akun
+  user_id BIGINT FK users NULL,     -- Phase 2: diisi jika pejabat punya akun sendiri
   created_at
+
+pejabat_unit                         -- pivot many-to-many: satu pejabat bisa menjabat
+  id, pejabat_id FK pejabat, unit_id FK units   -- di lebih dari satu unit sekaligus
 
 -- ─────────────────────────────────────────────
 -- TEMPLATE & PLACEHOLDER
 -- ─────────────────────────────────────────────
 
+kategori_surat
+  id, nama VARCHAR(100), is_active BOOLEAN DEFAULT true
+
 templates
-  id, unit_id FK units, nama, kategori, deskripsi,
-  file_path VARCHAR(255),
-  sla_hari_kerja TINYINT NULL,
-  is_permohonan_mandiri BOOLEAN DEFAULT false,
-  status ENUM('draft','aktif','nonaktif'),
+  id, nama, kategori_id FK kategori_surat, deskripsi,
+  file_path VARCHAR(255),           -- lokasi file .docx tersimpan
+  tipe_pemohon VARCHAR(20) DEFAULT 'umum',  -- nilai: 'mahasiswa' / 'umum' — lihat 4.9
+  sla_hari_kerja TINYINT NULL,       -- estimasi hari kerja penyelesaian (SLA)
+  is_permohonan_mandiri BOOLEAN DEFAULT false,  -- true = tampil di list permohonan mahasiswa
+  status VARCHAR(20) DEFAULT 'draft',  -- nilai: 'draft' / 'aktif' / 'nonaktif'
   created_by FK users,
   created_at, deleted_at
+  -- unit_id TIDAK ada di sini — relasi ke unit sekarang many-to-many via
+  -- template_unit (lihat di bawah), boleh kosong (template belum di-assign unit apapun)
+
+template_unit                        -- pivot many-to-many, nullable: template boleh
+  id, template_id FK templates, unit_id FK units  -- tidak terhubung unit manapun (0 baris valid)
+  -- CATATAN: karena satu template kini bisa terhubung ke banyak unit, unit_id di
+  -- permohonan_surat/surat_tercetak (lihat di bawah) TIDAK LAGI otomatis disalin
+  -- dari template — admin/mahasiswa harus memilih unit secara eksplisit
 
 placeholder_definitions
-  id, name VARCHAR(100),
-  kelompok ENUM('profil','waktu','sistem','counter','ttd'),
-  input_type ENUM('text','date','number','textarea','file','image'),
-  source VARCHAR(100) NULL,
+  id, name VARCHAR(100),             -- nama placeholder, dicocokkan exact-match saat scan (4.4)
+  kelompok VARCHAR(20),               -- nilai: 'profil'/'waktu'/'sistem'/'counter'/'ttd'
+  input_type VARCHAR(20),             -- nilai: 'text'/'date'/'number'/'textarea'/'file'/'image'
+  source VARCHAR(100) NULL,          -- keterangan sumber data, dokumentasi saja (bukan FK)
   is_overridable BOOLEAN DEFAULT true
 
 template_placeholder_config
   id, template_id FK templates,
-  placeholder_name VARCHAR(100),
-  label_mahasiswa VARCHAR(255),
-  tipe_input ENUM('text','date','number','textarea'),
-  filled_by ENUM('sistem','mahasiswa','admin'),
+  placeholder_name VARCHAR(100),     -- nama placeholder hasil scan, belum tentu ada di kamus
+  label_mahasiswa VARCHAR(255),      -- label ramah ke mahasiswa, auto-transform dari nama (4.4)
+  tipe_input VARCHAR(20),             -- nilai: 'text'/'date'/'number'/'textarea'
+  filled_by VARCHAR(20),              -- nilai: 'sistem'/'mahasiswa'/'admin' — lihat 4.4
   is_required BOOLEAN DEFAULT true,
   urutan TINYINT
 
@@ -599,7 +711,8 @@ syarat_surat
   urutan TINYINT
 
 dokumen_mahasiswa
-  id, mahasiswa_id FK users,
+  id, mahasiswa_id FK users,          -- FK ke users (auth principal); join ke tabel
+                                      -- `mahasiswa` kalau butuh nim/prodi
   nama VARCHAR(255),
   syarat_id FK ref_syarat_surat NULL,
   filename VARCHAR(255), path VARCHAR(255), file_size INT,
@@ -611,18 +724,18 @@ dokumen_mahasiswa
 
 permohonan_surat
   id,
-  parent_permohonan_id BIGINT FK permohonan_surat NULL,
-  mahasiswa_id FK users,
+  parent_permohonan_id BIGINT FK permohonan_surat NULL,  -- diisi kalau hasil "Ajukan Ulang"
+  mahasiswa_id FK users,              -- pemohon; FK ke users (auth principal)
   template_id FK templates,
-  unit_id FK units,
-  status ENUM('draft','pending','diverifikasi','disetujui','ditolak','dibatalkan','selesai'),
-  isian_form JSON NULL,
-  catatan_penolakan TEXT NULL,
-  approved_by FK users NULL,
-  pejabat_id FK pejabat NULL,
-  catatan_approval TEXT NULL,
+  unit_id FK units NULL,              -- unit tujuan, dipilih eksplisit (lihat catatan template_unit)
+  status VARCHAR(20),                  -- nilai: draft/pending/diverifikasi/disetujui/
+                                       -- ditolak/dibatalkan/selesai
+  isian_form JSON NULL,                -- nilai Lapisan 2 (Fitur 5.1), key = placeholder_name
+  catatan_penolakan TEXT NULL,         -- wajib diisi admin kalau ditolak, tampil ke mahasiswa
+  approved_by FK users NULL,          -- admin yang klik Setujui/Tolak
+  pejabat_id FK pejabat NULL,          -- pejabat pemberi persetujuan offline (proxy approval, 4.3)
+  catatan_approval TEXT NULL,          -- catatan internal saat approve
   approved_at TIMESTAMP NULL,
-  file_surat_scan VARCHAR(255) NULL,
   created_at, deleted_at
 
 template_data_tambahan_fields
@@ -656,18 +769,19 @@ permohonan_syarat
 
 surat_tercetak
   id,
-  permohonan_id FK permohonan_surat NULL,
+  permohonan_id FK permohonan_surat NULL,  -- NULL kalau dari Generate Langsung (sub-flow B)
   template_id FK templates,
-  unit_id FK units,
-  nomor_surat VARCHAR(100),
+  unit_id FK units NULL,               -- unit penerbit, dipilih eksplisit saat generate
+  nomor_surat VARCHAR(100),            -- string lengkap, diisi admin (Mode A — lihat 4.5)
   digenerate_oleh FK users,
   digenerate_at TIMESTAMP,
-  data_placeholder JSON,
+  data_placeholder JSON,                 -- snapshot semua nilai placeholder saat generate (4.8)
   file_pdf_path VARCHAR(255),
   file_docx_path VARCHAR(255),
-  qr_hash VARCHAR(64),
-  status ENUM('aktif','digantikan','dibatalkan'),
-  replaced_by_id FK surat_tercetak NULL,
+  qr_hash VARCHAR(64),                   -- dipakai di URL verifikasi publik
+  metode_pengambilan VARCHAR(20) NULL,  -- nilai: 'download' / 'ambil_di_kampus'
+  status VARCHAR(20),                     -- nilai: 'aktif'/'digantikan'/'dibatalkan'
+  replaced_by_id FK surat_tercetak NULL,  -- diisi kalau surat ini sudah dicetak ulang
   replaced_reason TEXT NULL,
   created_at
 
@@ -675,13 +789,13 @@ surat_tercetak
 
 surat_penandatangan
   id, surat_tercetak_id FK,
-  urutan TINYINT,
-  label VARCHAR(100) NULL,
-  pejabat_id FK pejabat NULL,
-  nama_snapshot VARCHAR(255),
+  urutan TINYINT,                      -- urutan slot TTD (1, 2, dst)
+  label VARCHAR(100) NULL,             -- label statis opsional, mis. "Menyetujui"
+  pejabat_id FK pejabat NULL,           -- NULL kalau diisi manual (tamu/dosen luar)
+  nama_snapshot VARCHAR(255),           -- snapshot nama saat generate, imun perubahan data pejabat
   jabatan_snapshot VARCHAR(255),
   nip_snapshot VARCHAR(50) NULL,
-  file_ttd_path VARCHAR(255) NULL
+  file_ttd_path VARCHAR(255) NULL      -- kosong = TTD basah, perlu ditandatangani fisik dulu
 
 -- ─────────────────────────────────────────────
 -- SURAT MASUK & DISPOSISI
@@ -708,9 +822,10 @@ disposisi_surat_masuk
   surat_masuk_id FK surat_masuk ON DELETE CASCADE,
   tujuan VARCHAR(200),
   isi_instruksi TEXT,
-  sifat ENUM('segera','biasa','rahasia') DEFAULT 'biasa',
+  sifat VARCHAR(20) DEFAULT 'biasa',   -- nilai: 'segera'/'biasa'/'rahasia'
   batas_waktu DATE NULL,
-  status ENUM('belum_ditindaklanjuti','sudah_ditindaklanjuti') DEFAULT 'belum_ditindaklanjuti',
+  status VARCHAR(30) DEFAULT 'belum_ditindaklanjuti',  -- nilai: 'belum_ditindaklanjuti'/
+                                                         -- 'sudah_ditindaklanjuti'
   catatan_tindaklanjut TEXT NULL,
   dicatat_oleh FK users,
   ditindaklanjuti_oleh FK users NULL,
@@ -747,6 +862,82 @@ surat_keluar
   -- tanda_terima     VARCHAR(200) NULL
   created_at, deleted_at
 ```
+
+---
+
+## 10. Struktur Menu Aplikasi
+
+Struktur navigasi berikut disusun dari Fitur 1-12 (Phase 1) dan Section 3 (Aktor & Role). Setiap item merujuk ke nomor Fitur terkait untuk ketertelusuran.
+
+### 10.1 Sisi Admin (Super Admin & Admin Surat)
+
+**Dashboard**
+- Ringkasan permohonan: pending, mendekati deadline, overdue *(Fitur 6)*
+- Counter disposisi surat masuk belum ditindaklanjuti *(Fitur 9.2)*
+
+**Template Surat** *(Fitur 3)*
+- Daftar Template (filter kategori, unit, status)
+- Tambah/Edit Template: upload `.docx` + deteksi placeholder, review hasil deteksi, pilih kategori & `tipe_pemohon`, setup Persyaratan, setup Data Tambahan, Coba Template
+- Panduan Placeholder
+
+**Master Kategori Surat** *(Fitur 12)*
+- Daftar Kategori, Tambah/Edit/Nonaktifkan
+
+**Master Persyaratan Surat** *(Fitur 4)*
+- Daftar Persyaratan (`ref_syarat_surat`), Tambah/Edit, daftar template pemakai
+
+**Permohonan Mahasiswa** *(Fitur 6)*
+- Daftar Permohonan (filter status/jenis/tanggal/nama/NIM)
+- Detail Permohonan → Verifikasi → Setujui/Tolak
+- Generate Surat (dari permohonan disetujui → Fitur 7 sub-flow A)
+
+**Generate Langsung** *(Fitur 7 sub-flow B)*
+- Pilih template aktif → Cari Mahasiswa (jika `tipe_pemohon = mahasiswa`) → isi field admin → Preview → Generate Final
+
+**Arsip Surat Tercetak** *(Fitur 8)*
+- Pencarian, detail arsip, export Excel, cetak ulang
+
+**Surat Masuk** *(Fitur 9)*
+- Daftar (tambah/edit, upload scan), Disposisi (tambah/update status/cetak lembar), Buku Agenda Masuk
+
+**Surat Keluar** *(Fitur 10)*
+- Daftar (manual entry), Buku Agenda Keluar
+
+**Konfigurasi Sistem** *(Fitur 2)*
+- Profil Kampus, Manajemen Unit, Manajemen Pejabat, SMTP Email, Helper format nomor surat
+
+**Manajemen User** — khusus Super Admin *(Fitur 1)*
+- Daftar User, Activate/Deactivate, ubah role, Import data mahasiswa dari SIAKAD
+
+**Master Kamus Placeholder** — khusus Super Admin *(Fitur 13)*
+- Daftar entri kamus, Tambah/Edit/Nonaktifkan (nama, kelompok, tipe input, `is_overridable`)
+
+**Log Aktivitas** — khusus Super Admin
+- Riwayat activity log per user/record
+
+### 10.2 Sisi Mahasiswa
+
+**Dashboard**
+- Ringkasan status permohonan aktif
+
+**Ajukan Surat** *(Fitur 5.1)*
+- List jenis surat (`is_permohonan_mandiri = true`, `status = aktif`)
+- Form Permohonan 4 lapisan: data otomatis, isian surat, data tambahan, upload persyaratan
+- Simpan Draft / Ajukan Permohonan
+
+**Riwayat Permohonan** *(Fitur 5.3 & 5.4)*
+- List permohonan (status berwarna), Detail (4 lapisan + status history)
+- Edit / Batalkan (status `pending`), Ajukan Ulang (status `ditolak`), Download Surat (status `selesai`)
+
+**Dokumen Saya** *(Fitur 5.2)*
+- List dokumen terupload, Upload baru, Hapus (jika tidak dipakai permohonan aktif)
+
+**Profil Saya**
+- Data read-only (nama, NIM, prodi, fakultas) — snapshot dari SIAKAD
+
+### 10.3 Item Terbuka (Belum Dikonfirmasi)
+
+- **Master Klasifikasi Surat**: field `kode_klasifikasi` di Surat Masuk/Keluar saat ini teks bebas. Perlu dikonfirmasi apakah butuh master CRUD tersendiri seperti `kategori_surat`/`ref_syarat_surat`, mengikuti pola `klasifikasi_surat` di OpenSID.
 
 ---
 
