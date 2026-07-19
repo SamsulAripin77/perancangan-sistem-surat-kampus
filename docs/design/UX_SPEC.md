@@ -130,10 +130,14 @@ Fondasi/Master  →  Template  →  Permohonan → Approval  →  Generate → A
 1. User buka `/login` → isi email + password → submit (`login.store`).
 2. Validasi: email required+format, password required. Gagal → kembali dengan `✖`.
 3. Fortify cek kredensial + `is_active`. Nonaktif → tolak dengan pesan khusus.
-4. `✔` → **redirect by role**: `super_admin`/`admin_surat` → `admin.dashboard`; `mahasiswa` → `mahasiswa.beranda`.
+4. `✔` → cek **`users.must_change_password`**:
+   - **`true`** (baru diimport, password auto-generate) → redirect ke halaman **paksa ganti password** (form password baru + konfirmasi, tanpa perlu password lama) → setelah ganti, `must_change_password=false` → lanjut ke redirect by role.
+   - **`false`** → **redirect by role** langsung: `super_admin`/`admin_surat` → `admin.dashboard`; `mahasiswa` → `mahasiswa.beranda`.
 5. Login/logout tercatat di `activity_log`.
 
-**⚠️ PERLU KONFIRMASI**: mekanisme kredensial awal mahasiswa berasal dari import SIAKAD (password snapshot) — apakah ada paksaan ganti password saat login pertama? ERD tidak punya kolom `must_change_password`. Bila diinginkan, perlu tambah kolom.
+**✅ KEPUTUSAN (kredensial import mahasiswa)**: password **tidak diimport** dari file SIAKAD. Sistem **generate password acak** (hashed bcrypt — aman, tanpa masalah kompatibilitas karena Laravel sendiri yang membuat) saat import, dan set `must_change_password=true` → mahasiswa **wajib ganti password saat login pertama** (langkah 4 di atas). Kolom `users.must_change_password` **ditambahkan** ke ERD §2. Menutup blocker M1-T8(a).
+
+**Catatan masa depan (belum committed)**: login via **OAuth Google** disebut sebagai alternatif yang mungkin dipertimbangkan nanti — dicatat sebagai ide Phase 2+, bukan bagian Phase 1.
 
 ### 1.A.2 Reset Password — `password.*`
 Form standar Fortify: input email → kirim link → form password baru. Field mengacu `users.email`/`users.password`. State: `✔` "Link terkirim", `✖` "Email tidak terdaftar". Tidak digambar detail (standar bawaan).
@@ -364,14 +368,13 @@ Manajemen User                        [ ⬆ Import Mahasiswa ] [ + Tambah User ]
 │ ─ Jika Role = Mahasiswa ──────────────────────────│
 │   NIM      [____________]                          │ ← mahasiswa.nim (unique)
 │   Prodi    [____________]                          │ ← mahasiswa.prodi
-│   Fakultas [____________]                          │ ← mahasiswa.fakultas
 │ [x] Aktif                                          │ ← is_active
 │                        [ Batal ] [ Simpan ]        │
 └────────────────────────────────────────────────────┘
 ```
 
 **UI/UX**:
-- **Field `mahasiswa` (NIM/prodi/fakultas) muncul hanya bila Role = Mahasiswa** → menghindari form penuh kolom tak relevan (perilaku dinamis via `js-*`).
+- **Field `mahasiswa` (NIM/prodi) muncul hanya bila Role = Mahasiswa** → menghindari form penuh kolom tak relevan (perilaku dinamis via `js-*`).
 - Email & NIM unik → `✖` inline. Password wajib saat create, opsional saat edit.
 - `✔` → redirect ke index, baris baru muncul.
 
@@ -403,13 +406,10 @@ Manajemen User                        [ ⬆ Import Mahasiswa ] [ + Tambah User ]
 **Persona**: P1. **Flow**: buka Import → unduh template → isi di luar → upload → preview → Import → ringkasan hasil.
 
 **✅ KEPUTUSAN (Import SIAKAD)**:
-- **Kolom file**: `nim, nama, email, password, prodi`.
-- **Password**: **sudah di-hash** dari SIAKAD → disimpan apa adanya (tidak di-hash ulang).
+- **Kolom file**: `nim, nama, email, prodi` — **password TIDAK ada di file import**.
+- **Password**: sistem **generate acak** (`Hash::make(Str::random())`, bcrypt — tidak ada masalah kompatibilitas karena Laravel sendiri yang membuat) + set `must_change_password=true` → mahasiswa wajib ganti saat login pertama (lihat 1.A.1). Menutup masalah algoritma hash SIAKAD sepenuhnya (tak lagi relevan, karena password SIAKAD tidak pernah masuk sistem).
 - **Duplikat**: **skip** baris bila `email` **atau** `nim` sudah ada (keduanya unik).
-
-**⚠️ Masih perlu dipastikan (turunan keputusan di atas)**:
-- **(a) `fakultas` tidak diimport**, padahal `mahasiswa.fakultas` & placeholder `{{fakultas}}` (§4.4) memakainya → akan kosong di surat. Opsi: (1) turunkan fakultas dari `prodi` via mapping, (2) `fakultas` nullable & diisi admin manual, (3) hapus `{{fakultas}}` & kolom `mahasiswa.fakultas`, atau (4) tambahkan ke import. **Perlu keputusan.**
-- **(b) Algoritma hash password** harus **kompatibel Laravel (bcrypt)**. Bila SIAKAD memakai hash lain (MD5/SHA/dll), verifikasi login gagal → butuh strategi (rehash saat login pertama / custom hasher). **Perlu konfirmasi algoritma.**
+- **`fakultas`**: **dihapus dari sistem** (keputusan D-001, `DECISIONS.md`) — bersama placeholder `{{fakultas}}`. Tidak lagi jadi masalah karena kolomnya sudah tidak ada.
 
 ---
 
@@ -736,7 +736,7 @@ Halaman referensi (read-only) agar admin tahu placeholder apa yang bisa dipakai 
 ```
 Panduan Placeholder — salin & tempel ke Word: {{nama}}
 ┌─ Data Mahasiswa (otomatis) ──────────────────────────────┐
-│ {{nama_mahasiswa}}  {{nim}}  {{prodi}}  {{fakultas}}     │  ← placeholder_definitions
+│ {{nama_mahasiswa}}  {{nim}}  {{prodi}}                   │  ← placeholder_definitions
 ├─ Waktu (bisa diubah) ────────────────────────────────────┤     (kelompok profil/waktu/…)
 │ {{tanggal_surat}}  {{bulan_surat}}  {{tahun_surat}}      │
 ├─ Institusi ──────────────────────────────────────────────┤
@@ -837,7 +837,7 @@ Ajukan: Surat Rekomendasi Magang            Estimasi selesai: 3 hari kerja
 
 **Variasi**: "Pilih dari Dokumen Saya" (modal list dokumen) vs "Upload" baru — perbedaan kecil (satu modal pemilih), tidak perlu wireframe terpisah.
 
-**⚠️ PERLU KONFIRMASI**: pemilihan **unit tujuan** (`permohonan_surat.unit_id`). Karena template bisa n-n unit (§7.1), unit tidak otomatis. Bila template terhubung >1 unit, mahasiswa perlu memilih unit tujuan — **field ini belum ada di wireframe** karena PRD tidak jelas. Konfirmasi: tampilkan dropdown unit bila template punya >1 unit?
+**✅ KEPUTUSAN (unit tujuan)**: **mahasiswa TIDAK memilih unit** — tidak ada field unit di form (wireframe di atas sudah final, tanpa tambahan). Sistem **auto-derive** `permohonan_surat.unit_id` di belakang layar: bila template terhubung ke tepat 1 unit → isi otomatis; bila ambigu (0/>1 unit) → biarkan NULL (field administratif, bukan blocker). Unit penerbit yang sebenarnya tetap **dipilih eksplisit admin** di Form Generate (5.B.3), bukan di sini. Konsisten dengan `perancangan-murni.md` §4.1 (Phase 1 operasional terpusat, 1 unit aktif) — lihat ERD §7.1.
 
 ---
 
@@ -959,7 +959,6 @@ Profil Saya
 │ Nama      : Budi Setiawan                │  ← mahasiswa.nama
 │ NIM       : 20210001                     │  ← nim
 │ Prodi     : Teknik Informatika           │  ← prodi
-│ Fakultas  : Fakultas Teknik              │  ← fakultas
 │ Email     : budi@…                       │  ← users.email
 │  (read-only — snapshot dari SIAKAD)      │
 ├─ Ubah Password (Fortify) ────────────────┤
@@ -1063,7 +1062,7 @@ Generate Langsung
 Pilih Template [ Rekomendasi Magang v ]            ← templates (aktif)
 ├─ jika tipe_pemohon = "mahasiswa" ───────────────
 │  Cari Mahasiswa [ ⌕ ketik NIM/nama…      v ]     ← cari-mahasiswa AJAX (mahasiswa)
-│    → dipilih → autofill nama/nim/prodi/fakultas
+│    → dipilih → autofill nama/nim/prodi
 └─ jika tipe_pemohon = "umum" → langsung Form Generate
 ```
 **UX**: `tipe_pemohon=mahasiswa` → **langkah "Cari Mahasiswa"** (Select2 AJAX) dulu → autofill profil. `tipe_pemohon=umum` → langsung form, placeholder diisi manual. `surat_tercetak.permohonan_id = NULL`.
@@ -1198,6 +1197,8 @@ Tombol Export → unduh **Excel** arsip sesuai filter aktif (kolom dari `surat_t
 ---
 
 ## 6.B — Verifikasi Publik (M-VERIFIKASI) — `verify.show` — **tanpa login**
+
+> ⏸️ **PHASE 2 (D-002, `DECISIONS.md`)** — bukan bagian eksekusi Phase 1. Wireframe & flow di bawah disimpan sebagai **referensi desain** untuk dikerjakan nanti; QR code-nya sendiri **tetap dibuat di Phase 1** (M5-T2) sehingga siap dipakai begitu halaman ini dibangun.
 
 Halaman publik (layout `guest`) diakses via scan QR / URL `verify/{qr_hash}`. Persona: **siapa saja** (penerima surat, instansi).
 
@@ -1370,18 +1371,18 @@ Semua titik yang datanya/perilakunya belum pasti (dikumpulkan dari seluruh tahap
 
 | # | Tahap | Item | Dampak |
 |---|---|---|---|
-| 1 | 1.A | Login pertama mahasiswa — paksa ganti password? | Perlu kolom `users.must_change_password` bila ya |
+| 1 | 1.A | ✅ **RESOLVED** — **ya, wajib ganti password saat login pertama**. Password mahasiswa tidak diimport (lihat #4); sistem generate password acak + `must_change_password=true` → dipaksa ganti sebelum lanjut ke dashboard. Kolom `users.must_change_password` **ditambahkan** (ERD §2). |
 | 2 | 1.B / SLA | ✅ **RESOLVED** — pakai `created_at` (SLA = estimasi, tanpa penalti; dashboard hitung status ≥ pending). Tidak menambah kolom. |
 | 3 | 2.A.1 | Hapus user permanen vs soft delete saja | Kebijakan + UI |
-| 4 | 2.A.3 | ✅ **RESOLVED (sebagian)** — kolom `nim,nama,email,password,prodi`; password sudah di-hash; duplikat **skip** (email/nim unik). ⚠️ *Sisa*: (a) `fakultas` tak diimport tapi dipakai `{{fakultas}}`; (b) algoritma hash harus kompatibel bcrypt. |
-| 5 | 4.A.2 | Unit tujuan permohonan (template n-n unit) — dropdown bila >1 unit | Field baru di form (unit_id sudah ada di ERD) |
+| 4 | 2.A.3 | ✅ **RESOLVED** — kolom impor `nim,nama,email,prodi` (**password TIDAK diimport**); sistem generate password acak (bcrypt) + `must_change_password=true`; duplikat **skip** (email/nim unik). `fakultas` **dihapus dari sistem** (D-001) — tidak lagi jadi masalah. *Catatan masa depan*: OAuth Google sebagai alternatif login (ide, belum committed, Phase 2+). |
+| 5 | 4.A.2 | ✅ **RESOLVED** — mahasiswa **tidak memilih unit**. `permohonan_surat.unit_id` auto-derive (template n—1 unit) atau NULL (ambigu); unit penerbit sebenarnya dipilih admin di Form Generate. Lihat ERD §7.1. |
 | 6 | 4.C.2 | ✅ **RESOLVED** — status tracker (badge/stepper dari kolom `status`) + ActivityLog untuk audit admin. Tidak ada tabel `permohonan_status_log`. |
 | 7 | 4.G | ✅ **RESOLVED** — mahasiswa (& admin) boleh ganti password via **Fortify `update-password`** bawaan. Tanpa skema baru. |
 | 8 | 5.A.4 | ✅ **RESOLVED** — un-approve **tidak diperlukan** Phase 1. Tanpa mekanisme/kolom. |
-| 9 | 5.B.3 | PDF opsional (LibreOffice) → QR di PDF & draft watermark | Verifikasi via nomor bila DOCX-only |
+| 9 | 5.B.3 | ✅ **RESOLVED** — **DOCX wajib, PDF opsional** (graceful, pola OpenSID). PDF hanya dibuat bila `settings.libreoffice_path` terisi & konversi sukses; QR disisipkan di PDF bila ada, verifikasi tetap via nomor surat bila DOCX-only. Lihat ARCHITECTURE §2.1, ERD §5.1. |
 | 10 | 6.A.3 | Cetak ulang: nomor sama atau baru? | UNIQUE memaksa baru; konfirmasi kebijakan |
-| 11 | 6.B | Fase portal verifikasi publik — Phase 1 (PRD F8) vs Phase 2 (murni §6) | Keputusan fase |
-| 12 | 7.A.2 / 7.B.2 | `kode_klasifikasi` teks bebas — perlu master `klasifikasi_surat`? | ERD §24 item terbuka; dipakai 2 modul (FEATURE_MAP C2) |
+| 11 | 6.B | ✅ **RESOLVED (D-002)** — **Phase 2**. QR tetap dibuat Phase 1 (M5-T2); halaman verifikasi ini ditunda. Wireframe di bawah disimpan sebagai referensi desain untuk nanti, bukan dieksekusi Phase 1. |
+| 12 | 7.A.2 / 7.B.2 | ✅ **RESOLVED (D-003)** — **tidak dibuat** master `klasifikasi_surat` Phase 1; `kode_klasifikasi` tetap teks bebas. Dipertimbangkan lagi Phase 2 bila terbukti perlu. |
 
 ---
 

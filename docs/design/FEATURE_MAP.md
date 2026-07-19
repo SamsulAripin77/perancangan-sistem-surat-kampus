@@ -37,9 +37,10 @@
 | M-MHS-DOKUMEN | Dokumen Saya | F5.2 | Mahasiswa |
 | M-MHS-PROFIL | Profil Mahasiswa | — | Mahasiswa |
 | M-MEDIA | Upload File Generik | K4 | Cross-cutting |
-| M-VERIFIKASI | Verifikasi Publik | F8 | Publik |
+| M-VERIFIKASI | Verifikasi Publik ⏸️ *Phase 2* | F8 | Publik |
 
 > **Cross-cutting** = dipakai lintas modul; lihat §5 (shared services) & §4 (tumpang tindih).
+> **M-VERIFIKASI** ditandai Phase 2 (keputusan D-002, `docs/decisions/DECISIONS.md`) — rute `verify.show` di §2 di bawah tetap didokumentasikan sebagai referensi, tapi tidak dieksekusi di Phase 1.
 
 ---
 

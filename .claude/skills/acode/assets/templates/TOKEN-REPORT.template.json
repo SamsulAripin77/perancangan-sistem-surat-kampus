@@ -1,0 +1,12 @@
+{
+  "task": "",
+  "model": "",
+  "input_tokens": 0,
+  "cached_input_tokens": 0,
+  "uncached_input_tokens": 0,
+  "output_tokens": 0,
+  "reasoning_tokens": 0,
+  "total_tokens": 0,
+  "responses_count": 0,
+  "notes": "Populate only from real API telemetry."
+}

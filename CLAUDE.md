@@ -1,10 +1,11 @@
-Aturan kerja proyek ini:
-- Kerjakan SATU task dari BACKLOG.md per sesi. Jangan lompat task.
-- Sebelum menambah route/model, cek FEATURE_MAP.md. Kalau area sudah dimiliki 
-  modul lain → STOP, laporkan.
-- Kalau perlu menyimpang dari ERD/ARCHITECTURE/UX_SPEC → STOP, konfirmasi. 
-  Jangan putuskan sendiri.
-- Selesai = semua Acceptance Criteria tercentang DAN test lulus. 
-  Wajib tempel output `php artisan test`.
-- Setelah task selesai & disetujui, update PROGRESS.md.
-Dokumen acuan: PRD.md, ERD.md, ARCHITECTURE.md, FEATURE_MAP.md, UX_SPEC.md, BACKLOG.md
+@AGENTS.md
+
+## Claude Code notes
+
+- This project uses the `acode` skill (`.claude/skills/acode/`) for cross-session
+  task execution, state, and the verification gate. It should trigger automatically
+  on phrases like "continue development" or "next task". If it doesn't trigger,
+  invoke it explicitly with `/acode`.
+- Everything else — working agreements, stack, commands, definition of done — lives
+  in `AGENTS.md` above via import. Do not duplicate rules here; add only
+  Claude Code–specific notes below this line.

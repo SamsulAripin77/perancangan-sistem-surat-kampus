@@ -1,0 +1,7 @@
+interface:
+  display_name: "acode — ayaa code skill"
+  short_description: "Portable multi-task vibe-coding state with Preflight gates"
+  brand_color: "#111827"
+  default_prompt: "Use $acode in balanced mode unless I specify another mode. Treat .ai-context as portable multi-task project memory. Run Project Preflight first; show current focus, open queue, task candidate, proposals, blockers, priorities, next roadmap reference, recommendation, and required decisions. Do not read the whole development plan or archive by default. Before an unopened roadmap task starts, prepare it as a candidate, run targeted readiness Preflight, report field/schema/requirement gaps, and activate it only after readiness plus explicit execution approval. Do not add a discovered gap/requirement to the queue without approval, and do not execute an approved queued item without a separate explicit focus selection. Preserve per-task checkpoints and ledgers, enforce scope and read/write gates, verify changes, and label token estimates as planning-only when actual telemetry is unavailable."
+policy:
+  allow_implicit_invocation: true

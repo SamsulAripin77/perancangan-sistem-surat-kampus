@@ -1,0 +1,16 @@
+{
+  "_comment": "acode project config. Fill 'verify' with commands that ACTUALLY run on this machine. verify.py executes these; complete refuses to finish a task unless the required ones pass. Defaults below assume a Laravel project — adjust paths to your setup.",
+  "project_type": "laravel",
+  "verify": {
+    "test": "php artisan test",
+    "lint": "./vendor/bin/pint --test",
+    "static": "./vendor/bin/phpstan analyse --no-progress",
+    "migrate": "php artisan migrate:fresh --seed --env=testing"
+  },
+  "required": ["test"],
+  "acceptance_criteria": {
+    "_comment": "Optional: point verify/complete at where AC live so the human can cross-check. Not auto-parsed; used as an audit pointer.",
+    "source": "docs/delivery/BACKLOG.md",
+    "id_pattern": "AC-<MODULE>-NNN"
+  }
+}

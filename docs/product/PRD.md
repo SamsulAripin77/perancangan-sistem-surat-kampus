@@ -161,7 +161,7 @@ Diturunkan dari `perancangan-murni.md` Fitur 1-13. Semua adalah *must-have* untu
 #### F8 — Arsip Surat Tercetak
 - Setiap surat final tersimpan sebagai arsip yang **tidak dapat diubah** (immutable), lengkap dengan snapshot data.
 - Cetak ulang membuat entri baru; entri lama ditandai "digantikan".
-- Pencarian & export; halaman verifikasi publik atas keaslian surat.
+- Pencarian & export. QR code verifikasi disisipkan di setiap surat (dibuat Phase 1); **halaman publik yang membacanya ditunda ke Phase 2** (lihat §5.2, keputusan D-002 di `docs/decisions/DECISIONS.md`).
 
 #### F9 — Surat Masuk, Disposisi & Buku Agenda Masuk
 - Pencatatan surat fisik masuk (unggah scan + metadata), nomor agenda otomatis per tahun.

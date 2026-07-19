@@ -96,7 +96,6 @@ Konvensi ini berlaku di semua tabel agar konsisten dengan Laravel & migration:
 | nim | `string('nim', 20)` | ✗ | — | ✓ | Nomor Induk Mahasiswa |
 | nama | `string('nama', 150)` | ✗ | — | | Snapshot nama dari SIAKAD |
 | prodi | `string('prodi', 100)` | ✗ | — | | Program studi |
-| fakultas | `string('fakultas', 100)` | ✗ | — | | Placeholder `{{fakultas}}` (perancangan-murni §4.4) |
 | is_active | `boolean('is_active')` | ✗ | `true` | | Kontrol akses independen dari status akademik |
 
 **Relasi**: `mahasiswa` **1—1** `users` (via `user_id UNIQUE`).
@@ -105,6 +104,7 @@ Konvensi ini berlaku di semua tabel agar konsisten dengan Laravel & migration:
 - **UNIQUE pada `user_id`** menegakkan aturan 1—1 di level DB, bukan cuma aplikasi — mencegah data korup (satu akun punya dua profil).
 - **`is_active` terpisah** dari `users.is_active`: PRD A2 mengizinkan mahasiswa DO/cuti tetap bisa request selama diaktifkan admin — pemisahan ini membedakan "akun bisa login" (users) vs "boleh mengajukan surat" (mahasiswa).
 - **Kenapa `nim`/`nama`/`prodi` disimpan (snapshot), bukan tarik realtime**: PRD Batasan §10.2 — integrasi SIAKAD realtime baru Phase 3. Snapshot menerima risiko data usang demi kesederhanaan Phase 1.
+- **Tidak ada kolom `fakultas`** (keputusan D-001, `DECISIONS.md`) — dihapus bersama placeholder `{{fakultas}}` karena tidak diimport SIAKAD & tidak esensial ke isi surat.
 
 > **Keputusan yang perlu dikonfirmasi** `[PERLU VALIDASI]`: FK pemohon di `permohonan_surat`/`dokumen_mahasiswa` menunjuk ke `users.id` (auth principal), bukan `mahasiswa.id`. Join ke `mahasiswa` dilakukan saat butuh NIM/prodi. Ini konsisten pola Laravel `auth()->id()`.
 
@@ -271,7 +271,9 @@ Konvensi ini berlaku di semua tabel agar konsisten dengan Laravel & migration:
 
 **Constraint**: `unique(['template_id','unit_id'])`.
 
-**Implikasi PRD / konsekuensi penting**: karena template kini n—n unit, `unit_id` di `permohonan_surat` dan `surat_tercetak` **tidak lagi otomatis disalin** dari template — admin/mahasiswa **memilih unit secara eksplisit** saat proses berjalan. Ini menghindari ambiguitas "template ini unitnya yang mana" saat satu template dipakai lintas unit.
+**Implikasi PRD / konsekuensi penting**: karena template kini n—n unit, `unit_id` tidak lagi otomatis pasti tunggal. **Keputusan (resolve ⚠️#5)**:
+- **`permohonan_surat.unit_id`** — **mahasiswa TIDAK memilih unit** saat mengajukan. Sistem **auto-derive**: bila template terhubung ke **tepat 1** unit → isi otomatis; bila 0 atau >1 unit (ambigu) → biarkan **NULL** (field administratif untuk filter/laporan, bukan blocker alur). Konsisten dengan `perancangan-murni.md` §4.1 — Phase 1 operasional terpusat (hanya 1 unit aktif), jadi kasus ambigu praktis jarang terjadi.
+- **`surat_tercetak.unit_id`** — tetap **dipilih eksplisit oleh admin** di Form Generate (sudah ada di alur generate, lihat §16) — ini yang jadi sumber kebenaran "unit penerbit" surat, bukan `permohonan_surat.unit_id`.
 
 ---
 
@@ -398,7 +400,7 @@ Konvensi ini berlaku di semua tabel agar konsisten dengan Laravel & migration:
 | parent_permohonan_id | `foreignId('parent_permohonan_id')->nullable()->constrained('permohonan_surat')` | ✓ | null | Diisi bila hasil "Ajukan Ulang" (F5.4) |
 | mahasiswa_id | `foreignId('mahasiswa_id')->constrained('users')` | ✗ | — | Pemohon (auth principal) |
 | template_id | `foreignId('template_id')->constrained()` | ✗ | — | → templates |
-| unit_id | `foreignId('unit_id')->nullable()->constrained('units')` | ✓ | null | Unit tujuan, dipilih eksplisit (lihat §7.1) |
+| unit_id | `foreignId('unit_id')->nullable()->constrained('units')` | ✓ | null | Auto-derive bila template n—1 unit; NULL bila ambigu (mahasiswa tak memilih — lihat §7.1) |
 | status | `string('status', 20)` | ✗ | `'pending'` | Lihat daftar status di bawah |
 | isian_form | `json('isian_form')->nullable()` | ✓ | null | Nilai Lapisan 2, key = placeholder_name |
 | catatan_penolakan | `text('catatan_penolakan')->nullable()` | ✓ | null | Wajib bila ditolak; tampil ke mahasiswa |
@@ -690,7 +692,7 @@ Skenario: mahasiswa Budi mengajukan **Surat Rekomendasi Magang**, disetujui, lal
 **§2 users + §3 mahasiswa** (1—1)
 ```
 users:     {id:10, nama:"Budi Setiawan", email:"budi@...", unit_id:null}
-mahasiswa: {id:5, user_id:10, nim:"20210001", prodi:"Informatika", fakultas:"Teknik"}
+mahasiswa: {id:5, user_id:10, nim:"20210001", prodi:"Informatika"}
 users:     {id:2, nama:"Dewi (Admin)", unit_id:1}   // role admin_surat via Spatie
 ```
 
@@ -758,11 +760,9 @@ template_placeholder_config:
 
 | # | Item | Dampak Skema |
 |---|---|---|
-| 1 | **Master Klasifikasi Surat** — `kode_klasifikasi` di §18/§21 masih string bebas. Perlukah tabel master + FK? | Bila ya: tambah tabel `klasifikasi_surat` + ubah kolom jadi `foreignId` |
-| 2 | **Rename `label_mahasiswa` → `label`** (§9) | Rename kolom bila disepakati |
-| 3 | **SLA — kalender hari libur** (skip weekend + libur nasional) | Sumber data kalender libur belum ada; tabel `hari_libur` opsional (kolom `submitted_at` **tidak jadi ditambah** — lihat "Sudah Diputuskan") |
-| 4 | **FK pemohon**: `users.id` vs `mahasiswa.id` (§3) | Keputusan arah FK di §11, §12 |
-| 5 | **Versioning template** (perbaikan template terpakai) | Kemungkinan tabel `template_versions` — belum dirancang |
+| 1 | **Rename `label_mahasiswa` → `label`** (§9) | Rename kolom bila disepakati |
+| 2 | **FK pemohon**: `users.id` vs `mahasiswa.id` (§3) | Keputusan arah FK di §11, §12 |
+| 3 | **Versioning template** (perbaikan template terpakai) | Kemungkinan tabel `template_versions` — belum dirancang |
 
 ### Sudah Diputuskan
 
@@ -774,7 +774,15 @@ template_placeholder_config:
 | **Status history** | ✅ **Tidak ada tabel `permohonan_status_log`.** Mahasiswa lihat status tracker (badge/stepper dari kolom `status`); audit admin via Spatie ActivityLog. Lihat UX_SPEC 4.C.2. |
 | **Un-approve** | ✅ **Tidak didukung Phase 1** — tanpa kolom/mekanisme. |
 | **Ubah password** | ✅ Via **Fortify `update-password`** bawaan (mahasiswa & admin). Tanpa skema baru (`users.password` sudah ada). |
+| **Kolom `fakultas`** | ✅ **Dihapus** (D-001) — bersama placeholder `{{fakultas}}`. Lihat §3. |
+| **Fase Verifikasi Publik** | ✅ **Phase 2** (D-002) — QR tetap dibuat Phase 1 (`qr_hash` §16), halaman baca ditunda. |
+| **Master Klasifikasi Surat** | ✅ **Tidak dibuat Phase 1** (D-003) — `kode_klasifikasi` tetap teks bebas di §18/§21. |
+| **SLA — hari libur** | ✅ **Skip Sabtu/Minggu saja** (D-004) — tanpa master kalender libur nasional Phase 1. |
+| **Hapus user** | ✅ **Tidak ada hard delete** (D-005) — nonaktifkan (`is_active=false`) satu-satunya cara di UI Phase 1. |
+| **Cetak ulang nomor** | ✅ **Nomor baru wajib** (D-006) — tidak ada pengecualian pakai nomor sama; konsisten UNIQUE §16. |
+
+> Detail alasan tiap keputusan D-001 s/d D-006 ada di `docs/decisions/DECISIONS.md`.
 
 ---
 
-*ERD ini selaras dengan `PRD.md`, `perancangan-murni.md` §9, dan `ARCHITECTURE.md` (K4 penyimpanan file). Setiap perubahan skema harus diperbarui di ketiga dokumen agar tetap konsisten.*
+*ERD ini selaras dengan `PRD.md`, `ARCHITECTURE.md`, `BACKLOG.md`, dan `docs/decisions/DECISIONS.md`. Setiap perubahan skema harus diperbarui agar tetap konsisten lintas dokumen.*

@@ -1,0 +1,12 @@
+{
+  "current_focus": null,
+  "last_completed": null,
+  "next_planned_reference": null,
+  "preflight_candidate": null,
+  "proposals": {},
+  "rejected_findings": [],
+  "schema_version": 2,
+  "skill_version": "0.5.0",
+  "tasks": {},
+  "updated_at": "2026-07-19T15:13:29Z"
+}
