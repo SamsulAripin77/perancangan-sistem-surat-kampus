@@ -455,7 +455,7 @@ POST /surat/doc/{url}
   │    │    └─ surat_utama($data, &$nama_surat)
   │    │         ├─ surat_rtf($data) → buffer RTF dengan substitusi penuh
   │    │         ├─ Tulis ke LOKASI_ARSIP/{nama_surat}.rtf
-  │    │         └─ exec(libreoffice --convert-to pdf) → ganti .rtf dengan .pdf jika berhasil
+  │    │         └─  --convert-to pdf) → ganti .rtf dengan .pdf jika berhasil
   │    │
   │    ├─ Keluar_model::log_surat($log_surat) → INSERT atau UPDATE log_surat
   │    │

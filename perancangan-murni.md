@@ -331,7 +331,7 @@ Saat surat di-generate final, seluruh nilai placeholder (termasuk data pejabat T
 - [ ] Status `selesai` → cek `surat_tercetak.metode_pengambilan`:
   - `download` → tombol "Download Surat" tampil, link ke file
   - `ambil_di_kampus` → tombol download **tidak** tampil, ganti badge info "📍 Surat siap diambil di kampus"
-- [ ] Halaman detail: tampilkan semua 4 lapisan data, status history, alasan tolak/setujui
+- [ ] Halaman detail: tampilkan semua 4 lapisan data, **status tracker** (badge/stepper dari kolom `status`, bukan tabel log), alasan tolak/setujui. Audit lengkap via Spatie ActivityLog (lihat UX_SPEC 4.C.2)
 
 #### 5.4 Resubmit (Ajukan Ulang)
 
@@ -356,7 +356,7 @@ Saat surat di-generate final, seluruh nilai placeholder (termasuk data pejabat T
 - [ ] Tombol Tolak: wajib isi keterangan alasan penolakan — **keterangan ini ditampilkan ke mahasiswa**
 - [ ] Notifikasi email otomatis ke mahasiswa setelah approve/reject
 - [ ] Perubahan status (disetujui/ditolak) langsung tercermin di Riwayat Permohonan mahasiswa (Fitur 5.3) — bukan cuma lewat email
-- [ ] Permohonan yang sudah disetujui tidak bisa di-unApprove kecuali Super Admin dengan alasan tercatat
+- [ ] Permohonan yang sudah disetujui bersifat maju (lanjut ke Generate). **Un-approve tidak didukung Phase 1** (tanpa mekanisme/kolom tambahan)
 - [ ] Setelah approve → tombol "Generate Surat" muncul (masuk Fitur 7 sub-flow A). Status `disetujui` **belum** memberi akses download apapun ke mahasiswa — surat belum digenerate; akses baru terbuka setelah Fitur 7 selesai dan admin memilih `metode_pengambilan = download`
 
 ---
@@ -544,18 +544,22 @@ Surat fisik diterima → Admin scan → upload ke sistem → isi metadata
 
 ### Tech Stack
 
+> Detail standar & konvensi lengkap ada di `ARCHITECTURE.md` (SRS). Tabel di bawah adalah ringkasan pilihan final.
+
 | Komponen | Pilihan |
 |---|---|
-| Backend | PHP 8.1+, Laravel 10/11 (LTS) |
+| Backend | PHP 8.2+, **Laravel 12** (default; 13 bersyarat cek kompatibilitas — ARCHITECTURE.md §2.2) |
 | Database | MySQL 8.0+ |
 | Template Engine | PHPOffice/PHPWord (buat wrapper untuk normalize ke `{{VAR}}`) |
-| PDF Generator | MPDF (lebih baik dari DomPDF untuk tabel kompleks + karakter Indonesia) |
+| PDF Generator | **LibreOffice headless** (DOCX→PDF surat utama) + **mPDF** (HTML→PDF disposisi/agenda/export) — bukan DomPDF/Spatie PDF, lihat ARCHITECTURE.md §2.1 |
 | RBAC | Spatie Permission |
 | Audit Trail | Spatie ActivityLog |
+| Upload File | **Spatie Media Library** (SSOT penyimpanan) + UI **FilePond** (service+controller reusable — lihat ARCHITECTURE.md §9) |
 | Storage | Laravel Storage — lokal, opsional S3/Minio |
 | Queue | Laravel Queue (database driver untuk awal) |
 | QR Code | SimpleSoftwareIO/simple-qrcode |
-| UI | AdminLTE (Bootstrap 3) |
+| Auth | Laravel Fortify (headless) + view Blade AdminLTE |
+| UI | **AdminLTE 4 (Bootstrap 5.3)** + DataTables (Yajra) + **Select2** + FilePond + Font Awesome — semua via **npm/Vite** (bukan CDN) |
 
 ### Komponen Reusable
 
@@ -583,9 +587,10 @@ Perbedaan konteks dikontrol lewat parameter partial (`$readOnly`, `$strict`, `$s
 
 ### Keamanan File Tanda Tangan
 
-- Simpan di `storage/private/signatures/` — tidak di folder `public/`
+- Dikelola via **Spatie Media Library** dengan disk **private** (`storage/private/...`) — tidak di folder `public/`
 - Akses hanya via controller: `Gate::authorize('view-ttd', $pejabat)`
 - Setiap generate yang menggunakan file TTD dicatat di ActivityLog: user, pejabat, surat, timestamp
+- Saat surat digenerate, path file TTD **dibekukan (snapshot)** ke `surat_penandatangan.file_ttd_path` demi arsip immutable — terlepas dari lifecycle media master (lihat ARCHITECTURE.md §9 K4, ERD §17)
 
 ### QR Code & Verifikasi
 
@@ -595,14 +600,17 @@ Perbedaan konteks dikontrol lewat parameter partial (`$readOnly`, `$strict`, `$s
 - Halaman publik (tanpa login): jenis surat, status (valid/digantikan/dibatalkan), nama depan + inisial, tanggal terbit
 - Status "digantikan": tampilkan keterangan + nomor surat penggantinya
 
-### UI Style (Konsisten dengan Ciengang)
+### UI Style (Gaya compact seperti Ciengang, versi terbaru)
 
-- Template: **AdminLTE** (Bootstrap 3)
-- Tombol: `btn btn-flat btn-sm`
-- Tabel: `table table-bordered table-striped table-hover` dengan `thead.bg-gray`
-- Warna: `bg-olive` (positif/tambah), `btn-warning` (edit), `bg-maroon` (hapus/tolak), `bg-aqua` (info)
+- Template: **AdminLTE 4** (Bootstrap 5.3) — gaya compact seperti Ciengang, tapi versi terbaru
+- Tombol: komponen `x-ui.button` (default `btn-sm`), behavior via hook `js-*`/`data-*` (lihat ARCHITECTURE.md §11)
+- Tabel: `table table-sm table-bordered table-striped table-hover` dengan header `table-light`
+- Warna aksi: hijau/olive (positif/tambah), kuning (edit), merah/maroon (hapus/tolak), biru/aqua (info)
 - Icon: **Font Awesome**
-- DataTables untuk semua tabel: pagination + search + sort
+- DataTables (server-side, Yajra) untuk tabel besar: pagination + search + sort
+- Dropdown pencarian: **Select2** (+ theme Bootstrap 5)
+- Upload: **FilePond** (kompatibel Media Library)
+- Konvensi class: `app-*` untuk styling, `js-*` untuk hook JavaScript (lihat ARCHITECTURE.md §11.2)
 
 ---
 
@@ -926,7 +934,7 @@ Struktur navigasi berikut disusun dari Fitur 1-12 (Phase 1) dan Section 3 (Aktor
 - Simpan Draft / Ajukan Permohonan
 
 **Riwayat Permohonan** *(Fitur 5.3 & 5.4)*
-- List permohonan (status berwarna), Detail (4 lapisan + status history)
+- List permohonan (status berwarna), Detail (4 lapisan + status tracker)
 - Edit / Batalkan (status `pending`), Ajukan Ulang (status `ditolak`), Download Surat (status `selesai`)
 
 **Dokumen Saya** *(Fitur 5.2)*

@@ -154,7 +154,8 @@ Diturunkan dari `perancangan-murni.md` Fitur 1-13. Semua adalah *must-have* untu
 - Untuk template bertipe "Mahasiswa" di jalur B, disediakan pencarian mahasiswa untuk auto-isi data profil.
 - Form generate dengan smart default (tanggal, saran nomor surat, pemilihan pejabat penandatangan per slot).
 - Pilihan **Metode Pengambilan** (Unduh / Ambil di Kampus) dengan saran otomatis berdasarkan kelengkapan tanda tangan.
-- Output PDF + DOCX final, dengan QR code verifikasi.
+- Output final: **DOCX wajib** (dijamin); **PDF opsional** — hanya dihasilkan bila LibreOffice tersedia di server (graceful, pola OpenSID — lihat ARCHITECTURE.md §2.1). Phase 1 dapat berjalan DOCX-only.
+- QR code verifikasi disisipkan pada output PDF (jika PDF dibuat); bila DOCX-only, verifikasi tetap via nomor surat.
 - **User Story**: *Sebagai Admin, saya generate Nota Dinas internal langsung dari template tanpa harus ada permohonan mahasiswa.*
 
 #### F8 — Arsip Surat Tercetak
@@ -238,11 +239,13 @@ Untuk surat internal (Nota Dinas, SK, Undangan) yang tidak berasal dari permohon
 - **Arsitektur data "3 Kamar"** untuk surat keluar: Permohonan → Arsip Surat Tercetak → Buku Agenda Keluar, sengaja tidak saling terkait FK karena beda tujuan.
 - **Jejak audit wajib** di semua tabel utama (siapa membuat/menyetujui/mencatat) + lapisan log aktivitas.
 - **Manajemen role** menggunakan library RBAC standar (Spatie Laravel Permission), bukan kolom role manual — agar siap untuk model "teams" per unit di Phase 2.
+- **Standar halaman list/index (lintas-fitur)** — semua daftar data (template, permohonan, arsip, buku agenda, user, master, riwayat) **wajib** mendukung *advanced filter* (kategori, status, unit, rentang tanggal, dll) + pencarian + sort + pagination, lewat pola reusable yang seragam. Detail teknis: ARCHITECTURE §17.
+- **Pengembangan per fitur (vertical slice)** — tiap fitur/sub-fitur dibangun tuntas end-to-end (migration→model→route→controller→service→view→test) sebagai satu unit fokus, mengikuti urutan dependensi antar-modul. Detail: ARCHITECTURE §18.
 
 ### 7.2 Integrasi Pihak Ketiga
 - **SIAKAD** — import snapshot data mahasiswa (NIM, email, password) secara berkala; **bukan** realtime di Phase 1. `[DISIMPULKAN §4.7]`
 - **SMTP** — pengiriman email notifikasi.
-- **Mesin dokumen** — engine substitusi `.docx` + konversi PDF; QR code generator.
+- **Mesin dokumen** — engine substitusi `.docx` (PHPWord); konversi PDF **opsional** via LibreOffice (jika tersedia); QR code generator.
 
 ### 7.3 Persyaratan Kinerja
 > Tidak ada angka kinerja eksplisit di sumber. `[KESALAHAN KRITIS — perlu ditetapkan]`
@@ -290,7 +293,7 @@ Diambil dari bagian "Asumsi Sementara" `perancangan-kasar.md` dan keputusan `per
 - **Data SIAKAD** — kualitas & ketersediaan import menentukan akurasi data mahasiswa.
 - **Infrastruktur email (SMTP)** — notifikasi bergantung pada konfigurasi yang benar.
 - **Master data awal** — kategori, kamus placeholder, unit, dan daftar pejabat harus disiapkan sebelum operasional.
-- **Engine konversi dokumen** — ketersediaan komponen generate DOCX/PDF di server.
+- **Engine konversi dokumen** — DOCX selalu tersedia (PHPWord, PHP murni); PDF **opsional**, bergantung ketersediaan LibreOffice di server (graceful fallback ke DOCX bila absen).
 
 ### 10.2 Batasan
 - **Satu kampus per instalasi** (single-tenant) di Phase 1.
