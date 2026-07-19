@@ -45,8 +45,8 @@ Task bertanda ⚠️ bergantung pada keputusan yang **belum final** (rujuk nomor
 | ID | Task | Dep |
 |---|---|---|
 | M0-T1 | Inisialisasi Laravel + git + `.env` (MySQL, disk private) + config dasar (timezone/locale, `config/surat.php`) | — |
-| M0-T2 | Install & konfigurasi library backend (Spatie Permission/Media/ActivityLog, Yajra, PHPWord, mPDF, simple-qrcode, Fortify) + publish & migrate bawaan paket | M0-T1 |
-| M0-T3 | Setup tooling kualitas (Pint, Larastan, Pest) | M0-T1 |
+| M0-T2 | Install & konfigurasi library backend (Spatie Permission/Media/ActivityLog, Yajra, PHPWord, mPDF, Fortify) + publish & migrate bawaan paket | M0-T1 |
+| M0-T3 | Setup tooling kualitas (Pint, Larastan, Pest,laravel boost make sure boost mcp work in claude) | M0-T1 |
 | M0-T4 | Install & konfigurasi frontend npm+Vite (AdminLTE, Bootstrap, jQuery, DataTables, Select2, FilePond, SweetAlert2, FontAwesome) | M0-T1 |
 | M0-T5 | Master layout AdminLTE (app/mahasiswa/auth/guest) + partial sidebar/topbar/breadcrumb/flash | M0-T4 |
 | M0-T6 | Blade components inti (`x-ui.*`, `x-form.*`) + tema `app.css` + konvensi class `app-*`/`js-*` | M0-T5 |
