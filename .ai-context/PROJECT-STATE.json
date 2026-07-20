@@ -1,15 +1,15 @@
 {
   "current_focus": null,
   "last_completed": {
-    "completed_at": "2026-07-20T22:45:54Z",
-    "goal": "F1 Autentikasi: login/logout + is_active check + redirect-by-role + paksa ganti password",
-    "id": "M1-T2"
+    "completed_at": "2026-07-20T23:14:49Z",
+    "goal": "F1 Ubah Password mandiri (Fortify update-password + section UI)",
+    "id": "M1-T3"
   },
   "next_planned_reference": {
     "activated": false,
-    "id": "M1-T3",
+    "id": "M1-T4",
     "note": "not activated; not part of the open queue",
-    "source": "docs/delivery/BACKLOG.md#m1-t3"
+    "source": "docs/delivery/BACKLOG.md#m1-t4"
   },
   "preflight_candidate": null,
   "proposals": {},
@@ -46,9 +46,9 @@
       "status": "ready",
       "task_type": "review",
       "triggered_by": "approved finding from M0-T2",
-      "updated_at": "2026-07-20T22:45:54Z",
+      "updated_at": "2026-07-20T23:14:49Z",
       "work_type": "task-requirement"
     }
   },
-  "updated_at": "2026-07-20T22:45:54Z"
+  "updated_at": "2026-07-20T23:14:49Z"
 }

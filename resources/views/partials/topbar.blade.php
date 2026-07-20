@@ -21,6 +21,14 @@
                             </a>
                         </li>
                         <li>
+                            <a class="dropdown-item" href="{{ route('password.edit') }}">
+                                {{ __('common.ubah_password') }}
+                            </a>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li>
                             <form method="POST" action="{{ Route::has('logout') ? route('logout') : '#' }}">
                                 @csrf
                                 <button type="submit" class="dropdown-item">{{ __('common.keluar') }}</button>

@@ -21,4 +21,11 @@ return [
     'password_new' => 'Password Baru',
     'password_confirmation' => 'Konfirmasi Password Baru',
     'force_change_submit' => 'Simpan & Lanjutkan',
+
+    // Ubah password mandiri (M1-T3).
+    'ubah_password_title' => 'Ubah Password',
+    'ubah_password_intro' => 'Perbarui password akun Anda. Masukkan password lama untuk konfirmasi.',
+    'password_current' => 'Password Lama',
+    'current_password_wrong' => 'Password lama salah.',
+    'password_updated' => 'Password berhasil diubah.',
 ];

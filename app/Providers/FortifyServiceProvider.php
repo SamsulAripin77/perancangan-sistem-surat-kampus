@@ -7,6 +7,7 @@ use App\Actions\Fortify\ResetUserPassword;
 use App\Actions\Fortify\UpdateUserPassword;
 use App\Actions\Fortify\UpdateUserProfileInformation;
 use App\Http\Responses\LoginResponse;
+use App\Http\Responses\PasswordUpdateResponse;
 use App\Models\Setting;
 use App\Models\User;
 use Illuminate\Cache\RateLimiting\Limit;
@@ -18,6 +19,7 @@ use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use Laravel\Fortify\Actions\RedirectIfTwoFactorAuthenticatable;
 use Laravel\Fortify\Contracts\LoginResponse as LoginResponseContract;
+use Laravel\Fortify\Contracts\PasswordUpdateResponse as PasswordUpdateResponseContract;
 use Laravel\Fortify\Fortify;
 
 class FortifyServiceProvider extends ServiceProvider
@@ -29,6 +31,9 @@ class FortifyServiceProvider extends ServiceProvider
     {
         // Redirect setelah login sesuai role / status ganti password (UX_SPEC 1.A.1).
         $this->app->singleton(LoginResponseContract::class, LoginResponse::class);
+
+        // Ubah password (M1-T3) → kembali dengan flash sukses.
+        $this->app->singleton(PasswordUpdateResponseContract::class, PasswordUpdateResponse::class);
     }
 
     /**

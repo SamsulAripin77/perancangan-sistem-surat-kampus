@@ -1,6 +1,6 @@
 # Work Queue
 
-Generated from `PROJECT-STATE.json` at 2026-07-20T22:45:54Z.
+Generated from `PROJECT-STATE.json` at 2026-07-20T23:14:49Z.
 
 ## Current focus
 
@@ -24,14 +24,14 @@ Generated from `PROJECT-STATE.json` at 2026-07-20T22:45:54Z.
 
 ## Next roadmap reference
 
-- M1-T3
-- Source: docs/delivery/BACKLOG.md#m1-t3
+- M1-T4
+- Source: docs/delivery/BACKLOG.md#m1-t4
 - Note: not activated; not part of the open queue
 - Queue membership: none until explicitly activated
 
 ## Recently completed
 
-- M1-T2 — F1 Autentikasi: login/logout + is_active check + redirect-by-role + paksa ganti password
+- M1-T3 — F1 Ubah Password mandiri (Fortify update-password + section UI)
 
 ## Recommendation
 

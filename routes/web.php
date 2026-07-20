@@ -19,6 +19,12 @@ Route::middleware('auth')->group(function () {
     Route::post('password/force', [ForcePasswordChangeController::class, 'update'])->name('password.force.update');
 });
 
+// Ubah password mandiri semua user (M1-T3). Submit ditangani Fortify
+// user-password.update. Halaman Profil penuh (mahasiswa 4.G) menyusul M3-T8.
+Route::view('akun/ubah-password', 'account.password')
+    ->middleware(['auth', 'password.changed'])
+    ->name('password.edit');
+
 // Upload AJAX generik FilePond (ARCHITECTURE §9) — endpoint dipakai bersama
 // semua komponen x-form.file / hook js-upload.
 Route::middleware(['auth', 'password.changed'])->group(function () {
