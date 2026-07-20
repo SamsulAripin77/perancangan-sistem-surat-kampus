@@ -11,7 +11,27 @@
     "note": "not activated; not part of the open queue",
     "source": "docs/delivery/BACKLOG.md#m1-t4"
   },
-  "preflight_candidate": null,
+  "preflight_candidate": {
+    "blocked_by": [],
+    "created_at": "2026-07-20T23:36:23Z",
+    "goal": "F2 Konfigurasi Sistem (Settings): SettingService + form bergrup + Media Library logo + override config('mail.*')",
+    "id": "M1-T4",
+    "lane": "backend",
+    "mode": "balanced",
+    "next_action": "perform targeted readiness inspection",
+    "partially_blocked_by": [],
+    "previous_task": "M1-T3",
+    "priority": "normal",
+    "readiness_status": "pending",
+    "readiness_summary": "targeted readiness inspection not completed",
+    "relationship": "sequential",
+    "resume_target": "none",
+    "source_reference": "docs/delivery/BACKLOG.md#m1-t4",
+    "task_type": "implement",
+    "triggered_by": "user request for targeted Preflight",
+    "updated_at": "2026-07-20T23:36:23Z",
+    "work_type": "main-task"
+  },
   "proposals": {},
   "rejected_findings": [],
   "schema_version": 2,
@@ -50,5 +70,5 @@
       "work_type": "task-requirement"
     }
   },
-  "updated_at": "2026-07-20T23:14:49Z"
+  "updated_at": "2026-07-20T23:36:23Z"
 }

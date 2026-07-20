@@ -1,6 +1,6 @@
 # Work Queue
 
-Generated from `PROJECT-STATE.json` at 2026-07-20T23:14:49Z.
+Generated from `PROJECT-STATE.json` at 2026-07-20T23:36:23Z.
 
 ## Current focus
 
@@ -8,7 +8,13 @@ Generated from `PROJECT-STATE.json` at 2026-07-20T23:14:49Z.
 
 ## Candidate under Preflight
 
-- none
+- M1-T4 — F2 Konfigurasi Sistem (Settings): SettingService + form bergrup + Media Library logo + override config('mail.*')
+- Readiness: pending
+- Type / priority / lane: main-task / normal / backend
+- Blocked by: none
+- Readiness summary: targeted readiness inspection not completed
+- Source reference: docs/delivery/BACKLOG.md#m1-t4
+- Queue membership: none until execution is explicitly approved
 
 ## Open queue
 
@@ -35,5 +41,5 @@ Generated from `PROJECT-STATE.json` at 2026-07-20T23:14:49Z.
 
 ## Recommendation
 
-- Recommend QR-LIBRARY-CONFLICT-001 (task-requirement, low) because highest effective priority among open work.
-- Present all runnable choices and trade-offs, then wait for the user's explicit selection before changing current focus or editing code.
+- Complete the targeted readiness Preflight for candidate M1-T4 before execution.
+- Record discovered gaps as proposals and mark the candidate ready only when required evidence is complete.
