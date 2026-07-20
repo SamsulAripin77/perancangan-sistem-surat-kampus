@@ -1,11 +1,25 @@
-@import 'tailwindcss';
+/* Bootstrap 5 (dasar) + AdminLTE 4 (tema admin) — ARCHITECTURE.md §10 */
+@import 'bootstrap/dist/css/bootstrap.css';
+@import 'admin-lte/dist/css/adminlte.css';
 
-@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
-@source '../../storage/framework/views/*.php';
-@source '../**/*.blade.php';
-@source '../**/*.js';
+/* DataTables (server-side, Yajra) */
+@import 'datatables.net-bs5/css/dataTables.bootstrap5.css';
 
-@theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
-}
+/* Select2 + tema Bootstrap 5 */
+@import 'select2/dist/css/select2.css';
+@import 'select2-bootstrap-5-theme/dist/select2-bootstrap-5-theme.css';
+
+/* FilePond (upload UI) */
+@import 'filepond/dist/filepond.css';
+@import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
+
+/* SweetAlert2 (notifikasi & konfirmasi — §11.4) */
+@import 'sweetalert2/dist/sweetalert2.css';
+
+/* Font Awesome (ikon) */
+@import '@fortawesome/fontawesome-free/css/all.css';
+
+/*
+ * Token tema & konvensi class app-* / js-* (§11.2, §11.3) ditambahkan
+ * seiring komponen Blade dibangun (M0-T6).
+ */
