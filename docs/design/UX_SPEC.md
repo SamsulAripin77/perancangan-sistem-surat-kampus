@@ -98,17 +98,17 @@ Fondasi/Master  →  Template  →  Permohonan → Approval  →  Generate → A
 **Wireframe** (layout `auth`, tanpa sidebar — halaman berdiri sendiri):
 ```
         ┌────────────────────────────────────┐
-        │            [ LOGO KAMPUS ]          │   ← settings.logo_kampus
-        │      Sistem Surat — [Nama Univ]     │   ← settings.nama_universitas
+        │            [ LOGO KAMPUS ]         │   ← settings.logo_kampus
+        │      Sistem Surat — [Nama Univ]    │   ← settings.nama_universitas
         ├────────────────────────────────────┤
-        │  Email                              │
+        │  Email                             │
         │  [________________________]        │   ← users.email
-        │  Password                           │
+        │  Password                          │
         │  [________________________]        │   ← users.password
-        │  [ ] Ingat saya                     │
-        │                                     │
-        │         [   Masuk   ]               │
-        │        Lupa password?               │   → password.request
+        │  [ ] Ingat saya                    │
+        │                                    │
+        │         [   Masuk   ]              │
+        │        Lupa password?              │   → password.request
         └────────────────────────────────────┘
 ```
 

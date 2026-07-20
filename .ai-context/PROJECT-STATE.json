@@ -1,22 +1,43 @@
 {
-  "current_focus": null,
+  "current_focus": "M0-T4",
   "last_completed": {
-    "completed_at": "2026-07-20T15:09:27Z",
-    "goal": "Install & konfigurasi library backend (Spatie Permission/Media/ActivityLog, Yajra, PHPWord, mPDF, Fortify) + publish & migrate bawaan paket",
-    "id": "M0-T2"
+    "completed_at": "2026-07-20T15:25:20Z",
+    "goal": "Setup tooling kualitas (Pint, Larastan, Pest, Laravel Boost MCP)",
+    "id": "M0-T3"
   },
-  "next_planned_reference": {
-    "activated": false,
-    "id": "M0-T3",
-    "note": "not activated; not part of the open queue",
-    "source": "docs/delivery/BACKLOG.md#milestone-0"
-  },
+  "next_planned_reference": null,
   "preflight_candidate": null,
   "proposals": {},
   "rejected_findings": [],
   "schema_version": 2,
   "skill_version": "0.5.0",
   "tasks": {
+    "M0-T4": {
+      "approved_for_execution": true,
+      "approved_for_queue": true,
+      "blocked_by": [],
+      "blocks": [],
+      "checkpoint_path": ".ai-context/tasks/M0-T4.md",
+      "created_at": "2026-07-20T15:27:10Z",
+      "discovered_during": "none",
+      "goal": "Install & konfigurasi frontend npm+Vite (AdminLTE, Bootstrap, jQuery, DataTables, Select2, FilePond, SweetAlert2, FontAwesome)",
+      "id": "M0-T4",
+      "lane": "frontend",
+      "mode": "balanced",
+      "next_action": "npm uninstall tailwindcss @tailwindcss/vite; npm install paket2 di atas; update vite.config.js utk import scss/js semua lib; update resources/css/app.css & resources/js/app.js utk inisialisasi (bukan CDN)",
+      "partially_blocked_by": [],
+      "previous_task": "M0-T3",
+      "priority": "normal",
+      "relationship": "sequential",
+      "resume_target": "none",
+      "source_reference": "docs/delivery/BACKLOG.md#milestone-0",
+      "started_at": "2026-07-20T15:29:13Z",
+      "status": "active",
+      "task_type": "implement",
+      "triggered_by": "user-approved targeted Preflight",
+      "updated_at": "2026-07-20T15:29:13Z",
+      "work_type": "main-task"
+    },
     "QR-LIBRARY-CONFLICT-001": {
       "approved_for_execution": false,
       "approved_for_queue": true,
@@ -46,9 +67,9 @@
       "status": "ready",
       "task_type": "review",
       "triggered_by": "approved finding from M0-T2",
-      "updated_at": "2026-07-20T15:09:27Z",
+      "updated_at": "2026-07-20T15:25:20Z",
       "work_type": "task-requirement"
     }
   },
-  "updated_at": "2026-07-20T15:09:27Z"
+  "updated_at": "2026-07-20T15:29:13Z"
 }
