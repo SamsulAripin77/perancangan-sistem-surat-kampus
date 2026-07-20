@@ -48,10 +48,26 @@ $('.js-select2').select2({
     width: '100%',
 });
 
+const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+
 document.querySelectorAll('.js-upload').forEach((el) => {
     FilePond.create(el, {
         acceptedFileTypes: el.dataset.accept ? el.dataset.accept.split(',') : undefined,
         maxFileSize: el.dataset.maxSize || undefined,
+        // Endpoint generik MediaUploadController (§9): process simpan sementara,
+        // revert batal. Token yang dikembalikan jadi nilai submit field ini.
+        server: {
+            process: {
+                url: '/upload',
+                method: 'POST',
+                headers: { 'X-CSRF-TOKEN': csrfToken },
+            },
+            revert: {
+                url: '/upload',
+                method: 'DELETE',
+                headers: { 'X-CSRF-TOKEN': csrfToken },
+            },
+        },
     });
 });
 

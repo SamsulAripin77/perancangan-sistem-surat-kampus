@@ -1,6 +1,6 @@
 # Work Queue
 
-Generated from `PROJECT-STATE.json` at 2026-07-20T16:27:06Z.
+Generated from `PROJECT-STATE.json` at 2026-07-20T21:53:15Z.
 
 ## Current focus
 
@@ -24,14 +24,14 @@ Generated from `PROJECT-STATE.json` at 2026-07-20T16:27:06Z.
 
 ## Next roadmap reference
 
-- M0-T8
+- M0-T9
 - Source: docs/delivery/BACKLOG.md#milestone-0
 - Note: not activated; not part of the open queue
 - Queue membership: none until explicitly activated
 
 ## Recently completed
 
-- M0-T7 — Global JS init (DataTables, Select2, FilePond, SweetAlert js-flash/js-confirm)
+- M0-T8 — Fondasi auth Fortify + middleware role + MediaService + MediaUploadController generik
 
 ## Recommendation
 

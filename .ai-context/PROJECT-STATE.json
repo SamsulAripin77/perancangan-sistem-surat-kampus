@@ -1,13 +1,13 @@
 {
   "current_focus": null,
   "last_completed": {
-    "completed_at": "2026-07-20T16:27:06Z",
-    "goal": "Global JS init (DataTables, Select2, FilePond, SweetAlert js-flash/js-confirm)",
-    "id": "M0-T7"
+    "completed_at": "2026-07-20T21:53:15Z",
+    "goal": "Fondasi auth Fortify + middleware role + MediaService + MediaUploadController generik",
+    "id": "M0-T8"
   },
   "next_planned_reference": {
     "activated": false,
-    "id": "M0-T8",
+    "id": "M0-T9",
     "note": "not activated; not part of the open queue",
     "source": "docs/delivery/BACKLOG.md#milestone-0"
   },
@@ -46,9 +46,9 @@
       "status": "ready",
       "task_type": "review",
       "triggered_by": "approved finding from M0-T2",
-      "updated_at": "2026-07-20T16:27:06Z",
+      "updated_at": "2026-07-20T21:53:15Z",
       "work_type": "task-requirement"
     }
   },
-  "updated_at": "2026-07-20T16:27:06Z"
+  "updated_at": "2026-07-20T21:53:15Z"
 }
