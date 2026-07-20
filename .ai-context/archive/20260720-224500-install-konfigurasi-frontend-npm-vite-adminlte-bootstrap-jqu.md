@@ -11,9 +11,9 @@
 
 ## Task lifecycle
 
-- Task ID: M0-T5
-- Status: active
-- Previous task: M0-T4
+- Task ID: M0-T4
+- Status: completed
+- Previous task: M0-T3
 - Relationship: sequential
 - Resume target: none
 - Triggered by: user-approved targeted Preflight
@@ -24,17 +24,17 @@
 - Priority: normal
 - Lane: frontend
 - Queue approval: approved
-- Execution approval: approved
+- Execution approval: required
 - Discovered during: none
 - Blocks: none
 - Blocked by: none
 - Partially blocked by: none
-- Next exact action: Buat lang/id/common.php minimal; buat layouts/app.blade.php, mahasiswa.blade.php, auth.blade.php, guest.blade.php; partials topbar/sidebar-admin/sidebar-mahasiswa/breadcrumb/flash/footer; verifikasi render via route sementara + curl/browser
+- Next exact action: npm uninstall tailwindcss @tailwindcss/vite; npm install paket2 di atas; update vite.config.js utk import scss/js semua lib; update resources/css/app.css & resources/js/app.js utk inisialisasi (bukan CDN)
 - Source reference: docs/delivery/BACKLOG.md#milestone-0
 
 ## Scope
 
-- Goal: Master layout AdminLTE (app/mahasiswa/auth/guest) + partial sidebar/topbar/breadcrumb/flash
+- Goal: Install & konfigurasi frontend npm+Vite (AdminLTE, Bootstrap, jQuery, DataTables, Select2, FilePond, SweetAlert2, FontAwesome)
 - Type: implement
 - Mode: balanced
 - Allowed modules:
@@ -86,14 +86,14 @@ Read-state meaning:
 ## Handoff
 
 - Remaining verification: none recorded
-- Next planned task: none
+- Next planned task: M0-T5
 - Resume target: none
 - Blocking decisions: none
 - Preconditions for next task: none recorded
 
 ## Completion
 
-- Result:
-- Tests/checks:
+- Result: M0-T4 selesai: Tailwind CSS default dihapus (konflik ARCHITECTURE §10). AdminLTE 4 + Bootstrap 5 + jQuery + DataTables (bs5) + Select2 (+tema bs5) + FilePond (+3 plugin) + SweetAlert2 + FontAwesome terinstall via npm & di-bundle Vite (bukan CDN). jQuery global sebelum DataTables/Select2 diimpor. Inisialisasi hook js-* (DataTables/Select2/FilePond/SweetAlert) sengaja belum ditulis -> scope M0-T7 (BACKLOG).
+- Tests/checks: npm run build sukses (128 modules, tanpa error); php artisan test (2 passed), pint --test (passed), phpstan level 5 (0 errors), migrate:fresh --seed --env=testing (passed)
 - Final budget result:
 - Remaining risk:

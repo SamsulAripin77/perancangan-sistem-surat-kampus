@@ -51,7 +51,7 @@ Task bertanda ⚠️ bergantung pada keputusan yang **belum final** (rujuk nomor
 | M0-T3 | Setup tooling kualitas (Pint, Larastan, Pest,laravel boost make sure boost mcp work in claude) | M0-T1 |
 | M0-T4 | Install & konfigurasi frontend npm+Vite (AdminLTE, Bootstrap, jQuery, DataTables, Select2, FilePond, SweetAlert2, FontAwesome) | M0-T1 |
 | M0-T5 | Master layout AdminLTE (app/mahasiswa/auth/guest) + partial sidebar/topbar/breadcrumb/flash | M0-T4 |
-| M0-T6 | Blade components inti (`x-ui.*`, `x-form.*`) + tema `app.css` + konvensi class `app-*`/`js-*` | M0-T5 |
+| M0-T6 | Blade components inti AdminLTE (`x-ui.*`, `x-form.*`) + tema `app.css` + konvensi class `app-*`/`js-*` | M0-T5 |
 | M0-T7 | Global JS init (DataTables, Select2, FilePond, SweetAlert `js-flash`/`js-confirm`) | M0-T4 |
 | M0-T8 | Fondasi auth Fortify + middleware role + `MediaService` + `MediaUploadController` generik | M0-T2, M0-T5 |
 | M0-T9 | Seeder inti produksi (RolePermission, Setting, PlaceholderDefinition) + smoke test fondasi | M0-T8 |
