@@ -1,20 +1,20 @@
 {
   "schema_version": 1,
-  "task_id": "M0-T4",
-  "generated_at": "2026-07-20T15:44:20+00:00",
-  "git_commit": "81504e6643228e383d5b6c0f6473b2debf75cb0d",
+  "task_id": "M0-T5",
+  "generated_at": "2026-07-20T16:00:10+00:00",
+  "git_commit": "1b4c2f065dbcc808ce4abe6fa7c8ce1fb0dc4118",
   "git_dirty": false,
   "acceptance_criteria_covered": [
-    "AC-M0-T4-1"
+    "AC-M0-T5-1"
   ],
   "steps": [
     {
       "command": "php artisan test",
       "exit_code": 0,
       "passed": true,
-      "output_tail": "PASS  Tests\\Unit\\ExampleTest\n  \u2713 that true is true                                                    0.01s  \n\n   PASS  Tests\\Feature\\ExampleTest\n  \u2713 the application returns a successful response                        0.17s  \n\n  Tests:    2 passed (2 assertions)\n  Duration: 0.26s",
-      "started_at": "2026-07-20T15:44:18+00:00",
-      "finished_at": "2026-07-20T15:44:18+00:00",
+      "output_tail": "PASS  Tests\\Unit\\ExampleTest\n  \u2713 that true is true                                                    0.01s  \n\n   PASS  Tests\\Feature\\ExampleTest\n  \u2713 the application returns a successful response                        0.16s  \n\n  Tests:    2 passed (2 assertions)\n  Duration: 0.24s",
+      "started_at": "2026-07-20T16:00:07+00:00",
+      "finished_at": "2026-07-20T16:00:08+00:00",
       "step": "test",
       "required": true
     },
@@ -23,8 +23,8 @@
       "exit_code": 0,
       "passed": true,
       "output_tail": "{\"tool\":\"pint\",\"result\":\"passed\"}",
-      "started_at": "2026-07-20T15:44:18+00:00",
-      "finished_at": "2026-07-20T15:44:19+00:00",
+      "started_at": "2026-07-20T16:00:08+00:00",
+      "finished_at": "2026-07-20T16:00:08+00:00",
       "step": "lint",
       "required": false
     },
@@ -33,8 +33,8 @@
       "exit_code": 0,
       "passed": true,
       "output_tail": "[OK] No errors                                                                 \n\nNote: Using configuration file /home/mate/www/nusaputra-surat/phpstan.neon.",
-      "started_at": "2026-07-20T15:44:19+00:00",
-      "finished_at": "2026-07-20T15:44:20+00:00",
+      "started_at": "2026-07-20T16:00:08+00:00",
+      "finished_at": "2026-07-20T16:00:09+00:00",
       "step": "static",
       "required": false
     },
@@ -42,9 +42,9 @@
       "command": "php artisan migrate:fresh --seed --env=testing",
       "exit_code": 0,
       "passed": true,
-      "output_tail": "Dropping all tables ........................................... 53.97ms DONE\n\n   INFO  Preparing database.  \n\n  Creating migration table ...................................... 11.58ms DONE\n\n   INFO  Running migrations.  \n\n  0001_01_01_000000_create_users_table .......................... 44.77ms DONE\n  0001_01_01_000001_create_cache_table .......................... 24.48ms DONE\n  0001_01_01_000002_create_jobs_table ........................... 31.82ms DONE\n  2026_07_20_220531_create_permission_tables ................... 105.94ms DONE\n  2026_07_20_220533_create_activity_log_table ................... 30.31ms DONE\n  2026_07_20_220533_create_media_table .......................... 29.85ms DONE\n  2026_07_20_220534_add_event_column_to_activity_log_table ....... 7.76ms DONE\n  2026_07_20_220534_add_two_factor_columns_to_users_table ....... 22.25ms DONE\n  2026_07_20_220535_add_batch_uuid_column_to_activity_log_table .. 8.59ms DONE\n  2026_07_20_220535_create_passkeys_table ....................... 42.84ms DONE\n\n\n   INFO  Seeding database.",
-      "started_at": "2026-07-20T15:44:20+00:00",
-      "finished_at": "2026-07-20T15:44:20+00:00",
+      "output_tail": "Dropping all tables ........................................... 64.34ms DONE\n\n   INFO  Preparing database.  \n\n  Creating migration table ...................................... 12.53ms DONE\n\n   INFO  Running migrations.  \n\n  0001_01_01_000000_create_users_table .......................... 39.34ms DONE\n  0001_01_01_000001_create_cache_table .......................... 21.29ms DONE\n  0001_01_01_000002_create_jobs_table ........................... 25.95ms DONE\n  2026_07_20_220531_create_permission_tables .................... 87.17ms DONE\n  2026_07_20_220533_create_activity_log_table ................... 23.60ms DONE\n  2026_07_20_220533_create_media_table .......................... 25.70ms DONE\n  2026_07_20_220534_add_event_column_to_activity_log_table ....... 6.29ms DONE\n  2026_07_20_220534_add_two_factor_columns_to_users_table ....... 17.02ms DONE\n  2026_07_20_220535_add_batch_uuid_column_to_activity_log_table .. 6.56ms DONE\n  2026_07_20_220535_create_passkeys_table ....................... 39.55ms DONE\n\n\n   INFO  Seeding database.",
+      "started_at": "2026-07-20T16:00:09+00:00",
+      "finished_at": "2026-07-20T16:00:10+00:00",
       "step": "migrate",
       "required": false
     }

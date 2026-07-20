@@ -11,9 +11,9 @@
 
 ## Task lifecycle
 
-- Task ID: M0-T6
-- Status: active
-- Previous task: M0-T5
+- Task ID: M0-T5
+- Status: completed
+- Previous task: M0-T4
 - Relationship: sequential
 - Resume target: none
 - Triggered by: user-approved targeted Preflight
@@ -24,17 +24,17 @@
 - Priority: normal
 - Lane: frontend
 - Queue approval: approved
-- Execution approval: approved
+- Execution approval: required
 - Discovered during: none
 - Blocks: none
 - Blocked by: none
 - Partially blocked by: none
-- Next exact action: Buat resources/views/components/ui/{button,card,datatable,badge-status}.blade.php + components/form/{input,select,file}.blade.php; tambah token tema (warna aksi) + kelas compact di resources/css/app.css; verifikasi render
+- Next exact action: Buat lang/id/common.php minimal; buat layouts/app.blade.php, mahasiswa.blade.php, auth.blade.php, guest.blade.php; partials topbar/sidebar-admin/sidebar-mahasiswa/breadcrumb/flash/footer; verifikasi render via route sementara + curl/browser
 - Source reference: docs/delivery/BACKLOG.md#milestone-0
 
 ## Scope
 
-- Goal: Blade components inti (x-ui.*, x-form.*) + tema app.css + konvensi class app-*/js-*
+- Goal: Master layout AdminLTE (app/mahasiswa/auth/guest) + partial sidebar/topbar/breadcrumb/flash
 - Type: implement
 - Mode: balanced
 - Allowed modules:
@@ -86,14 +86,14 @@ Read-state meaning:
 ## Handoff
 
 - Remaining verification: none recorded
-- Next planned task: none
+- Next planned task: M0-T6
 - Resume target: none
 - Blocking decisions: none
 - Preconditions for next task: none recorded
 
 ## Completion
 
-- Result:
-- Tests/checks:
+- Result: M0-T5 selesai: layouts/app.blade.php (admin), mahasiswa.blade.php, auth.blade.php, guest.blade.php dibangun dengan struktur AdminLTE 4 resmi (app-wrapper/app-header/app-sidebar/app-main/app-footer). Partials topbar/sidebar-admin/sidebar-mahasiswa/breadcrumb/flash/footer. lang/id/common.php dibuat lebih awal dari jadwal (M0-T10) sesuai keputusan user untuk memenuhi D-007 sejak M0. Sidebar tidak panggil hasRole()/can() (User model belum punya trait Spatie); link digating Route::has(). Diverifikasi render tanpa error via script PHP langsung (curl/wget tidak tersedia di environment).
+- Tests/checks: php artisan test (2 passed), pint --test (passed), phpstan level 5 (0 errors), migrate:fresh --seed --env=testing (passed); render check 4 layout via script PHP standalone - semua OK tanpa exception
 - Final budget result:
 - Remaining risk:

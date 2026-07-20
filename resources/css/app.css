@@ -20,6 +20,21 @@
 @import '@fortawesome/fontawesome-free/css/all.css';
 
 /*
- * Token tema & konvensi class app-* / js-* (§11.2, §11.3) ditambahkan
- * seiring komponen Blade dibangun (M0-T6).
+ * Token tema (§11.3): warna aksi dipetakan ke variant Bootstrap 5 standar
+ * lewat prop `variant` x-ui.button/x-ui.badge-status — tambah/positif =
+ * success (hijau), edit = warning (kuning), hapus/tolak = danger (merah),
+ * info/aksi utama = info (aqua/biru). Tidak butuh override warna kustom.
  */
+:root {
+    --app-spacing-compact: 0.375rem;
+}
+
+/* Gaya compact (§11.3): tabel & tombol kecil, informasi padat. */
+.app-table th,
+.app-table td {
+    padding: var(--app-spacing-compact) 0.5rem;
+}
+
+.app-btn {
+    line-height: 1.4;
+}

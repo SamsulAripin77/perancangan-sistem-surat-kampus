@@ -1,9 +1,9 @@
 {
-  "current_focus": "M0-T5",
+  "current_focus": "M0-T6",
   "last_completed": {
-    "completed_at": "2026-07-20T15:45:00Z",
-    "goal": "Install & konfigurasi frontend npm+Vite (AdminLTE, Bootstrap, jQuery, DataTables, Select2, FilePond, SweetAlert2, FontAwesome)",
-    "id": "M0-T4"
+    "completed_at": "2026-07-20T16:00:30Z",
+    "goal": "Master layout AdminLTE (app/mahasiswa/auth/guest) + partial sidebar/topbar/breadcrumb/flash",
+    "id": "M0-T5"
   },
   "next_planned_reference": null,
   "preflight_candidate": null,
@@ -12,30 +12,30 @@
   "schema_version": 2,
   "skill_version": "0.5.0",
   "tasks": {
-    "M0-T5": {
+    "M0-T6": {
       "approved_for_execution": true,
       "approved_for_queue": true,
       "blocked_by": [],
       "blocks": [],
-      "checkpoint_path": ".ai-context/tasks/M0-T5.md",
-      "created_at": "2026-07-20T15:46:00Z",
+      "checkpoint_path": ".ai-context/tasks/M0-T6.md",
+      "created_at": "2026-07-20T16:01:20Z",
       "discovered_during": "none",
-      "goal": "Master layout AdminLTE (app/mahasiswa/auth/guest) + partial sidebar/topbar/breadcrumb/flash",
-      "id": "M0-T5",
+      "goal": "Blade components inti (x-ui.*, x-form.*) + tema app.css + konvensi class app-*/js-*",
+      "id": "M0-T6",
       "lane": "frontend",
       "mode": "balanced",
-      "next_action": "Buat lang/id/common.php minimal; buat layouts/app.blade.php, mahasiswa.blade.php, auth.blade.php, guest.blade.php; partials topbar/sidebar-admin/sidebar-mahasiswa/breadcrumb/flash/footer; verifikasi render via route sementara + curl/browser",
+      "next_action": "Buat resources/views/components/ui/{button,card,datatable,badge-status}.blade.php + components/form/{input,select,file}.blade.php; tambah token tema (warna aksi) + kelas compact di resources/css/app.css; verifikasi render",
       "partially_blocked_by": [],
-      "previous_task": "M0-T4",
+      "previous_task": "M0-T5",
       "priority": "normal",
       "relationship": "sequential",
       "resume_target": "none",
       "source_reference": "docs/delivery/BACKLOG.md#milestone-0",
-      "started_at": "2026-07-20T15:49:49Z",
+      "started_at": "2026-07-20T16:02:52Z",
       "status": "active",
       "task_type": "implement",
       "triggered_by": "user-approved targeted Preflight",
-      "updated_at": "2026-07-20T15:49:49Z",
+      "updated_at": "2026-07-20T16:02:52Z",
       "work_type": "main-task"
     },
     "QR-LIBRARY-CONFLICT-001": {
@@ -67,9 +67,9 @@
       "status": "ready",
       "task_type": "review",
       "triggered_by": "approved finding from M0-T2",
-      "updated_at": "2026-07-20T15:45:00Z",
+      "updated_at": "2026-07-20T16:00:30Z",
       "work_type": "task-requirement"
     }
   },
-  "updated_at": "2026-07-20T15:49:49Z"
+  "updated_at": "2026-07-20T16:02:52Z"
 }
