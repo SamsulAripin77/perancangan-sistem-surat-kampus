@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Mahasiswa;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
@@ -30,6 +31,9 @@ class UserFactory extends Factory
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
+            'is_active' => true,
+            'unit_id' => null,
+            'must_change_password' => false,
         ];
     }
 
@@ -41,5 +45,15 @@ class UserFactory extends Factory
         return $this->state(fn (array $attributes) => [
             'email_verified_at' => null,
         ]);
+    }
+
+    /**
+     * User dengan profil mahasiswa 1—1 terkait (ERD §3).
+     */
+    public function mahasiswa(): static
+    {
+        return $this->afterCreating(function (User $user): void {
+            Mahasiswa::factory()->for($user)->create();
+        });
     }
 }

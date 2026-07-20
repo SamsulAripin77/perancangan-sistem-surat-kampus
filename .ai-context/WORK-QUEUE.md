@@ -1,6 +1,6 @@
 # Work Queue
 
-Generated from `PROJECT-STATE.json` at 2026-07-20T21:53:15Z.
+Generated from `PROJECT-STATE.json` at 2026-07-20T22:45:54Z.
 
 ## Current focus
 
@@ -24,14 +24,14 @@ Generated from `PROJECT-STATE.json` at 2026-07-20T21:53:15Z.
 
 ## Next roadmap reference
 
-- M0-T9
-- Source: docs/delivery/BACKLOG.md#milestone-0
+- M1-T3
+- Source: docs/delivery/BACKLOG.md#m1-t3
 - Note: not activated; not part of the open queue
 - Queue membership: none until explicitly activated
 
 ## Recently completed
 
-- M0-T8 — Fondasi auth Fortify + middleware role + MediaService + MediaUploadController generik
+- M1-T2 — F1 Autentikasi: login/logout + is_active check + redirect-by-role + paksa ganti password
 
 ## Recommendation
 

@@ -1,20 +1,20 @@
 {
   "schema_version": 1,
-  "task_id": "M0-T8",
-  "generated_at": "2026-07-20T21:52:55+00:00",
-  "git_commit": "2b14fa6a20dbd13b12b3c9c66b97bcfda8e0b6dd",
+  "task_id": "M1-T2",
+  "generated_at": "2026-07-20T22:45:30+00:00",
+  "git_commit": "4da8874c2806c087334220f497f072da159c6232",
   "git_dirty": true,
   "acceptance_criteria_covered": [
-    "AC-M0-T8-1"
+    "AC-M1-T2-1"
   ],
   "steps": [
     {
-      "command": "php artisan test",
+      "command": "php artisan test --filter AuthLoginTest",
       "exit_code": 0,
       "passed": true,
-      "output_tail": "PASS  Tests\\Unit\\ExampleTest\n  \u2713 that true is true                                                    0.01s  \n\n   PASS  Tests\\Feature\\ExampleTest\n  \u2713 the application returns a successful response                        0.74s  \n\n   PASS  Tests\\Feature\\MediaUploadTest\n  \u2713 it attaches an uploaded file to a media collection via MediaService  0.05s  \n  \u2713 it stores a temporary file then attaches it from temp, cleaning up   0.02s  \n  \u2713 it ignores an invalid temp token (no path traversal)                 0.01s  \n  \u2713 it rejects an unauthenticated upload                                 0.02s  \n  \u2713 it stores a temp file via the process endpoint and reverts it        0.03s  \n  \u2713 it returns 422 from the process endpoint when no file is provided    0.27s  \n\n   PASS  Tests\\Feature\\RoleMiddlewareTest\n  \u2713 it registers the spatie role middleware alias and allows a user wit\u2026 0.05s  \n  \u2713 it forbids a user without the required role                          0.03s  \n\n   PASS  Tests\\Feature\\UserActiveTest\n  \u2713 it casts is_active to boolean and defaults to active                 0.02s  \n  \u2713 it can store an inactive user                                        0.02s  \n\n  Tests:    12 passed (21 assertions)\n  Duration: 1.37s",
-      "started_at": "2026-07-20T21:52:51+00:00",
-      "finished_at": "2026-07-20T21:52:53+00:00",
+      "output_tail": "PASS  Tests\\Feature\\AuthLoginTest\n  \u2713 it logs in an active admin, redirects to the admin dashboard, and r\u2026 1.01s  \n  \u2713 it rejects an inactive user with a specific message and does not au\u2026 0.03s  \n  \u2713 it returns a generic error on wrong credentials without authenticat\u2026 0.03s  \n  \u2713 it forces a must-change-password user to the change page and blocks\u2026 0.03s  \n  \u2713 it clears must_change_password after the forced change and redirect\u2026 0.04s  \n  \u2713 it records a logout activity                                         0.03s  \n\n  Tests:    6 passed (24 assertions)\n  Duration: 1.25s",
+      "started_at": "2026-07-20T22:45:26+00:00",
+      "finished_at": "2026-07-20T22:45:28+00:00",
       "step": "test",
       "required": true
     },
@@ -23,8 +23,8 @@
       "exit_code": 0,
       "passed": true,
       "output_tail": "{\"tool\":\"pint\",\"result\":\"passed\"}",
-      "started_at": "2026-07-20T21:52:53+00:00",
-      "finished_at": "2026-07-20T21:52:53+00:00",
+      "started_at": "2026-07-20T22:45:28+00:00",
+      "finished_at": "2026-07-20T22:45:28+00:00",
       "step": "lint",
       "required": false
     },
@@ -33,8 +33,8 @@
       "exit_code": 0,
       "passed": true,
       "output_tail": "[OK] No errors                                                                 \n\nNote: Using configuration file /home/mate/www/nusaputra-surat/phpstan.neon.",
-      "started_at": "2026-07-20T21:52:53+00:00",
-      "finished_at": "2026-07-20T21:52:54+00:00",
+      "started_at": "2026-07-20T22:45:28+00:00",
+      "finished_at": "2026-07-20T22:45:29+00:00",
       "step": "static",
       "required": false
     },
@@ -42,9 +42,9 @@
       "command": "php artisan migrate:fresh --seed --env=testing",
       "exit_code": 0,
       "passed": true,
-      "output_tail": "Dropping all tables ........................................... 88.23ms DONE\n\n   INFO  Preparing database.  \n\n  Creating migration table ...................................... 10.66ms DONE\n\n   INFO  Running migrations.  \n\n  0001_01_01_000000_create_users_table .......................... 42.19ms DONE\n  0001_01_01_000001_create_cache_table .......................... 27.22ms DONE\n  0001_01_01_000002_create_jobs_table ........................... 31.88ms DONE\n  2026_07_20_220531_create_permission_tables ................... 130.15ms DONE\n  2026_07_20_220533_create_activity_log_table ................... 36.68ms DONE\n  2026_07_20_220533_create_media_table .......................... 34.42ms DONE\n  2026_07_20_220534_add_event_column_to_activity_log_table ....... 8.12ms DONE\n  2026_07_20_220534_add_two_factor_columns_to_users_table ....... 25.06ms DONE\n  2026_07_20_220535_add_batch_uuid_column_to_activity_log_table .. 8.53ms DONE\n  2026_07_20_220535_create_passkeys_table ....................... 53.21ms DONE\n  2026_07_21_043113_add_is_active_to_users_table ................. 8.43ms DONE\n\n\n   INFO  Seeding database.",
-      "started_at": "2026-07-20T21:52:54+00:00",
-      "finished_at": "2026-07-20T21:52:55+00:00",
+      "output_tail": "Dropping all tables ........................................... 82.33ms DONE\n\n   INFO  Preparing database.  \n\n  Creating migration table ....................................... 9.30ms DONE\n\n   INFO  Running migrations.  \n\n  0001_01_01_000000_create_users_table .......................... 44.60ms DONE\n  0001_01_01_000001_create_cache_table .......................... 26.56ms DONE\n  0001_01_01_000002_create_jobs_table ........................... 34.28ms DONE\n  2026_07_20_220531_create_permission_tables ................... 107.80ms DONE\n  2026_07_20_220533_create_activity_log_table ................... 31.02ms DONE\n  2026_07_20_220533_create_media_table .......................... 33.69ms DONE\n  2026_07_20_220534_add_event_column_to_activity_log_table ....... 8.62ms DONE\n  2026_07_20_220534_add_two_factor_columns_to_users_table ....... 23.47ms DONE\n  2026_07_20_220535_add_batch_uuid_column_to_activity_log_table .. 7.17ms DONE\n  2026_07_20_220535_create_passkeys_table ....................... 47.34ms DONE\n  2026_07_21_043113_add_is_active_to_users_table ................. 7.08ms DONE\n  2026_07_21_050408_create_placeholder_definitions_table ........ 13.99ms DONE\n  2026_07_21_050408_create_settings_table ....................... 13.24ms DONE\n  2026_07_21_060001_create_units_table .......................... 27.37ms DONE\n  2026_07_21_060002_add_core_columns_to_users_table ............. 41.44ms DONE\n  2026_07_21_060003_create_mahasiswa_table ...................... 46.00ms DONE\n  2026_07_21_060004_create_pejabat_table ........................ 27.67ms DONE\n  2026_07_21_060005_create_pejabat_unit_table ................... 42.03ms DONE\n\n\n   INFO  Seeding database.  \n\n  Database\\Seeders\\RolePermissionSeeder .............................. RUNNING  \n  Database\\Seeders\\RolePermissionSeeder ........................... 20 ms DONE  \n\n  Database\\Seeders\\SettingSeeder ..................................... RUNNING  \n  Database\\Seeders\\SettingSeeder .................................. 34 ms DONE  \n\n  Database\\Seeders\\PlaceholderDefinitionSeeder ....................... RUNNING  \n  Database\\Seeders\\PlaceholderDefinitionSeeder .................... 20 ms DONE",
+      "started_at": "2026-07-20T22:45:29+00:00",
+      "finished_at": "2026-07-20T22:45:30+00:00",
       "step": "migrate",
       "required": false
     }
