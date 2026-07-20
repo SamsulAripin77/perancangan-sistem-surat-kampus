@@ -1,12 +1,21 @@
 {
   "current_focus": null,
-  "last_completed": null,
-  "next_planned_reference": null,
+  "last_completed": {
+    "completed_at": "2026-07-20T14:53:08Z",
+    "goal": "Inisialisasi Laravel + git + .env (MySQL, disk private) + config dasar (timezone/locale, config/surat.php)",
+    "id": "M0-T1"
+  },
+  "next_planned_reference": {
+    "activated": false,
+    "id": "M0-T2",
+    "note": "not activated; not part of the open queue",
+    "source": "docs/delivery/BACKLOG.md#milestone-0"
+  },
   "preflight_candidate": null,
   "proposals": {},
   "rejected_findings": [],
   "schema_version": 2,
   "skill_version": "0.5.0",
   "tasks": {},
-  "updated_at": "2026-07-19T15:13:29Z"
+  "updated_at": "2026-07-20T14:53:08Z"
 }

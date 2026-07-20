@@ -34,6 +34,8 @@ Saat detail, **setiap** task memakai template tetap:
 ```
 **Aturan ukuran**: bila satu task tak muat dijelaskan dalam AC ringkas → dipecah lagi saat detailing.
 
+> **Standar tambahan (setiap task yang punya langkah View)**: teks statis FE (label/tombol/judul kolom/pesan) **wajib** via `lang/id/*.php` (ARCHITECTURE §11.5) — tidak hardcode di Blade/JS. Berlaku sejak M0-T10 selesai.
+
 ### Legenda ⚠️ (konflik/keterbukaan dengan dokumen lain)
 Task bertanda ⚠️ bergantung pada keputusan yang **belum final** (rujuk nomor item di UX_SPEC "Rekap ⚠️"). Harus diputuskan sebelum task di-detail/di-kerjakan.
 
@@ -53,6 +55,7 @@ Task bertanda ⚠️ bergantung pada keputusan yang **belum final** (rujuk nomor
 | M0-T7 | Global JS init (DataTables, Select2, FilePond, SweetAlert `js-flash`/`js-confirm`) | M0-T4 |
 | M0-T8 | Fondasi auth Fortify + middleware role + `MediaService` + `MediaUploadController` generik | M0-T2, M0-T5 |
 | M0-T9 | Seeder inti produksi (RolePermission, Setting, PlaceholderDefinition) + smoke test fondasi | M0-T8 |
+| M0-T10 | Setup lokalisasi FE — struktur `lang/id/common.php` + `lang/id/table.php` + konvensi key & pemakaian `__()` (ARCHITECTURE §11.5); SSOT teks statis wajib sejak fitur pertama | M0-T6 |
 
 ---
 
@@ -925,6 +928,19 @@ Task bertanda ⚠️ bergantung pada keputusan yang **belum final** (rujuk nomor
     - Given mahasiswa, When akses data mahasiswa lain / menu admin, Then 403.
     - Given verifikasi publik, When dibuka, Then tidak membocorkan data sensitif (hanya nama tersamar).
 - **Definition of Done**: feature test otorisasi lintas role + akses file (`php artisan test --filter=SecurityTest`); `/security-review` bersih.
+
+---
+
+### M10-T5 — Audit Lokalisasi Teks Statis FE (`lang/id`)  ☐
+- **Referensi**: ARCHITECTURE §11.5.
+- **Depends on**: M0-T10, semua milestone dengan View (M1-M9).
+- **Tujuan**: Memastikan tidak ada teks statis FE yang hardcode di luar `lang/id/*.php` sebelum rilis.
+- **TODO**: audit tiap Blade/JS (cari literal Bahasa Indonesia di label/tombol/heading/pesan/placeholder); pindahkan yang masih hardcode ke `lang/id/{modul}.php` yang sesuai; pastikan `x-ui.datatable`/`x-ui.filter` (§11.1, §17) mengambil header kolom & placeholder dari lang, bukan config Yajra.
+- **Batasan/Guardrail**: tidak menambah SSOT baru selain `lang/id/*.php`; hanya pindah lokasi teks, tidak mengubah makna/istilah tanpa persetujuan.
+- **Acceptance Criteria**:
+    - Given seluruh Blade/JS FE, When diaudit, Then tidak ada string UI Bahasa Indonesia hardcode di luar `lang/id/*.php`.
+    - Given halaman yang dirapikan, When dirender, Then tampilan visual identik dengan sebelum audit (hanya sumber teks berubah).
+- **Definition of Done**: audit checklist bersih; spot-check render 3-5 halaman representatif tiap modul tidak berubah secara visual.
 
 ---
 

@@ -281,7 +281,7 @@ class ApprovePermohonanAction
 
 - **Semua** input tervalidasi lewat **Form Request** (bukan di controller). SSOT aturan validasi per aksi.
 - Method `authorize()` di Form Request boleh dipakai untuk cek izin ringan; otorisasi berbasis data pakai Policy (§8).
-- Pesan error dalam Bahasa Indonesia (lokalisasi `resources/lang/id`).
+- Pesan error dalam Bahasa Indonesia via `lang/id/validation.php` — SSOT sama dengan seluruh teks statis FE (§11.5), bukan string literal di `rules()`/`messages()`.
 
 **Contoh**:
 ```php
@@ -516,6 +516,45 @@ document.querySelectorAll('.js-confirm').forEach(el => el.addEventListener('clic
 
 **Konsistensi**: warna tombol SweetAlert mengikuti tema aksi §11.3 (merah untuk destruktif). Semua modul memakai hook `js-flash`/`js-confirm` yang sama — tidak ada implementasi feedback per fitur.
 
+### 11.5 Lokalisasi Teks Statis FE — `lang/id` (SSOT WAJIB)
+
+**Aturan wajib**: **semua** teks statis yang tampil di FE — label field, judul kolom tabel, teks tombol, judul halaman/breadcrumb, placeholder input, helper text, pesan empty-state, pesan konfirmasi (§11.4), pesan flash sukses/error, dan pesan validasi (§7) — **tidak boleh** hardcode sebagai string literal di Blade/Controller/JS. Semua **wajib** diambil dari file bahasa Laravel `lang/id/*.php` via helper `__('group.key')` (atau `@lang(...)` di Blade).
+
+**Kenapa (prinsip #2 — Single Source of Truth)**: satu label hidup di satu tempat; ganti istilah ("Simpan" → "Rekam") cukup satu baris, bukan cari-ganti lintas puluhan view; menyiapkan lokalisasi ke locale lain tanpa refactor besar.
+
+**Struktur file** (per domain — bukan satu file raksasa, agar tetap mudah dipelihara sesuai KISS):
+
+```
+lang/id/
+├── common.php       # label & tombol generik lintas fitur: simpan, batal, hapus, edit,
+│                     #   tambah, cari, filter, reset, unduh, tidak_ada_data, dll.
+├── table.php        # header kolom tabel generik: no, aksi, status, tanggal_dibuat, dll.
+│                     #   — dipakai x-ui.datatable (§11.1) & bar filter (§17)
+├── validation.php    # custom attribute names & pesan (§7) — lengkapi file bawaan Laravel
+└── {modul}.php       # per fitur/domain: template.php, permohonan.php, arsip.php,
+                       #   surat_masuk.php, dst. — mengikuti modul FEATURE_MAP §1 (M-XXX)
+```
+
+**Konvensi key**: `snake_case`, deskriptif per konteks, nested array untuk mengelompokkan (`permohonan.status.pending`, bukan singkatan ambigu).
+
+**Pemakaian**:
+```blade
+{{-- Blade --}}
+<x-ui.button variant="primary">{{ __('common.simpan') }}</x-ui.button>
+<th>{{ __('table.status') }}</th>
+```
+```blade
+{{-- Teks yang harus tersedia di sisi JS (mis. SweetAlert data-confirm §11.4) tetap
+     dirender dari Blade — JS tidak menyimpan string Bahasa Indonesia sendiri --}}
+<x-ui.button class="js-confirm" data-confirm="{{ __('permohonan.confirm_hapus') }}">
+    {{ __('common.hapus') }}
+</x-ui.button>
+```
+
+**Larangan tegas** (tambahan anti-pattern §15): string UI Bahasa Indonesia hardcode di Blade/Controller/JS — mis. `>Simpan<` atau `'Data berhasil disimpan'` literal di luar `lang/id/*.php`. Header/placeholder kolom `x-ui.datatable`/`x-ui.filter` (§11.1, §17) juga wajib lewat lang, bukan string di konfigurasi kolom Yajra.
+
+**Cakupan**: berlaku sejak Fase Bootstrap — `lang/id/common.php` & `table.php` disiapkan di §0 Tahap B4 bersamaan komponen inti (lihat BACKLOG M0-T10). Setiap fitur baru (F1-F13) wajib patuh sejak awal; audit menyeluruh untuk menutup celah dilakukan di hardening (BACKLOG M10-T5).
+
 ---
 
 ## §12. Konvensi Penamaan
@@ -535,6 +574,7 @@ document.querySelectorAll('.js-confirm').forEach(el => el.addEventListener('clic
 | **Blade component** | dot namespace | `x-ui.button`, `x-form.input` |
 | **Enum** | PascalCase | `PermohonanStatus`, `TipePemohon` |
 | **CSS/JS hook** | `app-*` / `js-*` | `app-btn`, `js-datatable` |
+| **Lang key** (§11.5) | `snake_case`, nested per grup | `common.simpan`, `table.status`, `permohonan.status.pending` |
 
 ---
 
@@ -620,6 +660,7 @@ it('admin menyetujui permohonan dan status berubah', function () {
 - String status literal (`'disetujui'`) tersebar — pakai Enum.
 - Menyalin HTML tabel/form (pakai Blade Component §11).
 - Menduplikasi logika upload/substitusi/nomor (pakai Service §6, §9).
+- Teks statis FE (label/tombol/heading/pesan) hardcode di Blade/Controller/JS — pakai `lang/id/*.php` via `__()` (§11.5).
 
 ---
 
@@ -697,7 +738,7 @@ class PermohonanFilter
 
 ### Definition of Done per fitur (checklist berurutan)
 Untuk tiap fitur/sub-fitur, kerjakan tuntas satu slice:
-1. **Migration** (tabel + FK sesuai ERD) → 2. **Model** (relasi, cast, Enum status) → 3. **Factory** (untuk test) → 4. **Seeder** (jika master data) → 5. **Route** → 6. **Form Request** (validasi) → 7. **Policy** (jika ada otorisasi data) → 8. **Controller tipis** → 9. **Action/Service** (logika) → 10. **View** (index+filter §17 / form + komponen §11) → 11. **Feature test** (integration: happy path + 1 skenario gagal/otorisasi, §14) → 12. **Pint + Larastan** hijau.
+1. **Migration** (tabel + FK sesuai ERD) → 2. **Model** (relasi, cast, Enum status) → 3. **Factory** (untuk test) → 4. **Seeder** (jika master data) → 5. **Route** → 6. **Form Request** (validasi) → 7. **Policy** (jika ada otorisasi data) → 8. **Controller tipis** → 9. **Action/Service** (logika) → 10. **View** (index+filter §17 / form + komponen §11; teks statis **wajib** via `lang/id` — §11.5, tidak ada string hardcode) → 11. **Feature test** (integration: happy path + 1 skenario gagal/otorisasi, §14) → 12. **Pint + Larastan** hijau.
 
 > Fitur besar dipecah jadi **sub-slice**: mis. F5 → 5.1 Ajukan, 5.2 Dokumen Saya, 5.3 Riwayat, 5.4 Resubmit — masing-masing satu slice.
 
@@ -724,7 +765,7 @@ Aturan: **jangan mulai fitur hilir sebelum dependensinya jadi** (mis. F7 butuh F
 5. **Upload reusable**: **Spatie Media Library = SSOT penyimpanan** + `MediaService` + 1 controller AJAX generik dipakai bersama; UI **FilePond**. File hidup → relasi `media`; file arsip immutable → path beku (snapshot). Disk private untuk file sensitif.
 6. **PDF**: **LibreOffice** untuk DOCX→PDF surat utama, **mPDF** untuk HTML→PDF (disposisi/agenda/export) — bukan DomPDF/Spatie PDF (§2.1).
 7. **UI**: **AdminLTE 4 (Bootstrap 5.3)** + DataTables (Yajra) + **Select2** + FilePond + Font Awesome, **semua via npm/Vite** — gaya compact seperti `ciengang`.
-8. **Design system**: Blade Components (`x-ui.*`, `x-form.*`) + konvensi class `app-*` (style) & `js-*` (hook) — reusable, selector bermakna.
+8. **Design system**: Blade Components (`x-ui.*`, `x-form.*`) + konvensi class `app-*` (style) & `js-*` (hook) — reusable, selector bermakna. **Semua teks statis FE wajib via `lang/id/*.php`** (§11.5) — tidak ada string hardcode, SSOT sama untuk label/tabel/tombol/pesan/validasi.
 9. **Seeder wajib** untuk role/permission/kamus placeholder/settings (produksi) + sample master (unit, kategori, pejabat, mahasiswa).
 10. **Testing**: Feature test = integration per fitur (F1-F13), memvalidasi aturan bisnis BRD.
 11. **Kualitas**: Pint + Larastan + Enum (SSOT status) + config (bukan hardcode).

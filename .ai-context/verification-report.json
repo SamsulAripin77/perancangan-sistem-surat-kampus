@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "task_id": "M0-T1",
+  "generated_at": "2026-07-20T14:52:52+00:00",
+  "git_commit": "7e0c619213c1e176934ff0a1872725bedb88da38",
+  "git_dirty": true,
+  "acceptance_criteria_covered": [
+    "AC-M0-T1-1"
+  ],
+  "steps": [
+    {
+      "command": "php artisan test",
+      "exit_code": 0,
+      "passed": true,
+      "output_tail": "PASS  Tests\\Unit\\ExampleTest\n  \u2713 that true is true\n\n   PASS  Tests\\Feature\\ExampleTest\n  \u2713 the application returns a successful response                        0.14s  \n\n  Tests:    2 passed (2 assertions)\n  Duration: 0.19s",
+      "started_at": "2026-07-20T14:52:50+00:00",
+      "finished_at": "2026-07-20T14:52:51+00:00",
+      "step": "test",
+      "required": true
+    },
+    {
+      "command": "./vendor/bin/pint --test",
+      "exit_code": 0,
+      "passed": true,
+      "output_tail": "{\"tool\":\"pint\",\"result\":\"passed\"}",
+      "started_at": "2026-07-20T14:52:51+00:00",
+      "finished_at": "2026-07-20T14:52:51+00:00",
+      "step": "lint",
+      "required": false
+    },
+    {
+      "command": "./vendor/bin/phpstan analyse --no-progress",
+      "exit_code": 127,
+      "passed": false,
+      "output_tail": "/bin/sh: 1: ./vendor/bin/phpstan: not found",
+      "started_at": "2026-07-20T14:52:51+00:00",
+      "finished_at": "2026-07-20T14:52:51+00:00",
+      "step": "static",
+      "required": false
+    },
+    {
+      "command": "php artisan migrate:fresh --seed --env=testing",
+      "exit_code": 0,
+      "passed": true,
+      "output_tail": "Dropping all tables ........................................... 76.14ms DONE\n\n   INFO  Preparing database.  \n\n  Creating migration table ...................................... 13.04ms DONE\n\n   INFO  Running migrations.  \n\n  0001_01_01_000000_create_users_table .......................... 43.64ms DONE\n  0001_01_01_000001_create_cache_table .......................... 27.18ms DONE\n  0001_01_01_000002_create_jobs_table ........................... 50.43ms DONE\n\n\n   INFO  Seeding database.",
+      "started_at": "2026-07-20T14:52:51+00:00",
+      "finished_at": "2026-07-20T14:52:52+00:00",
+      "step": "migrate",
+      "required": false
+    }
+  ],
+  "overall_pass": true
+}

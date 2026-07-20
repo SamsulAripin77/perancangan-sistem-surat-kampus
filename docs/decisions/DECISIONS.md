@@ -91,4 +91,18 @@
 
 ---
 
+## D-007 — Standarisasi Teks Statis FE via `lang/id` (SSOT)
+
+**Konteks**: Belum ada aturan baku untuk teks statis (label, judul kolom tabel, tombol, pesan konfirmasi/flash, pesan validasi) di Blade/Controller/JS — risiko hardcode tersebar & duplikasi, menyulitkan perubahan istilah dan lokalisasi ke depan.
+
+**Keputusan**: Semua teks statis FE **wajib** diambil dari file bahasa Laravel `lang/id/*.php` (dikelompokkan per domain: `common.php`, `table.php`, `validation.php`, per-modul) via `__('group.key')` — bukan string literal di Blade/Controller/JS. Berlaku sejak M0 (task baru `M0-T10` menyiapkan struktur & konvensi); audit menutup celah pada halaman yang sudah dibangun dilakukan di hardening (task baru `M10-T5`).
+
+**Alasan**: Single Source of Truth (prinsip #2, ARCHITECTURE §0) — satu label hidup di satu tempat; menghindari cari-ganti lintas puluhan view saat istilah berubah; menyiapkan lokalisasi tanpa refactor besar.
+
+**Dampak** (dokumen yang diperbarui): ARCHITECTURE §11.5 (baru), §7 (cross-ref pesan validasi), §12 (konvensi lang key), §15 (anti-pattern baru), §18 (DoD langkah View), §19 (ringkasan keputusan). BACKLOG §0 (catatan standar tambahan di template task), M0-T10 (baru), M10-T5 (baru).
+
+**Status**: ✅ RESOLVED — 20 Juli 2026.
+
+---
+
 *Entri berikutnya ditambahkan di bawah, jangan menimpa entri lama.*
