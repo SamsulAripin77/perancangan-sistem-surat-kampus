@@ -11,9 +11,9 @@
 
 ## Task lifecycle
 
-- Task ID: M0-T6
-- Status: active
-- Previous task: M0-T5
+- Task ID: M0-T7
+- Status: completed
+- Previous task: M0-T6
 - Relationship: sequential
 - Resume target: none
 - Triggered by: user-approved targeted Preflight
@@ -24,17 +24,17 @@
 - Priority: normal
 - Lane: frontend
 - Queue approval: approved
-- Execution approval: approved
+- Execution approval: required
 - Discovered during: none
 - Blocks: none
 - Blocked by: none
 - Partially blocked by: none
-- Next exact action: Buat resources/views/components/ui/{button,card,datatable,badge-status}.blade.php + components/form/{input,select,file}.blade.php; tambah token tema (warna aksi) + kelas compact di resources/css/app.css; verifikasi render
+- Next exact action: Tambah blok inisialisasi global di resources/js/app.js: .js-datatable (DataTables server-side dari data-url/data-columns), .js-select2 (theme bootstrap-5), .js-upload (FilePond.create dari data-accept/data-max-size), .js-flash (SweetAlert toast), .js-confirm (SweetAlert confirm + submit form/follow data-url)
 - Source reference: docs/delivery/BACKLOG.md#milestone-0
 
 ## Scope
 
-- Goal: Blade components inti (x-ui.*, x-form.*) + tema app.css + konvensi class app-*/js-*
+- Goal: Global JS init (DataTables, Select2, FilePond, SweetAlert js-flash/js-confirm)
 - Type: implement
 - Mode: balanced
 - Allowed modules:
@@ -86,14 +86,14 @@ Read-state meaning:
 ## Handoff
 
 - Remaining verification: none recorded
-- Next planned task: none
+- Next planned task: M0-T8
 - Resume target: none
 - Blocking decisions: none
 - Preconditions for next task: none recorded
 
 ## Completion
 
-- Result:
-- Tests/checks:
+- Result: M0-T7 selesai: inisialisasi global hook js-* di resources/js/app.js — js-datatable (DataTables server-side dari data-url/data-columns), js-select2 (theme bootstrap-5), js-upload (FilePond.create dari data-accept/data-max-size), js-flash (SweetAlert toast), js-confirm (SweetAlert confirm -> submit form terdekat / follow data-url). Dua bug nyata ditemukan & diperbaiki saat verifikasi browser: (1) jQuery 4.0 hapus $.isFunction/$.isArray/$.trim yg dipakai Select2 4.0.13 -> pin jQuery ke ^3.7.1; (2) build CJS select2 mengekspor factory yg harus dipanggil manual (bukan self-exec) -> import select2 + panggil select2().
+- Tests/checks: Headless Chromium (Playwright) di halaman uji dgn 7 komponen: 0 page error; select2/filepond/datatable/js-flash toast/js-confirm dialog semua terinisialisasi (verified true). php artisan test (2 passed), pint --test (passed), phpstan level 5 (0 errors), migrate:fresh --seed --env=testing (passed), npm run build sukses.
 - Final budget result:
 - Remaining risk:

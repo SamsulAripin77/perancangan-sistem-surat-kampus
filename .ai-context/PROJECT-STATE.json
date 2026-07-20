@@ -1,43 +1,22 @@
 {
-  "current_focus": "M0-T6",
+  "current_focus": null,
   "last_completed": {
-    "completed_at": "2026-07-20T16:00:30Z",
-    "goal": "Master layout AdminLTE (app/mahasiswa/auth/guest) + partial sidebar/topbar/breadcrumb/flash",
-    "id": "M0-T5"
+    "completed_at": "2026-07-20T16:27:06Z",
+    "goal": "Global JS init (DataTables, Select2, FilePond, SweetAlert js-flash/js-confirm)",
+    "id": "M0-T7"
   },
-  "next_planned_reference": null,
+  "next_planned_reference": {
+    "activated": false,
+    "id": "M0-T8",
+    "note": "not activated; not part of the open queue",
+    "source": "docs/delivery/BACKLOG.md#milestone-0"
+  },
   "preflight_candidate": null,
   "proposals": {},
   "rejected_findings": [],
   "schema_version": 2,
   "skill_version": "0.5.0",
   "tasks": {
-    "M0-T6": {
-      "approved_for_execution": true,
-      "approved_for_queue": true,
-      "blocked_by": [],
-      "blocks": [],
-      "checkpoint_path": ".ai-context/tasks/M0-T6.md",
-      "created_at": "2026-07-20T16:01:20Z",
-      "discovered_during": "none",
-      "goal": "Blade components inti (x-ui.*, x-form.*) + tema app.css + konvensi class app-*/js-*",
-      "id": "M0-T6",
-      "lane": "frontend",
-      "mode": "balanced",
-      "next_action": "Buat resources/views/components/ui/{button,card,datatable,badge-status}.blade.php + components/form/{input,select,file}.blade.php; tambah token tema (warna aksi) + kelas compact di resources/css/app.css; verifikasi render",
-      "partially_blocked_by": [],
-      "previous_task": "M0-T5",
-      "priority": "normal",
-      "relationship": "sequential",
-      "resume_target": "none",
-      "source_reference": "docs/delivery/BACKLOG.md#milestone-0",
-      "started_at": "2026-07-20T16:02:52Z",
-      "status": "active",
-      "task_type": "implement",
-      "triggered_by": "user-approved targeted Preflight",
-      "updated_at": "2026-07-20T16:02:52Z",
-      "work_type": "main-task"
-    },
     "QR-LIBRARY-CONFLICT-001": {
       "approved_for_execution": false,
       "approved_for_queue": true,
@@ -67,9 +46,9 @@
       "status": "ready",
       "task_type": "review",
       "triggered_by": "approved finding from M0-T2",
-      "updated_at": "2026-07-20T16:00:30Z",
+      "updated_at": "2026-07-20T16:27:06Z",
       "work_type": "task-requirement"
     }
   },
-  "updated_at": "2026-07-20T16:02:52Z"
+  "updated_at": "2026-07-20T16:27:06Z"
 }

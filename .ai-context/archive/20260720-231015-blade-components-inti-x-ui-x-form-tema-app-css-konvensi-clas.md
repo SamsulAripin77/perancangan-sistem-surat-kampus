@@ -12,7 +12,7 @@
 ## Task lifecycle
 
 - Task ID: M0-T6
-- Status: active
+- Status: completed
 - Previous task: M0-T5
 - Relationship: sequential
 - Resume target: none
@@ -24,7 +24,7 @@
 - Priority: normal
 - Lane: frontend
 - Queue approval: approved
-- Execution approval: approved
+- Execution approval: required
 - Discovered during: none
 - Blocks: none
 - Blocked by: none
@@ -86,14 +86,14 @@ Read-state meaning:
 ## Handoff
 
 - Remaining verification: none recorded
-- Next planned task: none
+- Next planned task: M0-T7
 - Resume target: none
 - Blocking decisions: none
 - Preconditions for next task: none recorded
 
 ## Completion
 
-- Result:
-- Tests/checks:
+- Result: M0-T6 selesai: 7 komponen Blade inti dibuat (x-ui.button/card/datatable/badge-status, x-form.input/select/file) sesuai Tahap B4 (ARCHITECTURE §0/§11.1). Token tema compact + pemetaan warna aksi (Bootstrap 5 standar) ditambahkan di app.css. x-ui.filter (§17) sengaja tidak dibuat -> bukan bagian daftar inti, ditambahkan saat index page pertama butuh filter. Init JS (.js-datatable/.js-select2/.js-upload) sengaja belum ditulis -> scope M0-T7.
+- Tests/checks: Render test via full HTTP kernel request cycle (semua 7 komponen dalam satu halaman, HTTP 200, markup benar termasuk data-columns JSON di datatable); php artisan test (2 passed), pint --test (passed), phpstan level 5 (0 errors), migrate:fresh --seed --env=testing (passed)
 - Final budget result:
 - Remaining risk:
