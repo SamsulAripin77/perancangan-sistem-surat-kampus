@@ -1,6 +1,6 @@
 # Work Queue
 
-Generated from `PROJECT-STATE.json` at 2026-07-20T14:53:08Z.
+Generated from `PROJECT-STATE.json` at 2026-07-20T15:09:27Z.
 
 ## Current focus
 
@@ -12,7 +12,11 @@ Generated from `PROJECT-STATE.json` at 2026-07-20T14:53:08Z.
 
 ## Open queue
 
-- none
+1. **QR-LIBRARY-CONFLICT-001** — Pilih pengganti simplesoftwareio/simple-qrcode (konflik bacon/bacon-qr-code ^2 vs Fortify ^3) sebelum M5-T2
+   - Status: ready
+   - Type / priority / lane: task-requirement / low / backend
+   - Relationship: blocks M5-T2
+   - Next exact action: not recorded
 
 ## Proposed findings
 
@@ -20,16 +24,16 @@ Generated from `PROJECT-STATE.json` at 2026-07-20T14:53:08Z.
 
 ## Next roadmap reference
 
-- M0-T2
+- M0-T3
 - Source: docs/delivery/BACKLOG.md#milestone-0
 - Note: not activated; not part of the open queue
 - Queue membership: none until explicitly activated
 
 ## Recently completed
 
-- M0-T1 — Inisialisasi Laravel + git + .env (MySQL, disk private) + config dasar (timezone/locale, config/surat.php)
+- M0-T2 — Install & konfigurasi library backend (Spatie Permission/Media/ActivityLog, Yajra, PHPWord, mPDF, Fortify) + publish & migrate bawaan paket
 
 ## Recommendation
 
-- No open runnable task. The next roadmap reference is M0-T2, but it is not in the queue and requires user approval before activation.
-- Approve a proposed finding, resolve a blocker, or explicitly activate the next roadmap task.
+- Recommend QR-LIBRARY-CONFLICT-001 (task-requirement, low) because highest effective priority among open work.
+- Present all runnable choices and trade-offs, then wait for the user's explicit selection before changing current focus or editing code.

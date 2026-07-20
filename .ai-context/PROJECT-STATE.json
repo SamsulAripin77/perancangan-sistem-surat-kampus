@@ -1,13 +1,13 @@
 {
   "current_focus": null,
   "last_completed": {
-    "completed_at": "2026-07-20T14:53:08Z",
-    "goal": "Inisialisasi Laravel + git + .env (MySQL, disk private) + config dasar (timezone/locale, config/surat.php)",
-    "id": "M0-T1"
+    "completed_at": "2026-07-20T15:09:27Z",
+    "goal": "Install & konfigurasi library backend (Spatie Permission/Media/ActivityLog, Yajra, PHPWord, mPDF, Fortify) + publish & migrate bawaan paket",
+    "id": "M0-T2"
   },
   "next_planned_reference": {
     "activated": false,
-    "id": "M0-T2",
+    "id": "M0-T3",
     "note": "not activated; not part of the open queue",
     "source": "docs/delivery/BACKLOG.md#milestone-0"
   },
@@ -16,6 +16,39 @@
   "rejected_findings": [],
   "schema_version": 2,
   "skill_version": "0.5.0",
-  "tasks": {},
-  "updated_at": "2026-07-20T14:53:08Z"
+  "tasks": {
+    "QR-LIBRARY-CONFLICT-001": {
+      "approved_for_execution": false,
+      "approved_for_queue": true,
+      "blocked_by": [],
+      "blocking_effect": "full",
+      "blocks": [
+        "M5-T2"
+      ],
+      "checkpoint_path": ".ai-context/tasks/QR-LIBRARY-CONFLICT-001.md",
+      "created_at": "2026-07-20T15:08:42Z",
+      "discovered_during": "M0-T2",
+      "goal": "Pilih pengganti simplesoftwareio/simple-qrcode (konflik bacon/bacon-qr-code ^2 vs Fortify ^3) sebelum M5-T2",
+      "id": "QR-LIBRARY-CONFLICT-001",
+      "impact": "M5-T2 (TemplateSubstitutionService + QR verifikasi) butuh library QR code; simplesoftwareio/simple-qrcode tidak bisa diinstall bersama laravel/fortify karena konflik versi bacon/bacon-qr-code (^2.0 vs ^3.0 wajib Fortify).",
+      "inherited_priority": "normal",
+      "lane": "backend",
+      "mode": "balanced",
+      "next_action": "not recorded",
+      "partially_blocked_by": [],
+      "previous_task": "M0-T2",
+      "priority": "low",
+      "priority_override_required": false,
+      "recommendation": "record for user decision; do not execute automatically",
+      "relationship": "blocker",
+      "resume_target": "M5-T2",
+      "source_reference": "not recorded",
+      "status": "ready",
+      "task_type": "review",
+      "triggered_by": "approved finding from M0-T2",
+      "updated_at": "2026-07-20T15:09:27Z",
+      "work_type": "task-requirement"
+    }
+  },
+  "updated_at": "2026-07-20T15:09:27Z"
 }
