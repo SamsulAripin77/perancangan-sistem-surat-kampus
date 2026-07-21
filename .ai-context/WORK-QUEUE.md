@@ -1,6 +1,6 @@
 # Work Queue
 
-Generated from `PROJECT-STATE.json` at 2026-07-21T05:57:11Z.
+Generated from `PROJECT-STATE.json` at 2026-07-21T06:05:59Z.
 
 ## Current focus
 
@@ -24,14 +24,14 @@ Generated from `PROJECT-STATE.json` at 2026-07-21T05:57:11Z.
 
 ## Next roadmap reference
 
-- M1-T6
-- Source: docs/delivery/BACKLOG.md#m1-t6
+- M1-T7
+- Source: docs/delivery/BACKLOG.md#m1-t7
 - Note: not activated; not part of the open queue
 - Queue membership: none until explicitly activated
 
 ## Recently completed
 
-- M1-T5 — F2 Manajemen Unit (CRUD + hierarki parent_id + filter/search); establish pola index reusable (UnitFilter, x-ui.filter, js-filter)
+- M1-T6 — F2 Manajemen Pejabat (CRUD + multi-unit sync pejabat_unit + TTD opsional disk private + filter unit/status + indikator TTD)
 
 ## Recommendation
 

@@ -1,15 +1,15 @@
 {
   "current_focus": null,
   "last_completed": {
-    "completed_at": "2026-07-21T05:57:11Z",
-    "goal": "F2 Manajemen Unit (CRUD + hierarki parent_id + filter/search); establish pola index reusable (UnitFilter, x-ui.filter, js-filter)",
-    "id": "M1-T5"
+    "completed_at": "2026-07-21T06:05:59Z",
+    "goal": "F2 Manajemen Pejabat (CRUD + multi-unit sync pejabat_unit + TTD opsional disk private + filter unit/status + indikator TTD)",
+    "id": "M1-T6"
   },
   "next_planned_reference": {
     "activated": false,
-    "id": "M1-T6",
+    "id": "M1-T7",
     "note": "not activated; not part of the open queue",
-    "source": "docs/delivery/BACKLOG.md#m1-t6"
+    "source": "docs/delivery/BACKLOG.md#m1-t7"
   },
   "preflight_candidate": null,
   "proposals": {},
@@ -46,9 +46,9 @@
       "status": "ready",
       "task_type": "review",
       "triggered_by": "approved finding from M0-T2",
-      "updated_at": "2026-07-21T05:57:11Z",
+      "updated_at": "2026-07-21T06:05:59Z",
       "work_type": "task-requirement"
     }
   },
-  "updated_at": "2026-07-21T05:57:11Z"
+  "updated_at": "2026-07-21T06:05:59Z"
 }
