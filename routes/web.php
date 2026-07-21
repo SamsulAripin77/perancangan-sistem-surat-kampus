@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\KonfigurasiController;
 use App\Http\Controllers\Auth\ForcePasswordChangeController;
 use App\Http\Controllers\MediaUploadController;
 use App\Support\AuthRedirect;
@@ -35,6 +36,10 @@ Route::middleware(['auth', 'password.changed'])->group(function () {
 // Dashboard admin (super_admin/admin_surat). Placeholder — diisi M1-T12.
 Route::middleware(['auth', 'password.changed', 'role:super_admin|admin_surat'])->group(function () {
     Route::view('admin/dashboard', 'admin.dashboard')->name('admin.dashboard');
+
+    // Pengaturan Sistem / Konfigurasi (F2, UX_SPEC 1.C.1).
+    Route::get('admin/konfigurasi', [KonfigurasiController::class, 'edit'])->name('admin.konfigurasi.edit');
+    Route::post('admin/konfigurasi', [KonfigurasiController::class, 'update'])->name('admin.konfigurasi.update');
 });
 
 // Beranda mahasiswa. Placeholder — diisi M1-T12.

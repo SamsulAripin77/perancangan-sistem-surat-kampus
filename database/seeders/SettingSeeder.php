@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Setting;
+use App\Services\SettingService;
 use Illuminate\Database\Seeder;
 
 /**
@@ -21,6 +22,10 @@ class SettingSeeder extends Seeder
                 $row,
             );
         }
+
+        // Bust cache peta setting agar nilai baru terlihat tanpa proses/request
+        // baru (mis. saat `migrate:fresh --seed` mem-boot app dengan tabel kosong).
+        app(SettingService::class)->flush();
     }
 
     /**

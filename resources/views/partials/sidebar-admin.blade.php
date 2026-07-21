@@ -14,10 +14,17 @@
                         <p>{{ __('common.dashboard') }}</p>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{ Route::has('admin.konfigurasi.edit') ? route('admin.konfigurasi.edit') : '#' }}"
+                        class="nav-link {{ request()->routeIs('admin.konfigurasi.*') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-gear"></i>
+                        <p>{{ __('konfigurasi.title') }}</p>
+                    </a>
+                </li>
                 {{--
                     Menu modul lain (master data, template, permohonan, arsip, surat
-                    masuk/keluar, pengaturan) ditambahkan per fitur seiring route-nya
-                    dibuat, digating role/permission (ARCHITECTURE §8) mulai M0-T8/M1-T7.
+                    masuk/keluar) ditambahkan per fitur seiring route-nya dibuat,
+                    digating role/permission (ARCHITECTURE §8) mulai M0-T8/M1-T7.
                 --}}
             </ul>
         </nav>
