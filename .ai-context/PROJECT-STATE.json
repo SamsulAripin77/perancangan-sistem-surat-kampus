@@ -1,15 +1,15 @@
 {
   "current_focus": null,
   "last_completed": {
-    "completed_at": "2026-07-21T06:05:59Z",
-    "goal": "F2 Manajemen Pejabat (CRUD + multi-unit sync pejabat_unit + TTD opsional disk private + filter unit/status + indikator TTD)",
-    "id": "M1-T6"
+    "completed_at": "2026-07-21T06:40:31Z",
+    "goal": "F1 Manajemen User (CRUD + role Spatie + profil mahasiswa kondisional 1-1); Super Admin only; tanpa hard delete (D-005), hanya toggle",
+    "id": "M1-T7"
   },
   "next_planned_reference": {
     "activated": false,
-    "id": "M1-T7",
+    "id": "M1-T8",
     "note": "not activated; not part of the open queue",
-    "source": "docs/delivery/BACKLOG.md#m1-t7"
+    "source": "docs/delivery/BACKLOG.md#m1-t8"
   },
   "preflight_candidate": null,
   "proposals": {},
@@ -46,9 +46,9 @@
       "status": "ready",
       "task_type": "review",
       "triggered_by": "approved finding from M0-T2",
-      "updated_at": "2026-07-21T06:05:59Z",
+      "updated_at": "2026-07-21T06:40:31Z",
       "work_type": "task-requirement"
     }
   },
-  "updated_at": "2026-07-21T06:05:59Z"
+  "updated_at": "2026-07-21T06:40:31Z"
 }
