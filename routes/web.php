@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\KonfigurasiController;
+use App\Http\Controllers\Admin\MahasiswaImportController;
 use App\Http\Controllers\Admin\PejabatController;
 use App\Http\Controllers\Admin\UnitController;
 use App\Http\Controllers\Admin\UserController;
@@ -64,6 +65,13 @@ Route::middleware(['auth', 'password.changed', 'role:super_admin|admin_surat'])-
 // Manajemen User (F1, UX_SPEC 2.A) — KHUSUS Super Admin (ARCHITECTURE §8).
 // Tanpa hard delete (D-005): hanya toggle is_active, tidak ada route destroy.
 Route::middleware(['auth', 'password.changed', 'role:super_admin'])->group(function () {
+    // Import Mahasiswa SIAKAD (F1, UX_SPEC 2.A.3) — sebelum resource agar tidak
+    // tertangkap {user}.
+    Route::get('admin/user/import', [MahasiswaImportController::class, 'form'])->name('admin.user.import.form');
+    Route::get('admin/user/import/template', [MahasiswaImportController::class, 'template'])->name('admin.user.import.template');
+    Route::post('admin/user/import/preview', [MahasiswaImportController::class, 'preview'])->name('admin.user.import.preview');
+    Route::post('admin/user/import', [MahasiswaImportController::class, 'store'])->name('admin.user.import.store');
+
     Route::patch('admin/user/{user}/toggle', [UserController::class, 'toggle'])->name('admin.user.toggle');
     Route::resource('admin/user', UserController::class)
         ->only(['index', 'store', 'update'])

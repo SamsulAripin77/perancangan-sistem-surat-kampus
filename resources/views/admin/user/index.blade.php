@@ -7,6 +7,9 @@
 @section('content')
     <x-ui.card>
         <x-slot:tools>
+            <a href="{{ route('admin.user.import.form') }}" class="btn btn-outline-secondary btn-sm app-btn">
+                <i class="fas fa-file-import"></i> {{ __('import.title') }}
+            </a>
             <button type="button" class="btn btn-primary btn-sm app-btn js-modal-open"
                 data-modal="#userModal"
                 data-action="{{ route('admin.user.store') }}"
