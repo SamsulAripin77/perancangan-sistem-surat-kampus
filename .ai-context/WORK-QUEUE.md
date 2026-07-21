@@ -1,6 +1,6 @@
 # Work Queue
 
-Generated from `PROJECT-STATE.json` at 2026-07-21T08:09:49Z.
+Generated from `PROJECT-STATE.json` at 2026-07-21T09:18:05Z.
 
 ## Current focus
 
@@ -24,14 +24,14 @@ Generated from `PROJECT-STATE.json` at 2026-07-21T08:09:49Z.
 
 ## Next roadmap reference
 
-- M1-T11
-- Source: docs/delivery/BACKLOG.md#m1-t11
+- M1-T12
+- Source: docs/delivery/BACKLOG.md#m1-t12
 - Note: not activated; not part of the open queue
 - Queue membership: none until explicitly activated
 
 ## Recently completed
 
-- M1-T10 — F12 Master Kategori Surat: CRUD (nama, is_active) + kolom dipakai N template + guard hapus (extensible) + toggle
+- M1-T11 — F4 Master Persyaratan Surat: buat ref_syarat_surat (ERD §10), CRUD (nama, deskripsi, accepted_types, max_size_mb) + file contoh (media template disk private) + download + guard hapus
 
 ## Recommendation
 

@@ -1,15 +1,15 @@
 {
   "current_focus": null,
   "last_completed": {
-    "completed_at": "2026-07-21T08:09:49Z",
-    "goal": "F12 Master Kategori Surat: CRUD (nama, is_active) + kolom dipakai N template + guard hapus (extensible) + toggle",
-    "id": "M1-T10"
+    "completed_at": "2026-07-21T09:18:05Z",
+    "goal": "F4 Master Persyaratan Surat: buat ref_syarat_surat (ERD \u00a710), CRUD (nama, deskripsi, accepted_types, max_size_mb) + file contoh (media template disk private) + download + guard hapus",
+    "id": "M1-T11"
   },
   "next_planned_reference": {
     "activated": false,
-    "id": "M1-T11",
+    "id": "M1-T12",
     "note": "not activated; not part of the open queue",
-    "source": "docs/delivery/BACKLOG.md#m1-t11"
+    "source": "docs/delivery/BACKLOG.md#m1-t12"
   },
   "preflight_candidate": null,
   "proposals": {},
@@ -46,9 +46,9 @@
       "status": "ready",
       "task_type": "review",
       "triggered_by": "approved finding from M0-T2",
-      "updated_at": "2026-07-21T08:09:49Z",
+      "updated_at": "2026-07-21T09:18:05Z",
       "work_type": "task-requirement"
     }
   },
-  "updated_at": "2026-07-21T08:09:49Z"
+  "updated_at": "2026-07-21T09:18:05Z"
 }
