@@ -1,6 +1,6 @@
 # Work Queue
 
-Generated from `PROJECT-STATE.json` at 2026-07-21T06:40:31Z.
+Generated from `PROJECT-STATE.json` at 2026-07-21T07:29:04Z.
 
 ## Current focus
 
@@ -24,14 +24,14 @@ Generated from `PROJECT-STATE.json` at 2026-07-21T06:40:31Z.
 
 ## Next roadmap reference
 
-- M1-T8
-- Source: docs/delivery/BACKLOG.md#m1-t8
+- M1-T9
+- Source: docs/delivery/BACKLOG.md#m1-t9
 - Note: not activated; not part of the open queue
 - Queue membership: none until explicitly activated
 
 ## Recently completed
 
-- M1-T7 — F1 Manajemen User (CRUD + role Spatie + profil mahasiswa kondisional 1-1); Super Admin only; tanpa hard delete (D-005), hanya toggle
+- M1-T8 — F1 Import Mahasiswa SIAKAD: upload xlsx/csv + pratinjau validasi per baris + import (password acak + must_change_password) + skip duplikat + ringkasan
 
 ## Recommendation
 
