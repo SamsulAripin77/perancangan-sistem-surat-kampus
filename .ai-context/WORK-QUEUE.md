@@ -1,6 +1,6 @@
 # Work Queue
 
-Generated from `PROJECT-STATE.json` at 2026-07-21T05:46:17Z.
+Generated from `PROJECT-STATE.json` at 2026-07-21T05:57:11Z.
 
 ## Current focus
 
@@ -24,14 +24,14 @@ Generated from `PROJECT-STATE.json` at 2026-07-21T05:46:17Z.
 
 ## Next roadmap reference
 
-- M1-T5
-- Source: docs/delivery/BACKLOG.md#m1-t5
+- M1-T6
+- Source: docs/delivery/BACKLOG.md#m1-t6
 - Note: not activated; not part of the open queue
 - Queue membership: none until explicitly activated
 
 ## Recently completed
 
-- M1-T4 — F2 Konfigurasi Sistem (Settings): SettingService + form bergrup + Media Library logo + override config('mail.*')
+- M1-T5 — F2 Manajemen Unit (CRUD + hierarki parent_id + filter/search); establish pola index reusable (UnitFilter, x-ui.filter, js-filter)
 
 ## Recommendation
 
