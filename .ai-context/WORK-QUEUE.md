@@ -1,6 +1,6 @@
 # Work Queue
 
-Generated from `PROJECT-STATE.json` at 2026-07-21T07:29:04Z.
+Generated from `PROJECT-STATE.json` at 2026-07-21T07:42:41Z.
 
 ## Current focus
 
@@ -24,14 +24,14 @@ Generated from `PROJECT-STATE.json` at 2026-07-21T07:29:04Z.
 
 ## Next roadmap reference
 
-- M1-T9
-- Source: docs/delivery/BACKLOG.md#m1-t9
+- M1-T10
+- Source: docs/delivery/BACKLOG.md#m1-t10
 - Note: not activated; not part of the open queue
 - Queue membership: none until explicitly activated
 
 ## Recently completed
 
-- M1-T8 — F1 Import Mahasiswa SIAKAD: upload xlsx/csv + pratinjau validasi per baris + import (password acak + must_change_password) + skip duplikat + ringkasan
+- M1-T9 — F13 Master Kamus Placeholder: CRUD placeholder_definitions (name unik/snake_case, kelompok, input_type, is_overridable) + filter kelompok + konfirmasi dampak; Super Admin only
 
 ## Recommendation
 
