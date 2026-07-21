@@ -1,15 +1,15 @@
 {
   "current_focus": null,
   "last_completed": {
-    "completed_at": "2026-07-21T07:42:41Z",
-    "goal": "F13 Master Kamus Placeholder: CRUD placeholder_definitions (name unik/snake_case, kelompok, input_type, is_overridable) + filter kelompok + konfirmasi dampak; Super Admin only",
-    "id": "M1-T9"
+    "completed_at": "2026-07-21T08:09:49Z",
+    "goal": "F12 Master Kategori Surat: CRUD (nama, is_active) + kolom dipakai N template + guard hapus (extensible) + toggle",
+    "id": "M1-T10"
   },
   "next_planned_reference": {
     "activated": false,
-    "id": "M1-T10",
+    "id": "M1-T11",
     "note": "not activated; not part of the open queue",
-    "source": "docs/delivery/BACKLOG.md#m1-t10"
+    "source": "docs/delivery/BACKLOG.md#m1-t11"
   },
   "preflight_candidate": null,
   "proposals": {},
@@ -46,9 +46,9 @@
       "status": "ready",
       "task_type": "review",
       "triggered_by": "approved finding from M0-T2",
-      "updated_at": "2026-07-21T07:42:41Z",
+      "updated_at": "2026-07-21T08:09:49Z",
       "work_type": "task-requirement"
     }
   },
-  "updated_at": "2026-07-21T07:42:41Z"
+  "updated_at": "2026-07-21T08:09:49Z"
 }

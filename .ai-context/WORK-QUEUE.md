@@ -1,6 +1,6 @@
 # Work Queue
 
-Generated from `PROJECT-STATE.json` at 2026-07-21T07:42:41Z.
+Generated from `PROJECT-STATE.json` at 2026-07-21T08:09:49Z.
 
 ## Current focus
 
@@ -24,14 +24,14 @@ Generated from `PROJECT-STATE.json` at 2026-07-21T07:42:41Z.
 
 ## Next roadmap reference
 
-- M1-T10
-- Source: docs/delivery/BACKLOG.md#m1-t10
+- M1-T11
+- Source: docs/delivery/BACKLOG.md#m1-t11
 - Note: not activated; not part of the open queue
 - Queue membership: none until explicitly activated
 
 ## Recently completed
 
-- M1-T9 — F13 Master Kamus Placeholder: CRUD placeholder_definitions (name unik/snake_case, kelompok, input_type, is_overridable) + filter kelompok + konfirmasi dampak; Super Admin only
+- M1-T10 — F12 Master Kategori Surat: CRUD (nama, is_active) + kolom dipakai N template + guard hapus (extensible) + toggle
 
 ## Recommendation
 
