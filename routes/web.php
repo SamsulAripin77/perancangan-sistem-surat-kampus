@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\KamusController;
+use App\Http\Controllers\Admin\KategoriController;
 use App\Http\Controllers\Admin\KonfigurasiController;
 use App\Http\Controllers\Admin\MahasiswaImportController;
 use App\Http\Controllers\Admin\PejabatController;
@@ -61,6 +62,14 @@ Route::middleware(['auth', 'password.changed', 'role:super_admin|admin_surat'])-
         ->only(['index', 'store', 'update', 'destroy'])
         ->names('admin.pejabat')
         ->parameters(['pejabat' => 'pejabat']);
+
+    // Master Kategori Surat (F12, UX_SPEC 2.C). Hapus dijaga guard "dipakai
+    // template" + toggle aktif/nonaktif.
+    Route::patch('admin/kategori/{kategori}/toggle', [KategoriController::class, 'toggle'])->name('admin.kategori.toggle');
+    Route::resource('admin/kategori', KategoriController::class)
+        ->only(['index', 'store', 'update', 'destroy'])
+        ->names('admin.kategori')
+        ->parameters(['kategori' => 'kategori']);
 });
 
 // Manajemen User (F1, UX_SPEC 2.A) — KHUSUS Super Admin (ARCHITECTURE §8).
