@@ -78,7 +78,8 @@
     @if ($errors->any())
         {{-- Validasi gagal: buka kembali modal dengan nilai lama & mode semula. --}}
         <script>
-            window.__reopenUnitModal = {
+            window.__reopenModal = {
+                selector: '#unitModal',
                 action: @json(old('form_action', route('admin.unit.store'))),
                 method: @json(old('_method', 'POST')),
                 fields: {

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\KonfigurasiController;
+use App\Http\Controllers\Admin\PejabatController;
 use App\Http\Controllers\Admin\UnitController;
 use App\Http\Controllers\Auth\ForcePasswordChangeController;
 use App\Http\Controllers\MediaUploadController;
@@ -49,6 +50,14 @@ Route::middleware(['auth', 'password.changed', 'role:super_admin|admin_surat'])-
         ->only(['index', 'store', 'update', 'destroy'])
         ->names('admin.unit')
         ->parameters(['unit' => 'unit']);
+
+    // Manajemen Pejabat (F2, UX_SPEC 1.C.3). Multi-unit + TTD private; hapus
+    // dijaga guard + toggle aktif/nonaktif.
+    Route::patch('admin/pejabat/{pejabat}/toggle', [PejabatController::class, 'toggle'])->name('admin.pejabat.toggle');
+    Route::resource('admin/pejabat', PejabatController::class)
+        ->only(['index', 'store', 'update', 'destroy'])
+        ->names('admin.pejabat')
+        ->parameters(['pejabat' => 'pejabat']);
 });
 
 // Beranda mahasiswa. Placeholder — diisi M1-T12.

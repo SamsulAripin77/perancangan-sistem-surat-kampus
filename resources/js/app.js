@@ -75,9 +75,16 @@ $('.js-datatable').each(function () {
     });
 });
 
-$('.js-select2').select2({
-    theme: 'bootstrap-5',
-    width: '100%',
+$('.js-select2').each(function () {
+    const $el = $(this);
+    const parent = $el.data('dropdown-parent');
+
+    $el.select2({
+        theme: 'bootstrap-5',
+        width: '100%',
+        // Di dalam modal, dropdown harus dianak-pinning ke modal agar bisa fokus.
+        dropdownParent: parent ? $(parent) : undefined,
+    });
 });
 
 const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
@@ -112,11 +119,14 @@ function populateModalForm($form, { action, method, fields, title }) {
     $form.find('[name="form_action"]').val(action);
 
     Object.entries(fields || {}).forEach(([name, value]) => {
-        const $input = $form.find(`[name="${name}"]`);
+        const $input = $form.find(`[name="${name}"], [name="${name}[]"]`);
         if ($input.attr('type') === 'checkbox') {
             $input.prop('checked', Boolean(value));
+        } else if ($input.is('select[multiple]')) {
+            // Select2 tags: set nilai lalu picu change agar UI tersinkron.
+            $input.val(value || []).trigger('change');
         } else {
-            $input.val(value ?? '');
+            $input.val(value ?? '').trigger('change');
         }
     });
 
@@ -136,11 +146,14 @@ $(document).on('click', '.js-modal-open', function () {
     bootstrap.Modal.getOrCreateInstance($modal[0]).show();
 });
 
-// Buka ulang modal Unit saat validasi gagal (nilai lama dari server).
-if (window.__reopenUnitModal) {
-    const $modal = $('#unitModal');
-    populateModalForm($modal.find('form'), window.__reopenUnitModal);
-    bootstrap.Modal.getOrCreateInstance($modal[0]).show();
+// Buka ulang modal saat validasi gagal (nilai lama dari server). Halaman
+// menyetel window.__reopenModal = { selector, action, method, fields }.
+if (window.__reopenModal) {
+    const $modal = $(window.__reopenModal.selector);
+    if ($modal.length) {
+        populateModalForm($modal.find('form'), window.__reopenModal);
+        bootstrap.Modal.getOrCreateInstance($modal[0]).show();
+    }
 }
 
 document.querySelectorAll('.js-flash').forEach((el) => {

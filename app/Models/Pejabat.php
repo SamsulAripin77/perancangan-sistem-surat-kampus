@@ -48,4 +48,24 @@ class Pejabat extends Model implements HasMedia
     {
         return $this->belongsToMany(Unit::class, 'pejabat_unit')->withTimestamps();
     }
+
+    /**
+     * Pejabat sedang dipakai bila sudah tertaut arsip surat (snapshot
+     * penandatangan) — hapus ditolak, gunakan nonaktifkan (UX_SPEC 1.C.3).
+     * Relasi arsip ditambahkan saat modul generate/arsip (M5+) tersedia; kini
+     * belum ada referensi sehingga selalu false.
+     */
+    public function isInUse(): bool
+    {
+        return false;
+    }
+
+    /**
+     * Apakah pejabat punya file TTD master (collection 'ttd') — menentukan
+     * indikator kolom TTD & saran metode pengambilan saat generate.
+     */
+    public function hasTtd(): bool
+    {
+        return $this->getFirstMedia('ttd') !== null;
+    }
 }
