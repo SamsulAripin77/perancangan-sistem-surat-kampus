@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Database\Factories\PlaceholderDefinitionFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -11,6 +13,15 @@ use Illuminate\Database\Eloquent\Model;
  */
 class PlaceholderDefinition extends Model
 {
+    /** @use HasFactory<PlaceholderDefinitionFactory> */
+    use HasFactory;
+
+    /** Kelompok placeholder (ERD §8). `ttd` tak di-seed (deteksi via regex). */
+    public const KELOMPOK = ['profil', 'waktu', 'sistem', 'counter', 'ttd'];
+
+    /** Tipe input yang dikenal untuk render form generate. */
+    public const INPUT_TYPES = ['text', 'date', 'image', 'number'];
+
     public $timestamps = false;
 
     protected $fillable = [

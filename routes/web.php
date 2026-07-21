@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\KamusController;
 use App\Http\Controllers\Admin\KonfigurasiController;
 use App\Http\Controllers\Admin\MahasiswaImportController;
 use App\Http\Controllers\Admin\PejabatController;
@@ -77,6 +78,13 @@ Route::middleware(['auth', 'password.changed', 'role:super_admin'])->group(funct
         ->only(['index', 'store', 'update'])
         ->names('admin.user')
         ->parameters(['user' => 'user']);
+
+    // Master Kamus Placeholder (F13, UX_SPEC 2.B) — perubahan berdampak semua
+    // template → konfirmasi di UI.
+    Route::resource('admin/kamus', KamusController::class)
+        ->only(['index', 'store', 'update', 'destroy'])
+        ->names('admin.kamus')
+        ->parameters(['kamus' => 'kamus']);
 });
 
 // Beranda mahasiswa. Placeholder — diisi M1-T12.

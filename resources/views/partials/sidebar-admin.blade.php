@@ -29,6 +29,13 @@
                             <p>{{ __('user.title') }}</p>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a href="{{ Route::has('admin.kamus.index') ? route('admin.kamus.index') : '#' }}"
+                            class="nav-link {{ request()->routeIs('admin.kamus.*') ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-book"></i>
+                            <p>{{ __('kamus.title') }}</p>
+                        </a>
+                    </li>
                 @endrole
                 <li class="nav-item">
                     <a href="{{ Route::has('admin.pejabat.index') ? route('admin.pejabat.index') : '#' }}"
