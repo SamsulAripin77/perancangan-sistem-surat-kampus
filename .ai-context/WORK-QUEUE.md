@@ -1,6 +1,6 @@
 # Work Queue
 
-Generated from `PROJECT-STATE.json` at 2026-07-20T23:36:23Z.
+Generated from `PROJECT-STATE.json` at 2026-07-21T05:46:17Z.
 
 ## Current focus
 
@@ -8,13 +8,7 @@ Generated from `PROJECT-STATE.json` at 2026-07-20T23:36:23Z.
 
 ## Candidate under Preflight
 
-- M1-T4 — F2 Konfigurasi Sistem (Settings): SettingService + form bergrup + Media Library logo + override config('mail.*')
-- Readiness: pending
-- Type / priority / lane: main-task / normal / backend
-- Blocked by: none
-- Readiness summary: targeted readiness inspection not completed
-- Source reference: docs/delivery/BACKLOG.md#m1-t4
-- Queue membership: none until execution is explicitly approved
+- none
 
 ## Open queue
 
@@ -30,16 +24,16 @@ Generated from `PROJECT-STATE.json` at 2026-07-20T23:36:23Z.
 
 ## Next roadmap reference
 
-- M1-T4
-- Source: docs/delivery/BACKLOG.md#m1-t4
+- M1-T5
+- Source: docs/delivery/BACKLOG.md#m1-t5
 - Note: not activated; not part of the open queue
 - Queue membership: none until explicitly activated
 
 ## Recently completed
 
-- M1-T3 — F1 Ubah Password mandiri (Fortify update-password + section UI)
+- M1-T4 — F2 Konfigurasi Sistem (Settings): SettingService + form bergrup + Media Library logo + override config('mail.*')
 
 ## Recommendation
 
-- Complete the targeted readiness Preflight for candidate M1-T4 before execution.
-- Record discovered gaps as proposals and mark the candidate ready only when required evidence is complete.
+- Recommend QR-LIBRARY-CONFLICT-001 (task-requirement, low) because highest effective priority among open work.
+- Present all runnable choices and trade-offs, then wait for the user's explicit selection before changing current focus or editing code.

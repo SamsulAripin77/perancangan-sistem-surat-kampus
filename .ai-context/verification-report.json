@@ -1,20 +1,22 @@
 {
   "schema_version": 1,
-  "task_id": "M1-T3",
-  "generated_at": "2026-07-20T23:14:30+00:00",
-  "git_commit": "60fe37c7e2c83ed37186f2d4a1f77afeabda77b7",
+  "task_id": "M1-T4",
+  "generated_at": "2026-07-21T05:46:08+00:00",
+  "git_commit": "f1d0dda14903bd470d8796ac7f5416635df4c94b",
   "git_dirty": true,
   "acceptance_criteria_covered": [
-    "AC-M1-T3-1"
+    "AC-M1-T4-1",
+    "AC-M1-T4-2",
+    "AC-M1-T4-3"
   ],
   "steps": [
     {
-      "command": "php artisan test --filter UpdatePasswordTest",
+      "command": "php artisan test --filter SettingTest",
       "exit_code": 0,
       "passed": true,
-      "output_tail": "PASS  Tests\\Feature\\UpdatePasswordTest\n  \u2713 it updates the password with a correct current password and flashes\u2026 1.19s  \n  \u2713 it rejects a wrong current password with a localized error and leav\u2026 0.02s  \n  \u2713 it renders the self-service ubah password page for an authenticated\u2026 0.04s  \n\n  Tests:    3 passed (10 assertions)\n  Duration: 1.34s",
-      "started_at": "2026-07-20T23:14:26+00:00",
-      "finished_at": "2026-07-20T23:14:28+00:00",
+      "output_tail": "PASS  Tests\\Feature\\SettingTest\n  \u2713 it saves valid settings and flashes success                          1.08s  \n  \u2713 it returns the fresh value via the Settings facade after saving      0.05s  \n  \u2713 it reads from cache until flushed                                    0.04s  \n  \u2713 it attaches the uploaded logo to the file collection on the setting\u2026 0.08s  \n  \u2713 it encrypts the smtp password and skips it when left blank           0.07s  \n  \u2713 it forbids non-admin users from the settings form                    0.05s  \n  \u2713 it renders the grouped settings form for an admin                    0.05s  \n\n  Tests:    7 passed (21 assertions)\n  Duration: 1.52s",
+      "started_at": "2026-07-21T05:46:03+00:00",
+      "finished_at": "2026-07-21T05:46:05+00:00",
       "step": "test",
       "required": true
     },
@@ -23,8 +25,8 @@
       "exit_code": 0,
       "passed": true,
       "output_tail": "{\"tool\":\"pint\",\"result\":\"passed\"}",
-      "started_at": "2026-07-20T23:14:28+00:00",
-      "finished_at": "2026-07-20T23:14:28+00:00",
+      "started_at": "2026-07-21T05:46:05+00:00",
+      "finished_at": "2026-07-21T05:46:06+00:00",
       "step": "lint",
       "required": false
     },
@@ -33,8 +35,8 @@
       "exit_code": 0,
       "passed": true,
       "output_tail": "[OK] No errors                                                                 \n\nNote: Using configuration file /home/mate/www/nusaputra-surat/phpstan.neon.",
-      "started_at": "2026-07-20T23:14:28+00:00",
-      "finished_at": "2026-07-20T23:14:29+00:00",
+      "started_at": "2026-07-21T05:46:06+00:00",
+      "finished_at": "2026-07-21T05:46:07+00:00",
       "step": "static",
       "required": false
     },
@@ -42,9 +44,9 @@
       "command": "php artisan migrate:fresh --seed --env=testing",
       "exit_code": 0,
       "passed": true,
-      "output_tail": "Dropping all tables ........................................... 54.88ms DONE\n\n   INFO  Preparing database.  \n\n  Creating migration table ....................................... 8.96ms DONE\n\n   INFO  Running migrations.  \n\n  0001_01_01_000000_create_users_table .......................... 41.07ms DONE\n  0001_01_01_000001_create_cache_table .......................... 26.70ms DONE\n  0001_01_01_000002_create_jobs_table ........................... 32.18ms DONE\n  2026_07_20_220531_create_permission_tables ................... 108.90ms DONE\n  2026_07_20_220533_create_activity_log_table ................... 33.91ms DONE\n  2026_07_20_220533_create_media_table .......................... 36.62ms DONE\n  2026_07_20_220534_add_event_column_to_activity_log_table ....... 9.75ms DONE\n  2026_07_20_220534_add_two_factor_columns_to_users_table ....... 26.44ms DONE\n  2026_07_20_220535_add_batch_uuid_column_to_activity_log_table . 10.04ms DONE\n  2026_07_20_220535_create_passkeys_table ....................... 51.25ms DONE\n  2026_07_21_043113_add_is_active_to_users_table ................. 7.10ms DONE\n  2026_07_21_050408_create_placeholder_definitions_table ........ 11.80ms DONE\n  2026_07_21_050408_create_settings_table ....................... 14.15ms DONE\n  2026_07_21_060001_create_units_table .......................... 25.63ms DONE\n  2026_07_21_060002_add_core_columns_to_users_table ............. 37.90ms DONE\n  2026_07_21_060003_create_mahasiswa_table ...................... 54.14ms DONE\n  2026_07_21_060004_create_pejabat_table ........................ 24.40ms DONE\n  2026_07_21_060005_create_pejabat_unit_table ................... 66.68ms DONE\n\n\n   INFO  Seeding database.  \n\n  Database\\Seeders\\RolePermissionSeeder .............................. RUNNING  \n  Database\\Seeders\\RolePermissionSeeder ........................... 41 ms DONE  \n\n  Database\\Seeders\\SettingSeeder ..................................... RUNNING  \n  Database\\Seeders\\SettingSeeder .................................. 48 ms DONE  \n\n  Database\\Seeders\\PlaceholderDefinitionSeeder ....................... RUNNING  \n  Database\\Seeders\\PlaceholderDefinitionSeeder .................... 38 ms DONE",
-      "started_at": "2026-07-20T23:14:29+00:00",
-      "finished_at": "2026-07-20T23:14:30+00:00",
+      "output_tail": "Dropping all tables ........................................... 81.29ms DONE\n\n   INFO  Preparing database.  \n\n  Creating migration table ...................................... 12.44ms DONE\n\n   INFO  Running migrations.  \n\n  0001_01_01_000000_create_users_table .......................... 44.58ms DONE\n  0001_01_01_000001_create_cache_table .......................... 28.85ms DONE\n  0001_01_01_000002_create_jobs_table ........................... 38.20ms DONE\n  2026_07_20_220531_create_permission_tables ................... 120.77ms DONE\n  2026_07_20_220533_create_activity_log_table ................... 34.44ms DONE\n  2026_07_20_220533_create_media_table .......................... 35.75ms DONE\n  2026_07_20_220534_add_event_column_to_activity_log_table ....... 9.57ms DONE\n  2026_07_20_220534_add_two_factor_columns_to_users_table ....... 24.81ms DONE\n  2026_07_20_220535_add_batch_uuid_column_to_activity_log_table .. 9.19ms DONE\n  2026_07_20_220535_create_passkeys_table ....................... 50.43ms DONE\n  2026_07_21_043113_add_is_active_to_users_table ................. 8.72ms DONE\n  2026_07_21_050408_create_placeholder_definitions_table ........ 15.36ms DONE\n  2026_07_21_050408_create_settings_table ....................... 14.79ms DONE\n  2026_07_21_060001_create_units_table .......................... 30.97ms DONE\n  2026_07_21_060002_add_core_columns_to_users_table ............. 41.30ms DONE\n  2026_07_21_060003_create_mahasiswa_table ...................... 38.00ms DONE\n  2026_07_21_060004_create_pejabat_table ........................ 19.35ms DONE\n  2026_07_21_060005_create_pejabat_unit_table ................... 48.66ms DONE\n\n\n   INFO  Seeding database.  \n\n  Database\\Seeders\\RolePermissionSeeder .............................. RUNNING  \n  Database\\Seeders\\RolePermissionSeeder ........................... 27 ms DONE  \n\n  Database\\Seeders\\SettingSeeder ..................................... RUNNING  \n  Database\\Seeders\\SettingSeeder .................................. 42 ms DONE  \n\n  Database\\Seeders\\PlaceholderDefinitionSeeder ....................... RUNNING  \n  Database\\Seeders\\PlaceholderDefinitionSeeder .................... 34 ms DONE",
+      "started_at": "2026-07-21T05:46:07+00:00",
+      "finished_at": "2026-07-21T05:46:08+00:00",
       "step": "migrate",
       "required": false
     }
