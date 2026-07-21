@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\KonfigurasiController;
 use App\Http\Controllers\Admin\PejabatController;
 use App\Http\Controllers\Admin\UnitController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\ForcePasswordChangeController;
 use App\Http\Controllers\MediaUploadController;
 use App\Support\AuthRedirect;
@@ -58,6 +59,16 @@ Route::middleware(['auth', 'password.changed', 'role:super_admin|admin_surat'])-
         ->only(['index', 'store', 'update', 'destroy'])
         ->names('admin.pejabat')
         ->parameters(['pejabat' => 'pejabat']);
+});
+
+// Manajemen User (F1, UX_SPEC 2.A) — KHUSUS Super Admin (ARCHITECTURE §8).
+// Tanpa hard delete (D-005): hanya toggle is_active, tidak ada route destroy.
+Route::middleware(['auth', 'password.changed', 'role:super_admin'])->group(function () {
+    Route::patch('admin/user/{user}/toggle', [UserController::class, 'toggle'])->name('admin.user.toggle');
+    Route::resource('admin/user', UserController::class)
+        ->only(['index', 'store', 'update'])
+        ->names('admin.user')
+        ->parameters(['user' => 'user']);
 });
 
 // Beranda mahasiswa. Placeholder — diisi M1-T12.

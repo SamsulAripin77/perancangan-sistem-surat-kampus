@@ -21,6 +21,15 @@
                         <p>{{ __('unit.title') }}</p>
                     </a>
                 </li>
+                @role('super_admin')
+                    <li class="nav-item">
+                        <a href="{{ Route::has('admin.user.index') ? route('admin.user.index') : '#' }}"
+                            class="nav-link {{ request()->routeIs('admin.user.*') ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-users"></i>
+                            <p>{{ __('user.title') }}</p>
+                        </a>
+                    </li>
+                @endrole
                 <li class="nav-item">
                     <a href="{{ Route::has('admin.pejabat.index') ? route('admin.pejabat.index') : '#' }}"
                         class="nav-link {{ request()->routeIs('admin.pejabat.*') ? 'active' : '' }}">

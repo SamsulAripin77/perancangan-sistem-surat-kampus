@@ -122,6 +122,8 @@ function populateModalForm($form, { action, method, fields, title }) {
         const $input = $form.find(`[name="${name}"], [name="${name}[]"]`);
         if ($input.attr('type') === 'checkbox') {
             $input.prop('checked', Boolean(value));
+        } else if ($input.attr('type') === 'radio') {
+            $input.filter(`[value="${value}"]`).prop('checked', true).trigger('change');
         } else if ($input.is('select[multiple]')) {
             // Select2 tags: set nilai lalu picu change agar UI tersinkron.
             $input.val(value || []).trigger('change');
@@ -143,7 +145,18 @@ $(document).on('click', '.js-modal-open', function () {
         title: this.dataset.title,
         fields: this.dataset.fields ? JSON.parse(this.dataset.fields) : {},
     });
+    // Sinkronkan field kondisional (mis. profil mahasiswa) sesuai role terpilih.
+    $modal.find('[name="role"]:checked').trigger('change');
     bootstrap.Modal.getOrCreateInstance($modal[0]).show();
+});
+
+// Field profil mahasiswa hanya tampil bila role = mahasiswa (UX_SPEC 2.A.2).
+function syncMahasiswaFields($form) {
+    const role = $form.find('[name="role"]:checked').val();
+    $form.find('.js-mahasiswa-fields').toggle(role === 'mahasiswa');
+}
+$(document).on('change', '[name="role"]', function () {
+    syncMahasiswaFields($(this).closest('form'));
 });
 
 // Buka ulang modal saat validasi gagal (nilai lama dari server). Halaman
