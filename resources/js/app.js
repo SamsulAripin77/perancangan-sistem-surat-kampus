@@ -5,7 +5,8 @@ import './bootstrap';
 import $ from 'jquery';
 window.$ = window.jQuery = $;
 
-import 'bootstrap';
+import * as bootstrap from 'bootstrap';
+window.bootstrap = bootstrap;
 import 'admin-lte';
 
 import 'datatables.net-bs5';
@@ -33,13 +34,44 @@ window.Swal = Swal;
 
 $('.js-datatable').each(function () {
     const $table = $(this);
-    const columns = ($table.data('columns') || []).map((column) => ({ data: column.data }));
+    const columns = ($table.data('columns') || []).map((column) => ({
+        data: column.data,
+        name: column.data,
+        orderable: column.orderable !== false,
+        searchable: column.searchable !== false,
+    }));
 
-    $table.DataTable({
+    // Bar filter reusable (§17) yang menargetkan tabel ini via data-table.
+    const tableId = this.id ? `#${this.id}` : null;
+    const $filter = tableId ? $(`.js-filter[data-table="${tableId}"]`) : $();
+
+    const table = $table.DataTable({
         serverSide: true,
-        ajax: $table.data('url'),
+        ajax: {
+            url: $table.data('url'),
+            // Sisipkan nilai filter ke setiap request server-side.
+            data: (params) => {
+                $filter.find('.js-filter-input').each(function () {
+                    params[this.name] = this.value;
+                });
+            },
+        },
         columns,
         pageLength: 20,
+        orderMulti: false,
+        language: { url: undefined },
+    });
+
+    // Search box: reload ter-debounce; dropdown: reload saat berubah.
+    let debounce;
+    $filter.on('input', '.js-filter-input[data-filter-debounce]', () => {
+        clearTimeout(debounce);
+        debounce = setTimeout(() => table.ajax.reload(), 300);
+    });
+    $filter.on('change', '.js-filter-input:not([data-filter-debounce])', () => table.ajax.reload());
+    $filter.on('click', '.js-filter-reset', () => {
+        $filter.find('.js-filter-input').val('');
+        table.ajax.reload();
     });
 });
 
@@ -70,6 +102,46 @@ document.querySelectorAll('.js-upload').forEach((el) => {
         },
     });
 });
+
+// Modal create/edit reusable (§11): tombol `js-modal-open` mengisi form modal
+// dari data-* (action, method, title, fields JSON) lalu menampilkannya.
+function populateModalForm($form, { action, method, fields, title }) {
+    $form[0].reset();
+    $form.attr('action', action);
+    $form.find('[name="_method"]').val(method || 'POST');
+    $form.find('[name="form_action"]').val(action);
+
+    Object.entries(fields || {}).forEach(([name, value]) => {
+        const $input = $form.find(`[name="${name}"]`);
+        if ($input.attr('type') === 'checkbox') {
+            $input.prop('checked', Boolean(value));
+        } else {
+            $input.val(value ?? '');
+        }
+    });
+
+    if (title) {
+        $form.find('.js-modal-title').text(title);
+    }
+}
+
+$(document).on('click', '.js-modal-open', function () {
+    const $modal = $(this.dataset.modal);
+    populateModalForm($modal.find('form'), {
+        action: this.dataset.action,
+        method: this.dataset.method,
+        title: this.dataset.title,
+        fields: this.dataset.fields ? JSON.parse(this.dataset.fields) : {},
+    });
+    bootstrap.Modal.getOrCreateInstance($modal[0]).show();
+});
+
+// Buka ulang modal Unit saat validasi gagal (nilai lama dari server).
+if (window.__reopenUnitModal) {
+    const $modal = $('#unitModal');
+    populateModalForm($modal.find('form'), window.__reopenUnitModal);
+    bootstrap.Modal.getOrCreateInstance($modal[0]).show();
+}
 
 document.querySelectorAll('.js-flash').forEach((el) => {
     Swal.fire({

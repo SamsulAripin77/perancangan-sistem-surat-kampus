@@ -15,6 +15,13 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a href="{{ Route::has('admin.unit.index') ? route('admin.unit.index') : '#' }}"
+                        class="nav-link {{ request()->routeIs('admin.unit.*') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-sitemap"></i>
+                        <p>{{ __('unit.title') }}</p>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a href="{{ Route::has('admin.konfigurasi.edit') ? route('admin.konfigurasi.edit') : '#' }}"
                         class="nav-link {{ request()->routeIs('admin.konfigurasi.*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-gear"></i>

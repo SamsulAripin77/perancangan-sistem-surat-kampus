@@ -47,4 +47,14 @@ class Unit extends Model
     {
         return $this->hasMany(User::class);
     }
+
+    /**
+     * Unit sedang dipakai bila punya sub-unit atau user terhubung — hapus
+     * ditolak, gunakan nonaktifkan (UX_SPEC 1.C.2 guardrail). Referensi
+     * template/permohonan ditambahkan saat modul terkait tersedia.
+     */
+    public function isInUse(): bool
+    {
+        return $this->children()->exists() || $this->users()->exists();
+    }
 }

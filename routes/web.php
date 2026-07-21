@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\KonfigurasiController;
+use App\Http\Controllers\Admin\UnitController;
 use App\Http\Controllers\Auth\ForcePasswordChangeController;
 use App\Http\Controllers\MediaUploadController;
 use App\Support\AuthRedirect;
@@ -40,6 +41,14 @@ Route::middleware(['auth', 'password.changed', 'role:super_admin|admin_surat'])-
     // Pengaturan Sistem / Konfigurasi (F2, UX_SPEC 1.C.1).
     Route::get('admin/konfigurasi', [KonfigurasiController::class, 'edit'])->name('admin.konfigurasi.edit');
     Route::post('admin/konfigurasi', [KonfigurasiController::class, 'update'])->name('admin.konfigurasi.update');
+
+    // Manajemen Unit (F2, UX_SPEC 1.C.2). Hapus dijaga guard "sedang dipakai";
+    // toggle untuk nonaktif/aktif.
+    Route::patch('admin/unit/{unit}/toggle', [UnitController::class, 'toggle'])->name('admin.unit.toggle');
+    Route::resource('admin/unit', UnitController::class)
+        ->only(['index', 'store', 'update', 'destroy'])
+        ->names('admin.unit')
+        ->parameters(['unit' => 'unit']);
 });
 
 // Beranda mahasiswa. Placeholder — diisi M1-T12.
