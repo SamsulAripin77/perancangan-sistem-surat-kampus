@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\SyaratController;
 use App\Http\Controllers\Admin\UnitController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\ForcePasswordChangeController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MediaUploadController;
 use App\Support\AuthRedirect;
 use Illuminate\Support\Facades\Auth;
@@ -42,7 +43,7 @@ Route::middleware(['auth', 'password.changed'])->group(function () {
 
 // Dashboard admin (super_admin/admin_surat). Placeholder — diisi M1-T12.
 Route::middleware(['auth', 'password.changed', 'role:super_admin|admin_surat'])->group(function () {
-    Route::view('admin/dashboard', 'admin.dashboard')->name('admin.dashboard');
+    Route::get('admin/dashboard', [DashboardController::class, 'admin'])->name('admin.dashboard');
 
     // Pengaturan Sistem / Konfigurasi (F2, UX_SPEC 1.C.1).
     Route::get('admin/konfigurasi', [KonfigurasiController::class, 'edit'])->name('admin.konfigurasi.edit');
@@ -105,7 +106,7 @@ Route::middleware(['auth', 'password.changed', 'role:super_admin'])->group(funct
         ->parameters(['kamus' => 'kamus']);
 });
 
-// Beranda mahasiswa. Placeholder — diisi M1-T12.
+// Beranda mahasiswa (F9, UX_SPEC 1.B.2).
 Route::middleware(['auth', 'password.changed', 'role:mahasiswa'])->group(function () {
-    Route::view('mahasiswa/beranda', 'mahasiswa.beranda')->name('mahasiswa.beranda');
+    Route::get('mahasiswa/beranda', [DashboardController::class, 'mahasiswa'])->name('mahasiswa.beranda');
 });
