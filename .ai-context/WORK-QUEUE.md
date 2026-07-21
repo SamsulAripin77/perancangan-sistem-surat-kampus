@@ -1,6 +1,6 @@
 # Work Queue
 
-Generated from `PROJECT-STATE.json` at 2026-07-21T09:18:05Z.
+Generated from `PROJECT-STATE.json` at 2026-07-21T09:39:41Z.
 
 ## Current focus
 
@@ -24,14 +24,14 @@ Generated from `PROJECT-STATE.json` at 2026-07-21T09:18:05Z.
 
 ## Next roadmap reference
 
-- M1-T12
-- Source: docs/delivery/BACKLOG.md#m1-t12
+- M2-T1
+- Source: docs/delivery/BACKLOG.md#m2-t1
 - Note: not activated; not part of the open queue
 - Queue membership: none until explicitly activated
 
 ## Recently completed
 
-- M1-T11 — F4 Master Persyaratan Surat: buat ref_syarat_surat (ERD §10), CRUD (nama, deskripsi, accepted_types, max_size_mb) + file contoh (media template disk private) + download + guard hapus
+- M1-T12 — Dashboard Admin (stat card, 0 sampai M4/M7) + Beranda Mahasiswa (empty state) + kalkulator deadline hari-kerja (D-004 skip Sabtu/Minggu)
 
 ## Recommendation
 

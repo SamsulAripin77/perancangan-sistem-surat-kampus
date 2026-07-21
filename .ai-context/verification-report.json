@@ -1,21 +1,21 @@
 {
   "schema_version": 1,
-  "task_id": "M1-T11",
-  "generated_at": "2026-07-21T09:12:31+00:00",
-  "git_commit": "120cec29799d454681a11610deffd9aca49af916",
+  "task_id": "M1-T12",
+  "generated_at": "2026-07-21T09:39:24+00:00",
+  "git_commit": "4c0e4589d509e2c132dc9ac59689e9f464ca8bf3",
   "git_dirty": true,
   "acceptance_criteria_covered": [
-    "AC-M1-T11-1",
-    "AC-M1-T11-2"
+    "AC-M1-T12-2",
+    "AC-M1-T12-3"
   ],
   "steps": [
     {
-      "command": "php artisan test --filter RefSyaratSuratTest",
+      "command": "php artisan test --filter DashboardTest",
       "exit_code": 0,
       "passed": true,
-      "output_tail": "PASS  Tests\\Feature\\RefSyaratSuratTest\n  \u2713 it creates a persyaratan with a unique name                          1.02s  \n  \u2713 it rejects a duplicate name                                          0.03s  \n  \u2713 it rejects an invalid accepted_types format                          0.03s  \n  \u2713 it attaches an example file to the private template collection       0.06s  \n  \u2713 it serves the example file via the download route                    0.04s  \n  \u2713 it returns 404 when downloading a persyaratan without a file         0.04s  \n  \u2713 it deletes a persyaratan that is not in use                          0.03s  \n  \u2713 it updates a persyaratan keeping its own name                        0.03s  \n  \u2713 it renders the index for an admin                                    0.03s  \n  \u2713 it forbids non-admin users from managing persyaratan                 0.03s  \n\n  Tests:    10 passed (23 assertions)\n  Duration: 1.44s",
-      "started_at": "2026-07-21T09:12:27+00:00",
-      "finished_at": "2026-07-21T09:12:29+00:00",
+      "output_tail": "PASS  Tests\\Feature\\DashboardTest\n  \u2713 it computes the working-day deadline skipping weekends               1.05s  \n  \u2713 it skips the weekend for a Friday + 1 working day                    0.02s  \n  \u2713 it returns the same day for zero working days                        0.02s  \n  \u2713 it flags overdue and approaching deadlines                           0.02s  \n  \u2713 it renders the admin dashboard with zero stat cards                  0.10s  \n  \u2713 it shows the empty state on the mahasiswa beranda                    0.03s  \n  \u2713 it gates dashboards by role                                          0.04s  \n\n  Tests:    7 passed (18 assertions)\n  Duration: 1.37s",
+      "started_at": "2026-07-21T09:39:19+00:00",
+      "finished_at": "2026-07-21T09:39:21+00:00",
       "step": "test",
       "required": true
     },
@@ -24,8 +24,8 @@
       "exit_code": 0,
       "passed": true,
       "output_tail": "{\"tool\":\"pint\",\"result\":\"passed\"}",
-      "started_at": "2026-07-21T09:12:29+00:00",
-      "finished_at": "2026-07-21T09:12:29+00:00",
+      "started_at": "2026-07-21T09:39:21+00:00",
+      "finished_at": "2026-07-21T09:39:22+00:00",
       "step": "lint",
       "required": false
     },
@@ -34,8 +34,8 @@
       "exit_code": 0,
       "passed": true,
       "output_tail": "[OK] No errors                                                                 \n\nNote: Using configuration file /home/mate/www/nusaputra-surat/phpstan.neon.",
-      "started_at": "2026-07-21T09:12:29+00:00",
-      "finished_at": "2026-07-21T09:12:30+00:00",
+      "started_at": "2026-07-21T09:39:22+00:00",
+      "finished_at": "2026-07-21T09:39:22+00:00",
       "step": "static",
       "required": false
     },
@@ -43,9 +43,9 @@
       "command": "php artisan migrate:fresh --seed --env=testing",
       "exit_code": 0,
       "passed": true,
-      "output_tail": "Dropping all tables ........................................... 77.21ms DONE\n\n   INFO  Preparing database.  \n\n  Creating migration table ...................................... 13.43ms DONE\n\n   INFO  Running migrations.  \n\n  0001_01_01_000000_create_users_table .......................... 50.93ms DONE\n  0001_01_01_000001_create_cache_table .......................... 29.69ms DONE\n  0001_01_01_000002_create_jobs_table ........................... 39.95ms DONE\n  2026_07_20_220531_create_permission_tables ................... 130.15ms DONE\n  2026_07_20_220533_create_activity_log_table ................... 37.52ms DONE\n  2026_07_20_220533_create_media_table .......................... 39.44ms DONE\n  2026_07_20_220534_add_event_column_to_activity_log_table ....... 9.15ms DONE\n  2026_07_20_220534_add_two_factor_columns_to_users_table ....... 25.39ms DONE\n  2026_07_20_220535_add_batch_uuid_column_to_activity_log_table .. 8.89ms DONE\n  2026_07_20_220535_create_passkeys_table ....................... 47.17ms DONE\n  2026_07_21_043113_add_is_active_to_users_table ................. 9.78ms DONE\n  2026_07_21_050408_create_placeholder_definitions_table ........ 16.19ms DONE\n  2026_07_21_050408_create_settings_table ....................... 16.51ms DONE\n  2026_07_21_060001_create_units_table .......................... 31.02ms DONE\n  2026_07_21_060002_add_core_columns_to_users_table ............. 44.53ms DONE\n  2026_07_21_060003_create_mahasiswa_table ...................... 42.56ms DONE\n  2026_07_21_060004_create_pejabat_table ........................ 20.80ms DONE\n  2026_07_21_060005_create_pejabat_unit_table ................... 45.29ms DONE\n  2026_07_21_145111_create_kategori_surat_table .................. 6.77ms DONE\n  2026_07_21_154702_create_ref_syarat_surat_table ................ 6.61ms DONE\n\n\n   INFO  Seeding database.  \n\n  Database\\Seeders\\RolePermissionSeeder .............................. RUNNING  \n  Database\\Seeders\\RolePermissionSeeder ........................... 25 ms DONE  \n\n  Database\\Seeders\\SettingSeeder ..................................... RUNNING  \n  Database\\Seeders\\SettingSeeder .................................. 52 ms DONE  \n\n  Database\\Seeders\\PlaceholderDefinitionSeeder ....................... RUNNING  \n  Database\\Seeders\\PlaceholderDefinitionSeeder .................... 36 ms DONE",
-      "started_at": "2026-07-21T09:12:30+00:00",
-      "finished_at": "2026-07-21T09:12:31+00:00",
+      "output_tail": "Dropping all tables ........................................... 72.94ms DONE\n\n   INFO  Preparing database.  \n\n  Creating migration table ...................................... 10.01ms DONE\n\n   INFO  Running migrations.  \n\n  0001_01_01_000000_create_users_table .......................... 42.34ms DONE\n  0001_01_01_000001_create_cache_table .......................... 28.36ms DONE\n  0001_01_01_000002_create_jobs_table ........................... 35.13ms DONE\n  2026_07_20_220531_create_permission_tables ................... 117.93ms DONE\n  2026_07_20_220533_create_activity_log_table ................... 40.15ms DONE\n  2026_07_20_220533_create_media_table .......................... 43.97ms DONE\n  2026_07_20_220534_add_event_column_to_activity_log_table ...... 12.27ms DONE\n  2026_07_20_220534_add_two_factor_columns_to_users_table ....... 30.46ms DONE\n  2026_07_20_220535_add_batch_uuid_column_to_activity_log_table . 10.91ms DONE\n  2026_07_20_220535_create_passkeys_table ....................... 53.98ms DONE\n  2026_07_21_043113_add_is_active_to_users_table ................. 7.60ms DONE\n  2026_07_21_050408_create_placeholder_definitions_table ........ 14.61ms DONE\n  2026_07_21_050408_create_settings_table ....................... 14.70ms DONE\n  2026_07_21_060001_create_units_table .......................... 28.03ms DONE\n  2026_07_21_060002_add_core_columns_to_users_table ............. 38.85ms DONE\n  2026_07_21_060003_create_mahasiswa_table ...................... 42.96ms DONE\n  2026_07_21_060004_create_pejabat_table ........................ 20.85ms DONE\n  2026_07_21_060005_create_pejabat_unit_table ................... 45.19ms DONE\n  2026_07_21_145111_create_kategori_surat_table .................. 6.43ms DONE\n  2026_07_21_154702_create_ref_syarat_surat_table ................ 6.86ms DONE\n\n\n   INFO  Seeding database.  \n\n  Database\\Seeders\\RolePermissionSeeder .............................. RUNNING  \n  Database\\Seeders\\RolePermissionSeeder ........................... 22 ms DONE  \n\n  Database\\Seeders\\SettingSeeder ..................................... RUNNING  \n  Database\\Seeders\\SettingSeeder .................................. 50 ms DONE  \n\n  Database\\Seeders\\PlaceholderDefinitionSeeder ....................... RUNNING  \n  Database\\Seeders\\PlaceholderDefinitionSeeder .................... 63 ms DONE",
+      "started_at": "2026-07-21T09:39:22+00:00",
+      "finished_at": "2026-07-21T09:39:24+00:00",
       "step": "migrate",
       "required": false
     }
