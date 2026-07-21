@@ -52,6 +52,13 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a href="{{ Route::has('admin.persyaratan.index') ? route('admin.persyaratan.index') : '#' }}"
+                        class="nav-link {{ request()->routeIs('admin.persyaratan.*') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-file-circle-check"></i>
+                        <p>{{ __('syarat.title') }}</p>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a href="{{ Route::has('admin.konfigurasi.edit') ? route('admin.konfigurasi.edit') : '#' }}"
                         class="nav-link {{ request()->routeIs('admin.konfigurasi.*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-gear"></i>

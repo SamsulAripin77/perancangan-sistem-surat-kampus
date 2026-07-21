@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\KategoriController;
 use App\Http\Controllers\Admin\KonfigurasiController;
 use App\Http\Controllers\Admin\MahasiswaImportController;
 use App\Http\Controllers\Admin\PejabatController;
+use App\Http\Controllers\Admin\SyaratController;
 use App\Http\Controllers\Admin\UnitController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\ForcePasswordChangeController;
@@ -70,6 +71,14 @@ Route::middleware(['auth', 'password.changed', 'role:super_admin|admin_surat'])-
         ->only(['index', 'store', 'update', 'destroy'])
         ->names('admin.kategori')
         ->parameters(['kategori' => 'kategori']);
+
+    // Master Persyaratan (F4, UX_SPEC 2.D). File contoh disk private → download
+    // gated; hapus dijaga guard "dipakai template".
+    Route::get('admin/persyaratan/{persyaratan}/download', [SyaratController::class, 'download'])->name('admin.persyaratan.download');
+    Route::resource('admin/persyaratan', SyaratController::class)
+        ->only(['index', 'store', 'update', 'destroy'])
+        ->names('admin.persyaratan')
+        ->parameters(['persyaratan' => 'persyaratan']);
 });
 
 // Manajemen User (F1, UX_SPEC 2.A) — KHUSUS Super Admin (ARCHITECTURE §8).
