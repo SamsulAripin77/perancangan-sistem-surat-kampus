@@ -82,10 +82,10 @@ Route::middleware(['auth', 'password.changed', 'role:super_admin|admin_surat'])-
         ->names('admin.persyaratan')
         ->parameters(['persyaratan' => 'persyaratan']);
 
-    // Master Template Surat (F3, UX_SPEC 3.A). M2-T2 hanya index read-only +
-    // filter; create/edit/upload/hapus menyusul task M2 berikutnya.
+    // Master Template Surat (F3). M2-T3: create/store upload metadata + handoff
+    // edit read-only; scan placeholder/hub lengkap menyusul M2-T4/T5.
     Route::resource('admin/template', TemplateController::class)
-        ->only(['index'])
+        ->only(['index', 'create', 'store', 'edit'])
         ->names('admin.template')
         ->parameters(['template' => 'template']);
 });

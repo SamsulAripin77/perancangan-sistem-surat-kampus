@@ -2,21 +2,24 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Actions\Template\SaveTemplate;
 use App\Enums\TemplateStatus;
+use App\Enums\TipePemohon;
 use App\Filters\TemplateFilter;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreTemplateRequest;
 use App\Models\KategoriSurat;
 use App\Models\Template;
 use App\Models\Unit;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Yajra\DataTables\Facades\DataTables;
 
 /**
- * Daftar Template Surat (F3, UX_SPEC 3.A). Index read-only dengan DataTables
- * server-side dan filter reusable (§17). Flow create/edit/delete menyusul task
- * M2 berikutnya.
+ * Template Surat (F3). M2-T3 menambahkan create/store tahap awal dan handoff
+ * read-only ke route edit; scan placeholder dan hub lengkap menyusul M2-T4/T5.
  */
 class TemplateController extends Controller
 {
@@ -50,5 +53,32 @@ class TemplateController extends Controller
             'unitOptions' => Unit::query()->orderBy('nama')->get(['id', 'nama']),
             'statusOptions' => TemplateStatus::cases(),
         ]);
+    }
+
+    public function create(): View
+    {
+        return view('admin.template.create', [
+            'kategoriOptions' => KategoriSurat::query()->orderBy('nama')->pluck('nama', 'id'),
+            'unitOptions' => Unit::query()->orderBy('nama')->pluck('nama', 'id'),
+            'tipePemohonOptions' => collect(TipePemohon::cases())
+                ->mapWithKeys(fn (TipePemohon $tipe): array => [$tipe->value => __('template.tipe_pemohon_values.'.$tipe->value)]),
+        ]);
+    }
+
+    public function store(StoreTemplateRequest $request, SaveTemplate $action): RedirectResponse
+    {
+        /** @var int $userId */
+        $userId = $request->user()->id;
+        $template = $action->handle($request->validated(), $userId);
+
+        return redirect()->route('admin.template.edit', $template)
+            ->with('success', __('template.created'));
+    }
+
+    public function edit(Template $template): View
+    {
+        $template->load(['kategori:id,nama', 'units:id,nama', 'media']);
+
+        return view('admin.template.edit', ['template' => $template]);
     }
 }

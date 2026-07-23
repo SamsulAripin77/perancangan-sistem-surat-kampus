@@ -1,23 +1,54 @@
 {
   "schema_version": 1,
-  "task_id": "M2-T3-HUB-HANDOFF-REQ",
-  "generated_at": "2026-07-23T16:53:12+00:00",
-  "git_commit": "4dfe9e3e8fdc254e048ceda0a562f361e2ba0369",
+  "task_id": "M2-T3",
+  "generated_at": "2026-07-23T17:02:23+00:00",
+  "git_commit": "9416d430eae638a55dfa31894a8e65ce821e8734",
   "git_dirty": true,
-  "git_status": "M .ai-context/DECISIONS.md\n M .ai-context/PROJECT-STATE.json\n M .ai-context/WORK-QUEUE.md\n?? .ai-context/CURRENT-TASK.md\n?? .ai-context/tasks/",
+  "git_status": "M .ai-context/PROJECT-STATE.json\n M .ai-context/WORK-QUEUE.md\n M app/Http/Controllers/Admin/TemplateController.php\n M lang/id/common.php\n M lang/id/template.php\n M routes/web.php\n?? .ai-context/CURRENT-TASK.md\n?? .ai-context/tasks/\n?? app/Actions/Template/\n?? app/Http/Requests/StoreTemplateRequest.php\n?? resources/views/admin/template/create.blade.php\n?? resources/views/admin/template/edit.blade.php\n?? tests/Feature/TemplateStoreTest.php",
   "acceptance_criteria_covered": [
-    "AC-M2-T3-HANDOFF-1"
+    "AC-M2-T3-1",
+    "AC-M2-T3-2"
   ],
   "steps": [
     {
-      "command": "php artisan test --filter TemplateIndexTest",
+      "command": "php artisan test --filter TemplateStoreTest",
       "exit_code": 0,
       "passed": true,
-      "output_tail": "PASS  Tests\\Feature\\TemplateIndexTest\n  \u2713 admin can render template index                                      0.32s  \n  \u2713 filters templates by active status                                   0.04s  \n  \u2713 filters templates by name search                                     0.03s  \n  \u2713 filters templates by kategori and unit                               0.03s  \n  \u2713 forbids non admin users from template index                          0.02s  \n\n  Tests:    5 passed (13 assertions)\n  Duration: 0.55s",
-      "started_at": "2026-07-23T16:53:12+00:00",
-      "finished_at": "2026-07-23T16:53:12+00:00",
+      "output_tail": "PASS  Tests\\Feature\\TemplateStoreTest\n  \u2713 admin can store template draft with docx and redirect to handoff     0.44s  \n  \u2713 rejects non docx file and does not create template                   0.05s  \n  \u2713 rejects docx larger than ten megabytes and does not create template  0.08s  \n  \u2713 forbids non admin users from creating template                       0.04s  \n\n  Tests:    4 passed (24 assertions)\n  Duration: 0.74s",
+      "started_at": "2026-07-23T17:02:09+00:00",
+      "finished_at": "2026-07-23T17:02:10+00:00",
       "step": "test",
       "required": true
+    },
+    {
+      "command": "./vendor/bin/pint --test",
+      "exit_code": 0,
+      "passed": true,
+      "output_tail": "{\"tool\":\"pint\",\"result\":\"passed\"}",
+      "started_at": "2026-07-23T17:02:10+00:00",
+      "finished_at": "2026-07-23T17:02:11+00:00",
+      "step": "lint",
+      "required": false
+    },
+    {
+      "command": "./vendor/bin/phpstan analyse --no-progress --debug",
+      "exit_code": 0,
+      "passed": true,
+      "output_tail": "/home/mate/www/nusaputra-surat/database/factories/SettingFactory.php\n/home/mate/www/nusaputra-surat/database/factories/TemplateFactory.php\n/home/mate/www/nusaputra-surat/database/factories/UnitFactory.php\n/home/mate/www/nusaputra-surat/database/factories/UserFactory.php\n/home/mate/www/nusaputra-surat/database/migrations/0001_01_01_000000_create_users_table.php\n/home/mate/www/nusaputra-surat/database/migrations/0001_01_01_000001_create_cache_table.php\n/home/mate/www/nusaputra-surat/database/migrations/0001_01_01_000002_create_jobs_table.php\n/home/mate/www/nusaputra-surat/database/migrations/2026_07_20_220531_create_permission_tables.php\n/home/mate/www/nusaputra-surat/database/migrations/2026_07_20_220533_create_activity_log_table.php\n/home/mate/www/nusaputra-surat/database/migrations/2026_07_20_220533_create_media_table.php\n/home/mate/www/nusaputra-surat/database/migrations/2026_07_20_220534_add_event_column_to_activity_log_table.php\n/home/mate/www/nusaputra-surat/database/migrations/2026_07_20_220534_add_two_factor_columns_to_users_table.php\n/home/mate/www/nusaputra-surat/database/migrations/2026_07_20_220535_add_batch_uuid_column_to_activity_log_table.php\n/home/mate/www/nusaputra-surat/database/migrations/2026_07_20_220535_create_passkeys_table.php\n/home/mate/www/nusaputra-surat/database/migrations/2026_07_21_043113_add_is_active_to_users_table.php\n/home/mate/www/nusaputra-surat/database/migrations/2026_07_21_050408_create_placeholder_definitions_table.php\n/home/mate/www/nusaputra-surat/database/migrations/2026_07_21_050408_create_settings_table.php\n/home/mate/www/nusaputra-surat/database/migrations/2026_07_21_060001_create_units_table.php\n/home/mate/www/nusaputra-surat/database/migrations/2026_07_21_060002_add_core_columns_to_users_table.php\n/home/mate/www/nusaputra-surat/database/migrations/2026_07_21_060003_create_mahasiswa_table.php\n/home/mate/www/nusaputra-surat/database/migrations/2026_07_21_060004_create_pejabat_table.php\n/home/mate/www/nusaputra-surat/database/migrations/2026_07_21_060005_create_pejabat_unit_table.php\n/home/mate/www/nusaputra-surat/database/migrations/2026_07_21_145111_create_kategori_surat_table.php\n/home/mate/www/nusaputra-surat/database/migrations/2026_07_21_154702_create_ref_syarat_surat_table.php\n/home/mate/www/nusaputra-surat/database/migrations/2026_07_23_224355_create_templates_table.php\n/home/mate/www/nusaputra-surat/database/migrations/2026_07_23_224401_create_template_unit_table.php\n/home/mate/www/nusaputra-surat/database/migrations/2026_07_23_224405_create_template_placeholder_config_table.php\n/home/mate/www/nusaputra-surat/database/migrations/2026_07_23_224409_create_syarat_surat_table.php\n/home/mate/www/nusaputra-surat/database/migrations/2026_07_23_224412_create_template_data_tambahan_fields_table.php\n/home/mate/www/nusaputra-surat/database/seeders/DatabaseSeeder.php\n/home/mate/www/nusaputra-surat/database/seeders/DevSampleSeeder.php\n/home/mate/www/nusaputra-surat/database/seeders/PlaceholderDefinitionSeeder.php\n/home/mate/www/nusaputra-surat/database/seeders/RolePermissionSeeder.php\n/home/mate/www/nusaputra-surat/database/seeders/SettingSeeder.php\n/home/mate/www/nusaputra-surat/routes/console.php\n/home/mate/www/nusaputra-surat/routes/web.php\n\n [OK] No errors                                                                 \n\nNote: Using configuration file /home/mate/www/nusaputra-surat/phpstan.neon.",
+      "started_at": "2026-07-23T17:02:11+00:00",
+      "finished_at": "2026-07-23T17:02:22+00:00",
+      "step": "static",
+      "required": false
+    },
+    {
+      "command": "php artisan migrate:fresh --seed --env=testing",
+      "exit_code": 0,
+      "passed": true,
+      "output_tail": "\n   INFO  Running migrations.  \n\n  0001_01_01_000000_create_users_table ........................... 1.38ms DONE\n  0001_01_01_000001_create_cache_table ........................... 0.68ms DONE\n  0001_01_01_000002_create_jobs_table ............................ 1.16ms DONE\n  2026_07_20_220531_create_permission_tables ..................... 2.23ms DONE\n  2026_07_20_220533_create_activity_log_table .................... 0.56ms DONE\n  2026_07_20_220533_create_media_table ........................... 0.67ms DONE\n  2026_07_20_220534_add_event_column_to_activity_log_table ....... 0.43ms DONE\n  2026_07_20_220534_add_two_factor_columns_to_users_table ........ 0.94ms DONE\n  2026_07_20_220535_add_batch_uuid_column_to_activity_log_table .. 0.73ms DONE\n  2026_07_20_220535_create_passkeys_table ........................ 6.33ms DONE\n  2026_07_21_043113_add_is_active_to_users_table ................. 0.44ms DONE\n  2026_07_21_050408_create_placeholder_definitions_table ......... 0.36ms DONE\n  2026_07_21_050408_create_settings_table ........................ 0.40ms DONE\n  2026_07_21_060001_create_units_table ........................... 0.49ms DONE\n  2026_07_21_060002_add_core_columns_to_users_table .............. 4.02ms DONE\n  2026_07_21_060003_create_mahasiswa_table ....................... 0.72ms DONE\n  2026_07_21_060004_create_pejabat_table ......................... 0.57ms DONE\n  2026_07_21_060005_create_pejabat_unit_table .................... 1.70ms DONE\n  2026_07_21_145111_create_kategori_surat_table .................. 1.57ms DONE\n  2026_07_21_154702_create_ref_syarat_surat_table ................ 0.78ms DONE\n  2026_07_23_224355_create_templates_table ....................... 1.70ms DONE\n  2026_07_23_224401_create_template_unit_table ................... 0.97ms DONE\n  2026_07_23_224405_create_template_placeholder_config_table ..... 1.40ms DONE\n  2026_07_23_224409_create_syarat_surat_table .................... 1.25ms DONE\n  2026_07_23_224412_create_template_data_tambahan_fields_table ... 1.21ms DONE\n\n\n   INFO  Seeding database.  \n\n  Database\\Seeders\\RolePermissionSeeder .............................. RUNNING  \n  Database\\Seeders\\RolePermissionSeeder ........................... 11 ms DONE  \n\n  Database\\Seeders\\SettingSeeder ..................................... RUNNING  \n  Database\\Seeders\\SettingSeeder ................................... 7 ms DONE  \n\n  Database\\Seeders\\PlaceholderDefinitionSeeder ....................... RUNNING  \n  Database\\Seeders\\PlaceholderDefinitionSeeder ..................... 4 ms DONE",
+      "started_at": "2026-07-23T17:02:22+00:00",
+      "finished_at": "2026-07-23T17:02:23+00:00",
+      "step": "migrate",
+      "required": false
     }
   ],
   "overall_pass": true
