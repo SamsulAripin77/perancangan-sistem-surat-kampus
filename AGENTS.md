@@ -69,6 +69,10 @@
 - No unrelated behavior changed.
 - Current task checkpoint (`.ai-context/`) and project queue updated.
 - Final mode-budget result recorded.
+- Final response includes one paste-ready recommended commit message using
+  `<type> : <BACKLOG-ID> <short task name>`, where `<type>` is one of
+  `feat`, `fix`, `docs`, or `refactor`. Do not run `git commit` unless the
+  user explicitly asks.
 - Controllers stay thin; business logic lives in Actions/Services
   (ARCHITECTURE §5–§6); follow ERD naming/conventions.
 

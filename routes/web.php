@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\KonfigurasiController;
 use App\Http\Controllers\Admin\MahasiswaImportController;
 use App\Http\Controllers\Admin\PejabatController;
 use App\Http\Controllers\Admin\SyaratController;
+use App\Http\Controllers\Admin\TemplateController;
 use App\Http\Controllers\Admin\UnitController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\ForcePasswordChangeController;
@@ -80,6 +81,13 @@ Route::middleware(['auth', 'password.changed', 'role:super_admin|admin_surat'])-
         ->only(['index', 'store', 'update', 'destroy'])
         ->names('admin.persyaratan')
         ->parameters(['persyaratan' => 'persyaratan']);
+
+    // Master Template Surat (F3, UX_SPEC 3.A). M2-T2 hanya index read-only +
+    // filter; create/edit/upload/hapus menyusul task M2 berikutnya.
+    Route::resource('admin/template', TemplateController::class)
+        ->only(['index'])
+        ->names('admin.template')
+        ->parameters(['template' => 'template']);
 });
 
 // Manajemen User (F1, UX_SPEC 2.A) — KHUSUS Super Admin (ARCHITECTURE §8).

@@ -1,21 +1,49 @@
 {
   "current_focus": null,
   "last_completed": {
-    "completed_at": "2026-07-23T15:49:50Z",
-    "goal": "Migration & Model Template",
-    "id": "M2-T1"
+    "completed_at": "2026-07-23T16:34:07Z",
+    "goal": "Daftar Template (Index + Filter)",
+    "id": "M2-T2"
   },
   "next_planned_reference": {
     "activated": false,
-    "id": "M2-T2",
+    "id": "M2-T3",
     "note": "not activated; not part of the open queue",
-    "source": "docs/delivery/BACKLOG.md#m2-t2"
+    "source": "docs/delivery/BACKLOG.md#m2-t3"
   },
   "preflight_candidate": null,
   "proposals": {},
-  "rejected_findings": [],
+  "rejected_findings": [
+    {
+      "approved_for_execution": false,
+      "approved_for_queue": false,
+      "blocking_effect": "full",
+      "blocks": [
+        "M2-T2"
+      ],
+      "created_at": "2026-07-23T16:16:51Z",
+      "discovered_during": "none",
+      "goal": "Use PHP 8.3 for acode Laravel test and migrate verification so SQLite testing works without sandbox escalation",
+      "id": "CONFIG-SQLITE-PHP83-VERIFY",
+      "impact": "M2-T2 cannot be safely completed through verify.py while required tests use default PHP 8.2 without pdo_sqlite",
+      "inherited_priority": "normal",
+      "lane": "infrastructure",
+      "mode": "balanced",
+      "next_action": "Update .ai-context/acode.config.json test and migrate commands to /usr/bin/php8.3 artisan, then rerun CONFIG-SMOKE verify.",
+      "priority": "normal",
+      "priority_override_required": false,
+      "reason": "User installed php8.2-sqlite3; default PHP 8.2 now has pdo_sqlite/sqlite3, so switching verify commands to PHP 8.3 is no longer needed.",
+      "recommendation": "Approve and execute this tiny config requirement before activating M2-T2.",
+      "rejected_at": "2026-07-23T16:21:36Z",
+      "source_reference": ".ai-context/acode.config.json",
+      "status": "rejected",
+      "task_type": "review",
+      "updated_at": "2026-07-23T16:16:51Z",
+      "work_type": "task-requirement"
+    }
+  ],
   "schema_version": 2,
   "skill_version": "0.6.1",
   "tasks": {},
-  "updated_at": "2026-07-23T16:11:19Z"
+  "updated_at": "2026-07-23T16:39:23Z"
 }

@@ -98,4 +98,18 @@ class Template extends Model implements HasMedia
     {
         return $this->getFirstMedia('docx') !== null;
     }
+
+    public function tipePemohonValue(): string
+    {
+        $value = $this->getRawOriginal('tipe_pemohon');
+
+        return is_string($value) ? $value : TipePemohon::Umum->value;
+    }
+
+    public function statusValue(): string
+    {
+        $value = $this->getRawOriginal('status');
+
+        return is_string($value) ? $value : TemplateStatus::Draft->value;
+    }
 }

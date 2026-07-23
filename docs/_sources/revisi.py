@@ -1,0 +1,4 @@
+- login page untuk password buat show password
+- tambahkan login with google laravel socialite
+- tambahkan recaptcha di form login
+- perbaiki welcome/homepage (not urget)

@@ -59,6 +59,13 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a href="{{ Route::has('admin.template.index') ? route('admin.template.index') : '#' }}"
+                        class="nav-link {{ request()->routeIs('admin.template.*') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-file-word"></i>
+                        <p>{{ __('template.title') }}</p>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a href="{{ Route::has('admin.konfigurasi.edit') ? route('admin.konfigurasi.edit') : '#' }}"
                         class="nav-link {{ request()->routeIs('admin.konfigurasi.*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-gear"></i>
