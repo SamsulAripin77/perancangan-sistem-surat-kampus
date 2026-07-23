@@ -6,6 +6,7 @@ use Database\Factories\UnitFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
@@ -48,13 +49,21 @@ class Unit extends Model
         return $this->hasMany(User::class);
     }
 
+    /** @return BelongsToMany<Template, $this> */
+    public function templates(): BelongsToMany
+    {
+        return $this->belongsToMany(Template::class, 'template_unit');
+    }
+
     /**
      * Unit sedang dipakai bila punya sub-unit atau user terhubung — hapus
      * ditolak, gunakan nonaktifkan (UX_SPEC 1.C.2 guardrail). Referensi
-     * template/permohonan ditambahkan saat modul terkait tersedia.
+     * permohonan ditambahkan saat modul terkait tersedia.
      */
     public function isInUse(): bool
     {
-        return $this->children()->exists() || $this->users()->exists();
+        return $this->children()->exists()
+            || $this->users()->exists()
+            || $this->templates()->exists();
     }
 }

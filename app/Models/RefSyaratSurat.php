@@ -5,6 +5,7 @@ namespace App\Models;
 use Database\Factories\RefSyaratSuratFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
@@ -13,7 +14,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * contoh (opsional) via Media Library collection `template` disk private (§9) —
  * mahasiswa dapat mengunduhnya (F5 Lapisan 4). n—n `templates` via
  * `syarat_surat`; persyaratan yang masih dipakai template tidak boleh dihapus
- * (guard menyusul saat tabel templates tersedia, M3).
+ * (nonaktifkan/cegah hapus di flow master).
  */
 class RefSyaratSurat extends Model implements HasMedia
 {
@@ -49,15 +50,21 @@ class RefSyaratSurat extends Model implements HasMedia
         return $this->getFirstMedia('template') !== null;
     }
 
-    /** Jumlah template yang memakai persyaratan ini (0 hingga modul template ada). */
+    /** @return BelongsToMany<Template, $this> */
+    public function templates(): BelongsToMany
+    {
+        return $this->belongsToMany(Template::class, 'syarat_surat', 'syarat_id', 'template_id')
+            ->withPivot(['is_required', 'urutan']);
+    }
+
+    /** Jumlah template yang memakai persyaratan ini. */
     public function templatesCount(): int
     {
-        return 0;
+        return $this->templates()->count();
     }
 
     /**
-     * Persyaratan sedang dipakai template → hapus ditolak (PRD F4). Selalu false
-     * hingga tabel templates/syarat_surat tersedia (M3).
+     * Persyaratan sedang dipakai template → hapus ditolak (PRD F4).
      */
     public function isInUse(): bool
     {

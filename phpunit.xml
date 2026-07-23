@@ -27,8 +27,8 @@
              hanya nama database di-override ke DB test khusus. Nama DB SAMA dengan
              .env.testing agar `php artisan test` dan migrate:fresh pada env testing
              memakai database yang sama & terpisah dari DB dev. -->
-        <env name="DB_CONNECTION" value="mysql"/>
-        <env name="DB_DATABASE" value="nusaputra-surat-testing"/>
+        <env name="DB_CONNECTION" value="sqlite"/>
+        <env name="DB_DATABASE" value=":memory:"/>
         <env name="MAIL_MAILER" value="array"/>
         <env name="QUEUE_CONNECTION" value="sync"/>
         <env name="SESSION_DRIVER" value="array"/>

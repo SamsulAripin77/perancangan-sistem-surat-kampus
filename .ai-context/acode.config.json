@@ -4,7 +4,7 @@
   "verify": {
     "test": "php artisan test",
     "lint": "./vendor/bin/pint --test",
-    "static": "./vendor/bin/phpstan analyse --no-progress",
+    "static": "./vendor/bin/phpstan analyse --no-progress --debug",
     "migrate": "php artisan migrate:fresh --seed --env=testing"
   },
   "required": ["test"],

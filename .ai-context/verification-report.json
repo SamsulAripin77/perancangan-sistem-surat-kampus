@@ -1,23 +1,54 @@
 {
   "schema_version": 1,
-  "task_id": "QR-LIBRARY-CONFLICT-001",
-  "generated_at": "2026-07-23T15:35:42+00:00",
-  "git_commit": "cdd06910ac8e1c7171701ba2ec0f03ec81d0fde1",
+  "task_id": "M2-T1",
+  "generated_at": "2026-07-23T15:49:27+00:00",
+  "git_commit": "4d1edb1ecc2fdbc02dbfc3403c5c74c86a80c537",
   "git_dirty": true,
-  "git_status": "M .ai-context/DECISIONS.md\n M .ai-context/PROJECT-STATE.json\n M .ai-context/WORK-QUEUE.md\n M .ai-context/tasks/QR-LIBRARY-CONFLICT-001.md\n M docs/ai-context/PRD-INDEX.md\n M docs/delivery/BACKLOG.md\n M docs/design/ARCHITECTURE.md\n?? .ai-context/CURRENT-TASK.md",
+  "git_status": "M .ai-context/PROJECT-STATE.json\n M .ai-context/WORK-QUEUE.md\n M app/Models/KategoriSurat.php\n M app/Models/RefSyaratSurat.php\n M app/Models/Unit.php\n?? .ai-context/CURRENT-TASK.md\n?? .ai-context/tasks/\n?? app/Enums/\n?? app/Models/Template.php\n?? app/Models/TemplateDataTambahanField.php\n?? app/Models/TemplatePlaceholderConfig.php\n?? database/factories/TemplateFactory.php\n?? database/migrations/2026_07_23_224355_create_templates_table.php\n?? database/migrations/2026_07_23_224401_create_template_unit_table.php\n?? database/migrations/2026_07_23_224405_create_template_placeholder_config_table.php\n?? database/migrations/2026_07_23_224409_create_syarat_surat_table.php\n?? database/migrations/2026_07_23_224412_create_template_data_tambahan_fields_table.php\n?? tests/Feature/TemplateSchemaTest.php",
   "acceptance_criteria_covered": [
-    "AC-QR-LIBRARY-CONFLICT-001-1"
+    "AC-M2-T1-1",
+    "AC-M2-T1-2"
   ],
   "steps": [
     {
-      "command": "php artisan test",
+      "command": "php artisan test --filter TemplateSchemaTest",
       "exit_code": 0,
       "passed": true,
-      "output_tail": "  \u2713 it encrypts the smtp password and skips it when left blank           0.07s  \n  \u2713 it forbids non-admin users from the settings form                    0.05s  \n  \u2713 it renders the grouped settings form for an admin                    0.07s  \n\n   PASS  Tests\\Feature\\UnitTest\n  \u2713 it creates a unit with a unique code                                 0.04s  \n  \u2713 it rejects a duplicate code                                          0.04s  \n  \u2713 it allows updating a unit keeping its own code (unique ignores self\u2026 0.04s  \n  \u2713 it rejects setting a unit as its own parent                          0.04s  \n  \u2713 it deletes a unit that is not in use                                 0.06s  \n  \u2713 it blocks deleting a unit that has sub-units                         0.04s  \n  \u2713 it blocks deleting a unit that has users                             0.04s  \n  \u2713 it deactivates and reactivates a unit via toggle                     0.05s  \n  \u2713 it renders the index for an admin                                    0.03s  \n  \u2713 it returns filtered DataTables JSON on an ajax request               0.03s  \n  \u2713 it forbids non-admin users from managing units                       0.03s  \n\n   PASS  Tests\\Feature\\UpdatePasswordTest\n  \u2713 it updates the password with a correct current password and flashes\u2026 0.05s  \n  \u2713 it rejects a wrong current password with a localized error and leav\u2026 0.02s  \n  \u2713 it renders the self-service ubah password page for an authenticated\u2026 0.03s  \n\n   PASS  Tests\\Feature\\UserActiveTest\n  \u2713 it casts is_active to boolean and defaults to active                 0.02s  \n  \u2713 it can store an inactive user                                        0.03s  \n\n   PASS  Tests\\Feature\\UserManagementTest\n  \u2713 it creates a mahasiswa user with a 1-1 profile and role              0.07s  \n  \u2713 it creates a non-mahasiswa user without a mahasiswa profile          0.05s  \n  \u2713 it rejects a duplicate email                                         0.04s  \n  \u2713 it rejects a duplicate NIM for a mahasiswa                           0.04s  \n  \u2713 it requires nim and prodi only when the role is mahasiswa            0.03s  \n  \u2713 it requires a password on create but keeps it optional on edit       0.06s  \n  \u2713 it has no destroy route (D-005 no hard delete)                       0.02s  \n  \u2713 it toggles a user active state but blocks self-deactivation          0.07s  \n  \u2713 it forbids non-super-admin users from managing users                 0.03s  \n  \u2713 it returns filtered DataTables JSON on an ajax request               0.04s  \n\n  Tests:    114 passed (321 assertions)\n  Duration: 6.14s",
-      "started_at": "2026-07-23T15:35:35+00:00",
-      "finished_at": "2026-07-23T15:35:42+00:00",
+      "output_tail": "PASS  Tests\\Feature\\TemplateSchemaTest\n  \u2713 creates template tables on migrate                                   1.46s  \n  \u2713 template resolves units syarat and child configs                     0.06s  \n\n  Tests:    2 passed (16 assertions)\n  Duration: 1.63s",
+      "started_at": "2026-07-23T15:49:22+00:00",
+      "finished_at": "2026-07-23T15:49:24+00:00",
       "step": "test",
       "required": true
+    },
+    {
+      "command": "./vendor/bin/pint --test",
+      "exit_code": 0,
+      "passed": true,
+      "output_tail": "{\"tool\":\"pint\",\"result\":\"passed\"}",
+      "started_at": "2026-07-23T15:49:24+00:00",
+      "finished_at": "2026-07-23T15:49:25+00:00",
+      "step": "lint",
+      "required": false
+    },
+    {
+      "command": "./vendor/bin/phpstan analyse --no-progress",
+      "exit_code": 0,
+      "passed": true,
+      "output_tail": "[OK] No errors                                                                 \n\nNote: Using configuration file /home/mate/www/nusaputra-surat/phpstan.neon.",
+      "started_at": "2026-07-23T15:49:25+00:00",
+      "finished_at": "2026-07-23T15:49:25+00:00",
+      "step": "static",
+      "required": false
+    },
+    {
+      "command": "php artisan migrate:fresh --seed --env=testing",
+      "exit_code": 0,
+      "passed": true,
+      "output_tail": "\n   INFO  Running migrations.  \n\n  0001_01_01_000000_create_users_table .......................... 55.35ms DONE\n  0001_01_01_000001_create_cache_table .......................... 34.96ms DONE\n  0001_01_01_000002_create_jobs_table ........................... 41.13ms DONE\n  2026_07_20_220531_create_permission_tables ................... 145.82ms DONE\n  2026_07_20_220533_create_activity_log_table ................... 35.20ms DONE\n  2026_07_20_220533_create_media_table .......................... 31.83ms DONE\n  2026_07_20_220534_add_event_column_to_activity_log_table ....... 8.08ms DONE\n  2026_07_20_220534_add_two_factor_columns_to_users_table ....... 18.23ms DONE\n  2026_07_20_220535_add_batch_uuid_column_to_activity_log_table .. 6.37ms DONE\n  2026_07_20_220535_create_passkeys_table ....................... 41.03ms DONE\n  2026_07_21_043113_add_is_active_to_users_table ................. 8.94ms DONE\n  2026_07_21_050408_create_placeholder_definitions_table ........ 15.48ms DONE\n  2026_07_21_050408_create_settings_table ....................... 16.82ms DONE\n  2026_07_21_060001_create_units_table .......................... 29.95ms DONE\n  2026_07_21_060002_add_core_columns_to_users_table ............. 46.30ms DONE\n  2026_07_21_060003_create_mahasiswa_table ...................... 49.61ms DONE\n  2026_07_21_060004_create_pejabat_table ........................ 26.99ms DONE\n  2026_07_21_060005_create_pejabat_unit_table ................... 68.62ms DONE\n  2026_07_21_145111_create_kategori_surat_table .................. 9.72ms DONE\n  2026_07_21_154702_create_ref_syarat_surat_table ................ 9.07ms DONE\n  2026_07_23_224355_create_templates_table ...................... 74.85ms DONE\n  2026_07_23_224401_create_template_unit_table .................. 46.60ms DONE\n  2026_07_23_224405_create_template_placeholder_config_table .... 38.51ms DONE\n  2026_07_23_224409_create_syarat_surat_table ................... 56.00ms DONE\n  2026_07_23_224412_create_template_data_tambahan_fields_table .. 42.04ms DONE\n\n\n   INFO  Seeding database.  \n\n  Database\\Seeders\\RolePermissionSeeder .............................. RUNNING  \n  Database\\Seeders\\RolePermissionSeeder ........................... 22 ms DONE  \n\n  Database\\Seeders\\SettingSeeder ..................................... RUNNING  \n  Database\\Seeders\\SettingSeeder .................................. 43 ms DONE  \n\n  Database\\Seeders\\PlaceholderDefinitionSeeder ....................... RUNNING  \n  Database\\Seeders\\PlaceholderDefinitionSeeder .................... 34 ms DONE",
+      "started_at": "2026-07-23T15:49:25+00:00",
+      "finished_at": "2026-07-23T15:49:27+00:00",
+      "step": "migrate",
+      "required": false
     }
   ],
   "overall_pass": true
