@@ -5,7 +5,7 @@
 | **Dokumen** | Backlog Implementasi (Milestone → Task) |
 | **Versi** | 0.3 (M1-M10 terdetail & **bebas blocker**; M0 masih daftar) |
 | **Tanggal** | 19 Juli 2026 |
-| **Basis** | `PRD.md` (F1-F13), `ERD.md`, `ARCHITECTURE.md` (§0 bootstrap, §18 urutan fitur), `FEATURE_MAP.md`, `UX_SPEC.md`, `docs/decisions/DECISIONS.md` |
+| **Basis** | `PRD.md` (F1-F13), `ERD.md`, `ARCHITECTURE.md` (§0 bootstrap, §18 urutan fitur), `FEATURE_MAP.md`, `UX_SPEC.md`, `.ai-context/DECISIONS.md` |
 | **Status dokumen** | **M1–M10 sudah detail & tanpa item ⚠️ mengikat** (semua diputuskan, D-001 s/d D-006 di `DECISIONS.md`). **M0 (Bootstrap) masih daftar ringkas** — detailkan bila diperlukan sebelum eksekusi. |
 
 ---
@@ -161,7 +161,7 @@ Task bertanda ⚠️ bergantung pada keputusan yang **belum final** (rujuk nomor
 ---
 
 ### M1-T7 — F1 Manajemen User (CRUD + Role)  ☐
-- **Referensi**: PRD F1; ERD §2, §3, §5, §24 (D-005); UX_SPEC 2.A.1/2.A.2; ARCHITECTURE §8; `docs/decisions/DECISIONS.md` (D-005).
+- **Referensi**: PRD F1; ERD §2, §3, §5, §24 (D-005); UX_SPEC 2.A.1/2.A.2; ARCHITECTURE §8; `.ai-context/DECISIONS.md` (D-005).
 - **Depends on**: M1-T1.
 - **Tujuan**: Super Admin mengelola user + assign role + profil mahasiswa (kondisional).
 - **TODO**: FormRequest (email/nim unik, role, unit; field mahasiswa muncul bila role=mahasiswa); assign role Spatie; buat/update `mahasiswa` 1-1 bila role mahasiswa; toggle `is_active`; index + filter (role/unit/status). **Tidak ada aksi hapus permanen di UI** (D-005) — hanya toggle nonaktif.
@@ -175,7 +175,7 @@ Task bertanda ⚠️ bergantung pada keputusan yang **belum final** (rujuk nomor
 ---
 
 ### M1-T8 — F1 Import Mahasiswa SIAKAD  ☐
-- **Referensi**: PRD §4.7; UX_SPEC 2.A.3 & 1.A.1 (keputusan ✅ password acak + must_change_password); ERD §2 (`must_change_password`), §3 (tanpa `fakultas`, D-001); `docs/decisions/DECISIONS.md` (D-001).
+- **Referensi**: PRD §4.7; UX_SPEC 2.A.3 & 1.A.1 (keputusan ✅ password acak + must_change_password); ERD §2 (`must_change_password`), §3 (tanpa `fakultas`, D-001); `.ai-context/DECISIONS.md` (D-001).
 - **Depends on**: M1-T7, M1-T1 (kolom `must_change_password`).
 - **Tujuan**: Import massal akun mahasiswa dari file SIAKAD dengan pratinjau & aman terhadap duplikat, tanpa mengimpor password.
 - **TODO**: unduh template; upload `.xlsx/.csv`; parser + **pratinjau** dengan validasi per baris; import (queue bila besar) buat `users`(role mhs, **password acak `Hash::make(Str::random())`**, `must_change_password=true`)+`mahasiswa`; ringkasan hasil (tanpa menampilkan password acak — mahasiswa ganti sendiri di login pertama, M1-T2).
@@ -228,7 +228,7 @@ Task bertanda ⚠️ bergantung pada keputusan yang **belum final** (rujuk nomor
 ---
 
 ### M1-T12 — Dashboard Admin & Beranda Mahasiswa  ☐
-- **Referensi**: PRD F6/F9; UX_SPEC 1.B.1 & 1.B.2 (keputusan SLA `created_at`); ERD §12, §19; `docs/decisions/DECISIONS.md` (D-004, rumus SLA).
+- **Referensi**: PRD F6/F9; UX_SPEC 1.B.1 & 1.B.2 (keputusan SLA `created_at`); ERD §12, §19; `.ai-context/DECISIONS.md` (D-004, rumus SLA).
 - **Depends on**: M1-T2. *(Angka permohonan/disposisi bergantung M3/M4/M7 — Phase awal boleh tampil 0.)*
 - **Tujuan**: Halaman ringkasan per role: admin (pending/deadline/overdue + disposisi), mahasiswa (status permohonan + tombol ajukan).
 - **TODO**: stat card admin dari `permohonan_surat.status`; hitung deadline = `created_at` + `sla_hari_kerja` **hari kerja** (skip Sabtu/Minggu, **tanpa** hari libur nasional — D-004) → bandingkan ke hari ini untuk kelompok mendekati(H-1)/overdue; `disposisi_surat_masuk.status`; kartu klik → index terfilter; beranda mahasiswa (permohonan aktif + tombol Ajukan).
@@ -693,7 +693,7 @@ Task bertanda ⚠️ bergantung pada keputusan yang **belum final** (rujuk nomor
 ---
 
 ### M6-T3 — Cetak Ulang (Rantai Digantikan)  ☐
-- **Referensi**: PRD F8; ERD §16 (`status`/`replaced_by_id`/`replaced_reason`), §24 (D-006); UX_SPEC 6.A.3; BR-11; `docs/decisions/DECISIONS.md` (D-006).
+- **Referensi**: PRD F8; ERD §16 (`status`/`replaced_by_id`/`replaced_reason`), §24 (D-006); UX_SPEC 6.A.3; BR-11; `.ai-context/DECISIONS.md` (D-006).
 - **Depends on**: M6-T2, M5-T4 (form generate).
 - **Tujuan**: Membuat versi baru surat (anti-fraud) sambil menandai versi lama "digantikan".
 - **TODO**: modal alasan (`replaced_reason` wajib) → buka Form Generate (M5-T4) prefilled dari `data_placeholder` lama → final: `SupersedeSuratAction` buat entri baru (`aktif`) + set lama `status=digantikan`+`replaced_by_id`+`replaced_reason` (satu transaksi).
@@ -719,7 +719,7 @@ Task bertanda ⚠️ bergantung pada keputusan yang **belum final** (rujuk nomor
 ---
 
 ### M6-T5 — Verifikasi Publik (QR, Guest)  ⏸️ **DIPINDAH KE PHASE 2**
-- **Keputusan**: D-002 (`docs/decisions/DECISIONS.md`) — halaman verifikasi publik **bukan** bagian eksekusi Phase 1. **Jangan dikerjakan** sampai proyek masuk Phase 2.
+- **Keputusan**: D-002 (`.ai-context/DECISIONS.md`) — halaman verifikasi publik **bukan** bagian eksekusi Phase 1. **Jangan dikerjakan** sampai proyek masuk Phase 2.
 - **Referensi (untuk nanti)**: PRD §5.2 (Fitur Tambahan Phase 2); ERD §16 (`qr_hash`/`status`), §5.1 (identitas publik); UX_SPEC 6.B (wireframe tersimpan sebagai referensi desain); ARCHITECTURE (QR & Verifikasi).
 - **Yang tetap dikerjakan di Phase 1**: `qr_hash` + QR code tetap dibuat & disisipkan ke surat saat generate (M5-T2) — supaya siap dipakai begitu halaman ini dibangun nanti.
 - **Ringkasan tugas (Phase 2, bukan sekarang)**: route publik `verify/{qr_hash}` (tanpa login) menampilkan status surat (valid/digantikan/dibatalkan/tidak ditemukan) dengan privasi nama depan+inisial. Detail lengkap di UX_SPEC 6.B.
@@ -748,7 +748,7 @@ Task bertanda ⚠️ bergantung pada keputusan yang **belum final** (rujuk nomor
 ---
 
 ### M7-T2 — Surat Masuk CRUD  ☐
-- **Referensi**: PRD F9.1; ERD §18; UX_SPEC 7.A.2 (+ aksi download); ARCHITECTURE §9, §17; `docs/decisions/DECISIONS.md` (D-003).
+- **Referensi**: PRD F9.1; ERD §18; UX_SPEC 7.A.2 (+ aksi download); ARCHITECTURE §9, §17; `.ai-context/DECISIONS.md` (D-003).
 - **Depends on**: M7-T1, M0-T8 (MediaService).
 - **Tujuan**: Mencatat surat fisik masuk (metadata + scan wajib + lampiran) dengan nomor agenda otomatis.
 - **TODO**: FormRequest (tgl terima/no surat/pengirim/perihal wajib; kode_klasifikasi/keterangan opsional); generate `nomor_agenda` per tahun; upload scan (wajib) + lampiran multi (FilePond → media); index + **aksi `[⬇]`** unduh scan; soft delete.
@@ -946,7 +946,7 @@ Task bertanda ⚠️ bergantung pada keputusan yang **belum final** (rujuk nomor
 
 ## §1. Peringatan Konflik / Item Terbuka (⚠️) yang Mengikat Task
 
-Semua resolusi keputusan dicatat di **`docs/decisions/DECISIONS.md`** (SSOT — 6 keputusan, D-001 s/d D-006). **Tidak ada lagi item terbuka yang mengikat task** — seluruh tanda ⚠️ di M1-M10 sudah tuntas.
+Semua resolusi keputusan dicatat di **`.ai-context/DECISIONS.md`** (SSOT). Keputusan pengikat roadmap awal D-001 s/d D-006 sudah tuntas; keputusan tambahan D-007 s/d D-008 mencatat standar teks FE dan parser import. **Tidak ada lagi item terbuka yang mengikat task** — seluruh tanda ⚠️ di M1-M10 sudah tuntas.
 
 **Sudah teratasi** (lihat `DECISIONS.md` untuk detail alasan):
 - Login pertama paksa ganti password + password import acak (⚠️#1)
@@ -984,4 +984,4 @@ Semua resolusi keputusan dicatat di **`docs/decisions/DECISIONS.md`** (SSOT — 
 
 ---
 
-*Tahap berikutnya: isi detail M0 (Bootstrap) bila diperlukan. Semua item terbuka (D-001 s/d D-006) sudah diputuskan — lihat `docs/decisions/DECISIONS.md`. M1-M10 siap dieksekusi tanpa blocker.*
+*Tahap berikutnya: isi detail M0 (Bootstrap) bila diperlukan. Semua item terbuka pengikat roadmap awal (D-001 s/d D-006) sudah diputuskan — lihat `.ai-context/DECISIONS.md`. M1-M10 siap dieksekusi tanpa blocker.*

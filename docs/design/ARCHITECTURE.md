@@ -600,7 +600,7 @@ DatabaseSeeder
 - **Data sample** (unit, kategori, pejabat, mahasiswa contoh) = untuk demo/dev; ditandai jelas agar bisa dibersihkan sebelum go-live.
 - Role & permission harus cocok dengan yang dicek di Policy/Middleware (§8) — SSOT di `RolePermissionSeeder`.
 
-**Contoh isi `PlaceholderDefinitionSeeder`** (mirror ERD §8): `nama_mahasiswa`, `nim`, `prodi` (profil); `nama_universitas`, `kode_universitas`, `logo_kampus`, `tahun_akademik` (sistem); `tanggal_surat`, `bulan_surat`, `tahun_surat` (waktu); `nomor_surat` (counter). *(`fakultas` dihapus — keputusan D-001, `docs/decisions/DECISIONS.md`.)*
+**Contoh isi `PlaceholderDefinitionSeeder`** (mirror ERD §8): `nama_mahasiswa`, `nim`, `prodi` (profil); `nama_universitas`, `kode_universitas`, `logo_kampus`, `tahun_akademik` (sistem); `tanggal_surat`, `bulan_surat`, `tahun_surat` (waktu); `nomor_surat` (counter). *(`fakultas` dihapus — keputusan D-001, `.ai-context/DECISIONS.md`.)*
 
 ---
 

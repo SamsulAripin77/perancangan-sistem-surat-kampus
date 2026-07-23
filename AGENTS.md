@@ -21,7 +21,8 @@
 
 - Treat `.ai-context/` as the single source of truth for portable multi-task project
   state across chat sessions. Do not maintain a separate state file elsewhere.
-- Run `task_session.py <project> preflight` before implementation or focus switching.
+- Run `python3 .agents/skills/acode/scripts/task_session.py . preflight` before
+  implementation or focus switching in this repository.
 - Read `.ai-context/PROJECT-STATE.json` and `.ai-context/WORK-QUEUE.md` before the
   full development plan or archive.
 - Before opening any design document, consult `docs/ai-context/PRD-INDEX.md` to find

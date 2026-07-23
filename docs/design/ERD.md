@@ -781,8 +781,8 @@ template_placeholder_config:
 | **Hapus user** | ✅ **Tidak ada hard delete** (D-005) — nonaktifkan (`is_active=false`) satu-satunya cara di UI Phase 1. |
 | **Cetak ulang nomor** | ✅ **Nomor baru wajib** (D-006) — tidak ada pengecualian pakai nomor sama; konsisten UNIQUE §16. |
 
-> Detail alasan tiap keputusan D-001 s/d D-006 ada di `docs/decisions/DECISIONS.md`.
+> Detail alasan tiap keputusan D-001 s/d D-006 ada di `.ai-context/DECISIONS.md`.
 
 ---
 
-*ERD ini selaras dengan `PRD.md`, `ARCHITECTURE.md`, `BACKLOG.md`, dan `docs/decisions/DECISIONS.md`. Setiap perubahan skema harus diperbarui agar tetap konsisten lintas dokumen.*
+*ERD ini selaras dengan `PRD.md`, `ARCHITECTURE.md`, `BACKLOG.md`, dan `.ai-context/DECISIONS.md`. Setiap perubahan skema harus diperbarui agar tetap konsisten lintas dokumen.*

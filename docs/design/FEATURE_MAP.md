@@ -40,7 +40,7 @@
 | M-VERIFIKASI | Verifikasi Publik ⏸️ *Phase 2* | F8 | Publik |
 
 > **Cross-cutting** = dipakai lintas modul; lihat §5 (shared services) & §4 (tumpang tindih).
-> **M-VERIFIKASI** ditandai Phase 2 (keputusan D-002, `docs/decisions/DECISIONS.md`) — rute `verify.show` di §2 di bawah tetap didokumentasikan sebagai referensi, tapi tidak dieksekusi di Phase 1.
+> **M-VERIFIKASI** ditandai Phase 2 (keputusan D-002, `.ai-context/DECISIONS.md`) — rute `verify.show` di §2 di bawah tetap didokumentasikan sebagai referensi, tapi tidak dieksekusi di Phase 1.
 
 ---
 

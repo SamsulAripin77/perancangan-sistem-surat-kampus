@@ -25,7 +25,7 @@
 
 **Konvensi ID silang**: `F1–F13` (fitur PRD) · `M{n}-T{k}` (task) · modul `M-XXX` (FEATURE_MAP §1) · section `§n` per dokumen · `AC-<TASK>-<n>` (acceptance criterion, dipetakan ke test lewat `verify.py --ac`).
 
-> **Catatan**: `docs/_state/` (current_task.md, PROGRESS.md manual) sudah **dihapus** — digantikan penuh oleh `.ai-context/` yang dikelola skill acode (fingerprint lintas sesi + gate verifikasi). Jangan buat ulang folder ini.
+> **Catatan**: `docs/_state/` adalah legacy pointer saja — state aktif digantikan penuh oleh `.ai-context/` yang dikelola skill acode (fingerprint lintas sesi + gate verifikasi). Jangan buat ulang `current_task.md` atau `PROGRESS.md` manual.
 
 ---
 
@@ -111,7 +111,7 @@ Task/route bertanda ⚠️ bergantung keputusan yang **belum final**. Sumbernya:
 - `ERD §24` (Item Terbuka), `FEATURE_MAP` (⚠️ per baris), `UX_SPEC` (⚠️ + Rekap), `BACKLOG` (task ⚠️).
 - Resolusi dicatat ke `.ai-context/DECISIONS.md` (satu-satunya log keputusan; lihat §1) lewat alur `task_session.py propose` → approve.
 
-**Status saat ini**: sejumlah item ⚠️ tersebar di BACKLOG/FEATURE_MAP/UX_SPEC, `.ai-context/DECISIONS.md` masih kosong. Triase & putuskan sebelum milestone terkait dieksekusi — kalau tidak, task ⚠️ akan memblokir loop (`candidate-update --status ready` akan menolak selama masih ada blocker).
+**Status saat ini**: keputusan D-001 s/d D-008 sudah dicatat di `.ai-context/DECISIONS.md`. Jika task baru menemukan item ⚠️ yang belum punya keputusan, triase & putuskan sebelum milestone terkait dieksekusi — kalau tidak, task ⚠️ akan memblokir loop (`candidate-update --status ready` akan menolak selama masih ada blocker).
 
 ---
 

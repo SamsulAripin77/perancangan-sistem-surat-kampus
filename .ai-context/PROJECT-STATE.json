@@ -15,7 +15,7 @@
   "proposals": {},
   "rejected_findings": [],
   "schema_version": 2,
-  "skill_version": "0.5.0",
+  "skill_version": "0.6.1",
   "tasks": {
     "QR-LIBRARY-CONFLICT-001": {
       "approved_for_execution": false,
@@ -50,5 +50,5 @@
       "work_type": "task-requirement"
     }
   },
-  "updated_at": "2026-07-21T09:39:41Z"
+  "updated_at": "2026-07-23T03:06:03Z"
 }
