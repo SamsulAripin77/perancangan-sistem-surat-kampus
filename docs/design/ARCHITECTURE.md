@@ -27,7 +27,7 @@
 3. Config dasar: timezone `Asia/Jakarta`, locale `id`, `config/surat.php` (SSOT config aplikasi).
 
 **Tahap B1 — Install Library Backend (composer)**
-4. Install semua paket composer §2 sekaligus (Spatie Permission/MediaLibrary/ActivityLog, Yajra, PHPWord, mPDF, simple-qrcode, Fortify).
+4. Install semua paket composer §2 sekaligus (Spatie Permission/MediaLibrary/ActivityLog, Yajra, PHPWord, mPDF, Fortify; QR memakai `bacon/bacon-qr-code` v3 yang dibawa Fortify, lihat D-009).
 5. Publish & jalankan migration bawaan paket (Permission, MediaLibrary, ActivityLog, Fortify). Pastikan LibreOffice tersedia di server (cek `soffice`).
 6. Setup Pint, Larastan, Pest (tooling §15) + konfigurasinya.
 
@@ -85,7 +85,7 @@ Semua library berikut mapan & terawat. Kolom "Kenapa" mengaitkan ke kebutuhan PR
 | **phpoffice/phpword** | Substitusi placeholder `.docx` | Inti F3/F7 — parsing & isi template Word (`perancangan-murni.md` §8) |
 | **LibreOffice headless** *(binari server, bukan composer)* | Konversi **DOCX → PDF** surat utama | Fidelitas layout Word terjaga — lihat perbandingan §2.1 |
 | **mpdf/mpdf** | Generate **HTML → PDF** (lembar disposisi, buku agenda, export) | Tabel + karakter Indonesia tanpa Node/Chrome — lihat §2.1 |
-| **simplesoftwareio/simple-qrcode** | QR code verifikasi | PRD F7/F8 QR keaslian surat |
+| **bacon/bacon-qr-code** | QR code verifikasi | PRD F7/F8 QR keaslian surat; pakai v3 langsung karena sudah dibawa Fortify (D-009) |
 | **spatie/laravel-activitylog** | Audit trail | PRD §7.1 jejak audit wajib; log approve/generate/login |
 | **laravel/fortify** | Backend autentikasi (headless) | Auth klasik tanpa memaksa Tailwind (beda dari Breeze) — view login pakai Blade AdminLTE (§8) |
 | **laravel/pint** | Code style PSR-12 | Konsistensi format otomatis (§15) |
@@ -141,13 +141,13 @@ Laravel 13 boleh dipakai **hanya jika SEMUA** paket di §2 sudah merilis versi k
 | spatie/laravel-activitylog | Rendah | ☐ |
 | laravel/fortify | Rendah (first-party) | ☐ |
 | **yajra/laravel-datatables** | **Sedang-tinggi** (sering lag) | ☐ |
-| **simplesoftwareio/simple-qrcode** | **Sedang** (paket kecil) | ☐ |
+| **bacon/bacon-qr-code** | Rendah (dipakai Fortify) | ✅ (v3, PHP 8.1+) |
 | phpoffice/phpword, mpdf/mpdf | Rendah (tak terikat versi Laravel) | ✅ (independen) |
 | larastan/larastan, pestphp/pest, laravel/pint | Rendah | ☐ |
 
 **Aturan keputusan**:
 - **Semua ☐ → ✅** (ada rilis mendukung Laravel 13 + PHP target) → boleh **Laravel 13**.
-- **Ada satu saja belum** (terutama Yajra atau simple-qrcode) → **tetap Laravel 12** sampai paket menyusul. Laravel 12 stabil dan seluruh paket sudah mendukung — tidak ada risiko delivery.
+- **Ada satu saja belum** (terutama Yajra atau paket komunitas lain) → **tetap Laravel 12** sampai paket menyusul. Laravel 12 stabil dan seluruh paket sudah mendukung — tidak ada risiko delivery.
 
 > Rekomendasi jujur: **default Laravel 12** untuk memulai (nol risiko kompatibilitas), naikkan ke 13 saat checklist lolos. Jangan menahan mulai proyek hanya demi versi terbaru.
 

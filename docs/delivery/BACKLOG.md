@@ -592,7 +592,7 @@ Task bertanda ⚠️ bergantung pada keputusan yang **belum final** (rujuk nomor
 - **Depends on**: M5-T1, M2-T8 (versi awal service).
 - **Tujuan**: Service SSOT yang mengisi placeholder ke `.docx` (termasuk gambar TTD & QR) + konversi PDF opsional.
 - **TODO**:
-    - Lengkapi `TemplateSubstitutionService`: substitusi teks + **embed gambar TTD** per slot + sisip **QR** (simple-qrcode, hash HMAC).
+    - Lengkapi `TemplateSubstitutionService`: substitusi teks + **embed gambar TTD** per slot + sisip **QR** (`bacon/bacon-qr-code` v3 langsung, D-009, hash HMAC).
     - `PdfService`: `DocxToPdfConverter` via `Process` (gated `Settings::get('libreoffice_path')`, `HOME`+`UserInstallation` unik, queue) → return path PDF atau `null` (fallback DOCX).
     - `qr_hash` = HMAC (id+nomor, `app.key`); URL verifikasi.
 - **Batasan/Guardrail**: **DOCX dijamin, PDF opsional** (graceful — pola OpenSID); LibreOffice absen → tetap kirim DOCX; TTD file dari collection private; substitusi = SSOT (dipakai preview/A/B).
@@ -946,7 +946,7 @@ Task bertanda ⚠️ bergantung pada keputusan yang **belum final** (rujuk nomor
 
 ## §1. Peringatan Konflik / Item Terbuka (⚠️) yang Mengikat Task
 
-Semua resolusi keputusan dicatat di **`.ai-context/DECISIONS.md`** (SSOT). Keputusan pengikat roadmap awal D-001 s/d D-006 sudah tuntas; keputusan tambahan D-007 s/d D-008 mencatat standar teks FE dan parser import. **Tidak ada lagi item terbuka yang mengikat task** — seluruh tanda ⚠️ di M1-M10 sudah tuntas.
+Semua resolusi keputusan dicatat di **`.ai-context/DECISIONS.md`** (SSOT). Keputusan pengikat roadmap awal D-001 s/d D-006 sudah tuntas; keputusan tambahan D-007 s/d D-009 mencatat standar teks FE, parser import, dan engine QR. **Tidak ada lagi item terbuka yang mengikat task** — seluruh tanda ⚠️ di M1-M10 sudah tuntas.
 
 **Sudah teratasi** (lihat `DECISIONS.md` untuk detail alasan):
 - Login pertama paksa ganti password + password import acak (⚠️#1)

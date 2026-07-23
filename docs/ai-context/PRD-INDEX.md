@@ -111,7 +111,7 @@ Task/route bertanda ⚠️ bergantung keputusan yang **belum final**. Sumbernya:
 - `ERD §24` (Item Terbuka), `FEATURE_MAP` (⚠️ per baris), `UX_SPEC` (⚠️ + Rekap), `BACKLOG` (task ⚠️).
 - Resolusi dicatat ke `.ai-context/DECISIONS.md` (satu-satunya log keputusan; lihat §1) lewat alur `task_session.py propose` → approve.
 
-**Status saat ini**: keputusan D-001 s/d D-008 sudah dicatat di `.ai-context/DECISIONS.md`. Jika task baru menemukan item ⚠️ yang belum punya keputusan, triase & putuskan sebelum milestone terkait dieksekusi — kalau tidak, task ⚠️ akan memblokir loop (`candidate-update --status ready` akan menolak selama masih ada blocker).
+**Status saat ini**: keputusan D-001 s/d D-009 sudah dicatat di `.ai-context/DECISIONS.md`. Jika task baru menemukan item ⚠️ yang belum punya keputusan, triase & putuskan sebelum milestone terkait dieksekusi — kalau tidak, task ⚠️ akan memblokir loop (`candidate-update --status ready` akan menolak selama masih ada blocker).
 
 ---
 

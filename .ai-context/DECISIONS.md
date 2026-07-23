@@ -119,4 +119,18 @@
 
 ---
 
+## D-009 — Library QR Code Verifikasi
+
+**Konteks**: M5-T2 perlu QR code untuk `qr_hash` verifikasi surat. Rencana awal memakai `simplesoftwareio/simple-qrcode`, tetapi paket itu bergantung pada `bacon/bacon-qr-code:^2.0`, sementara `laravel/fortify` v1.37.2 pada project ini sudah menarik `bacon/bacon-qr-code:^3.0`. Composer lock saat ini memakai `bacon/bacon-qr-code` v3.1.1.
+
+**Keputusan**: Jangan memakai `simplesoftwareio/simple-qrcode`. Gunakan `bacon/bacon-qr-code` v3 secara langsung sebagai engine QR. Untuk output yang akan di-embed ke DOCX/PDF, prioritaskan SVG (`SvgImageBackEnd`) atau PNG via `GDLibRenderer` bila raster dibutuhkan.
+
+**Alasan**: `bacon/bacon-qr-code` sudah terpasang transitif melalui Fortify, kompatibel dengan PHP 8.2+, dan tidak menambah wrapper Laravel yang tidak terawat/tertinggal versi dependency. Opsi `endroid/qr-code` v6 membutuhkan PHP 8.4, sementara v5 kompatibel tetapi tetap hanya membungkus Bacon v3 dan menambah dependency baru. Opsi `chillerlan/php-qrcode` juga layak secara teknis, tetapi menambah dependency baru dan membutuhkan `ext-mbstring`; tidak diperlukan karena Bacon v3 sudah ada.
+
+**Dampak**: ARCHITECTURE §2 dan BACKLOG M5-T2 memakai `bacon/bacon-qr-code` langsung. Saat implementasi M5-T2, buat service kecil milik aplikasi untuk menghasilkan QR dari URL verifikasi agar controller/service dokumen tidak bergantung langsung pada detail renderer.
+
+**Status**: ✅ ACCEPTED — 23 Juli 2026.
+
+---
+
 *Entri berikutnya ditambahkan di bawah, jangan menimpa entri lama.*
