@@ -133,4 +133,18 @@
 
 ---
 
+## D-010 — Handoff Redirect M2-T3 Sebelum Hub Template Lengkap
+
+**Konteks**: BACKLOG M2-T3 meminta setelah template `.docx` dan metadata tersimpan, pengguna diarahkan ke hub `admin.template.edit`. Namun implementasi scan placeholder ada di M2-T4 dan hub edit/review lengkap ada di M2-T5. Tanpa keputusan ini, M2-T3 berisiko melebar ke scope M2-T4/M2-T5 atau gagal memenuhi acceptance criterion redirect hub.
+
+**Keputusan**: M2-T3 boleh menambahkan route/view `admin.template.edit` minimal sebagai handoff read-only setelah store berhasil. Stub ini hanya menampilkan ringkasan template tersimpan dan status bahwa scan placeholder/review hub akan dilanjutkan pada task berikutnya. M2-T3 tetap tidak mengimplementasikan scan placeholder, review placeholder editable, update metadata, persyaratan, data tambahan, coba template, aktivasi, atau hapus template.
+
+**Alasan**: Menjaga AC M2-T3 tetap benar tanpa mencuri scope M2-T4/M2-T5. Route tujuan sudah stabil sejak awal sehingga tombol "Simpan & Scan" dan tombol aksi index dapat memakai named route yang sama, sementara perilaku bisnis lanjutannya tetap dikerjakan berurutan sesuai backlog.
+
+**Dampak**: Implementasi M2-T3 mencakup create/store, attach media collection `docx`, sync `template_unit`, redirect ke `admin.template.edit`, dan handoff stub read-only. M2-T4 tetap menjadi pemilik `ScanPlaceholderAction`; M2-T5 tetap menjadi pemilik hub edit/review lengkap.
+
+**Status**: ✅ ACCEPTED — 23 Juli 2026.
+
+---
+
 *Entri berikutnya ditambahkan di bawah, jangan menimpa entri lama.*
